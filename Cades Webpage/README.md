@@ -11,3 +11,7 @@ I'm working on my skills with HTML, CSS, and JavaScript — watch as I progress!
 
 ## Progress
 Check the commit history to follow along as I build out projects and learn new things.
+
+
+## From the Dev
+This is a reflection of my personal interest becoming personal growth for anyone interested i am a begginner.
