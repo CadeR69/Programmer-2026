@@ -53,12 +53,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTML website structuring examples.md",
+                "file": "html tags.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "HTML website structuring examples"
+              "title": "html tags"
             }
           }
         ],
@@ -226,8 +226,8 @@
   },
   "active": "e253c4c3481226e2",
   "lastOpenFiles": [
-    "html tags.md",
     "HTML website structuring examples.md",
+    "html tags.md",
     "HTML TAGS",
     "Welcome.md",
     "Coding notes 7-20-26"
