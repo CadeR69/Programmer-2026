@@ -11,13 +11,32 @@
             "id": "329ced2c994fac5f",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "HTML website structuring examples.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "HTML website structuring examples"
+            }
+          },
+          {
+            "id": "4070b8711a386191",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Claude responses.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Claude responses"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       },
       {
         "id": "e3690cf406db760c",
@@ -60,9 +79,23 @@
               "icon": "lucide-file",
               "title": "html tags"
             }
+          },
+          {
+            "id": "f0cd58176f4bc5b8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "chatgpt responses to remember.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "chatgpt responses to remember"
+            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -224,9 +257,11 @@
       "bases:Create new base": false
     }
   },
-  "active": "e253c4c3481226e2",
+  "active": "4070b8711a386191",
   "lastOpenFiles": [
     "HTML website structuring examples.md",
+    "Claude responses.md",
+    "chatgpt responses to remember.md",
     "html tags.md",
     "HTML TAGS",
     "Welcome.md",
