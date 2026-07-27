@@ -1,5 +1,11 @@
 :root {
-    /* Colors */
+    /* ======================================
+    CLIENT THEME - change these per project. 
+    Everything else in this file references these
+    variables, so upating colors here updates
+    the whole site.
+    ========================================= */
+
     --primary: #2f4f4f;
     --secondary: #2e8b57;
     --accent: #d4a017;
@@ -85,14 +91,6 @@ footer a:hover {
     text-decoration: underline;
 }
 
-
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-}
-
-
 /* Container - keeps content readable width, centered */
 .container {
     max-width: 1100px;
@@ -121,7 +119,8 @@ section p:last-child {
     margin-bottom: 0;
 }
 
-/* Alternate backgrounds so sections read as distinct blocks */
+/* Alternate section backgrounds.
+(background/surface/white so each section visually reads as a distinct block*/
 .hero {
     background-color: var(--background);
     text-align: center;
@@ -196,7 +195,9 @@ nav a:focus {
     border-bottom: 2px solid var(--accent);
 }
 
-/* Hamburger button - hidden by defualt on wide screens */
+/* Mobile hamburger nav. Hidden by default (.nav-toggle display: none);
+media query below shows the button and hides the full nav list on
+ screens <768px. javascript.js toggles the .open class on click. */
 
 .nav-toggle {
     display: none;
