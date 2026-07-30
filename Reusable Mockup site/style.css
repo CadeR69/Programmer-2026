@@ -71,6 +71,20 @@ body {
     border-radius: 8px;
 }
 
+.heading-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* space between image and text block */
+}
+
+.left-image {
+    width: 95px;
+    height: 75px;
+    gap: 15px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0; /* stops the image from getting squished on small screens */
+}
 footer {
     background-color: var(--primary);
     color: var(--white);
@@ -90,6 +104,7 @@ footer a:hover {
     color: var(--white);
     text-decoration: underline;
 }
+
 
 /* Container - keeps content readable width, centered */
 .container {
@@ -255,3 +270,4 @@ media query below shows the button and hides the full nav list on
         position: relative;
     }
 }
+
