@@ -69,12 +69,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Steps when you want to put an image next to section header.md",
+                "file": "Web Standards for making a website.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Steps when you want to put an image next to section header"
+              "title": "Web Standards for making a website"
             }
           }
         ],
@@ -301,8 +301,8 @@
   },
   "active": "5f4b62016fd4dc16",
   "lastOpenFiles": [
-    "chatgpt responses to remember.md",
     "Steps when you want to put an image next to section header.md",
+    "chatgpt responses to remember.md",
     "Understand the blocks of code in the structure, Notes to remember..md",
     "Web Standards for making a website.md",
     "HTML website structuring examples.md",
