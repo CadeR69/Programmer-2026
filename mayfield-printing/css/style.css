@@ -1,1 +1,23 @@
 /* Main styles */
+:root {
+    --Primary-color: #db3434;
+    --secondary-color: #0c0505;
+    --text-color: #141212;
+    --background-color: #ffffff;
+    
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
