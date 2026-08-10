@@ -1,39 +1,211 @@
 :root {
-    --primary: gold;
-    --secondary: rgb(8, 107, 8);
+    --base: #1e1e2e;
+    --panel: #292c3c;
+    --panel-header: #232634;
+    --text: #cdd6f4;
+    --muted: #6c7086;
+    --mauve: #cba6f7;
+    --green: #a6e3a1;
+    --peach: #fab387;
+    --border: #45475a;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
-    background-color: rgb(222, 245, 222);
-    color: rgb(223, 47, 70);
-    font-family: Roboto, Helvetica, sans-serif;
+    background-color: var(--base);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
     margin: 0;
-    padding: 40px;
-    margin-left: 32px;
-    margin-top: 32px;
-    margin-bottom: 32px;
-    margin-right: 32px;
+    padding: 40px 32px;
+    line-height: 1.6;
 }
 
-main {
-    max-width: 700px;
+/* ---------- terminal header / footer ---------- */
+
+.terminal-header,
+.terminal-footer {
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 60px;
 }
 
-
-.box-Intro {
-    color: white;
-    margin-bottom: 32px;
-    margin-top: 32px;
-    margin-left: 32px;
-    margin-right: 32px;
-    flex-wrap: wrap;
+.terminal-footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 0.85rem;
+    color: var(--muted);
 }
 
-.box-About-Me {
-    margin-bottom: 32px;
-    margin-top: 35px;
-    margin-left: 32px;
-margin-right: 32px;
+.prompt {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin: 0 0 8px;
+}
+
+.prompt-user { color: var(--green); }
+.prompt-sep { color: var(--muted); }
+.prompt-path { color: var(--mauve); }
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background: var(--green);
+    margin-left: 6px;
+    vertical-align: middle;
+    animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.terminal-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0 0 8px;
+    color: var(--text);
+}
+
+.subtitle {
+    color: var(--muted);
+    margin: 0 0 32px;
+}
+
+.terminal-footer address {
+    font-style: normal;
+}
+
+.terminal-footer a {
+    color: var(--peach);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--peach);
+}
+
+.terminal-footer a:hover {
+    color: var(--green);
+    border-bottom-color: var(--green);
+}
+
+/* ---------- the grid: split-pane editor tabs ---------- */
+
+.page-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+
+.file-tab {
+    background-color: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.tab-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background-color: var(--panel-header);
+    border-bottom: 1px solid var(--border);
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--dot-color, var(--muted));
+    flex-shrink: 0;
+}
+
+.filename {
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.tab-body {
+    padding: 20px;
+}
+
+.tab-body h2 {
+    font-size: 1.15rem;
+    color: var(--dot-color, var(--text));
+    margin: 0 0 14px;
+}
+
+.tab-body p {
+    font-size: 0.85rem;
+    color: var(--text);
+    margin: 0;
+}
+
+/* line-number gutter effect */
+.gutter-content {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: line;
+}
+
+.gutter-content li {
+    position: relative;
+    padding-left: 32px;
+    counter-increment: line;
+}
+
+.gutter-content li::before {
+    content: counter(line);
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--muted);
+    font-size: 0.75rem;
+    opacity: 0.6;
+}
+
+/* ---------- goals as a checklist ---------- */
+
+.goals-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.goals-list li {
+    font-size: 0.9rem;
+    color: var(--text);
+    padding: 10px 14px;
+    background-color: var(--panel-header);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: border-color 0.2s ease;
+}
+
+.goals-list li:hover {
+    border-color: var(--green);
+}
+
+.checkbox {
+    color: var(--green);
+    font-weight: 700;
+}
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 600px) {
+    body { padding: 24px 16px; }
+    .terminal-header h1 { font-size: 1.8rem; }
 }
