@@ -1,23 +1,112 @@
-/* Main styles */
-:root {
-    --Primary-color: #db3434;
-    --secondary-color: #0c0505;
-    --text-color: #141212;
-    --background-color: #ffffff;
-    
+/* ==========================================================================
+   Base — reset, typography, defaults
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: 1.65;
+    background-color: var(--color-paper);
+    color: var(--color-carbon);
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: antialiased;
 }
 
-main {
-    padding: 20px;
-    margin: 0 auto;
-    max-width: 800px;
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    line-height: 1.2;
+    margin: 0 0 var(--space-sm);
+}
+
+h1 { font-size: var(--text-2xl); font-weight: 700; }
+h2 { font-size: var(--text-xl); font-weight: 600; }
+h3 { font-size: var(--text-lg); font-weight: 600; }
+
+p {
+    margin: 0 0 var(--space-sm);
+    color: var(--color-carbon);
+}
+
+a {
+    color: var(--color-press);
+    text-decoration: none;
+    transition: color var(--transition-base);
+}
+
+a:hover,
+a:focus-visible {
+    color: var(--color-ink);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-proof);
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Signature mark — registration crosshair
+   A nod to press-alignment marks. Used sparingly: eyebrows + the est. badge.
+   ========================================================================== */
+
+.reg-mark {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    position: relative;
+}
+
+.reg-mark::before,
+.reg-mark::after {
+    content: '';
+    position: absolute;
+    background: currentColor;
+}
+
+.reg-mark::before {
+    width: 100%;
+    height: 1.5px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.reg-mark::after {
+    width: 1.5px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+}
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-press);
+    margin-bottom: var(--space-xs);
+}
+
+.eyebrow--on-dark {
+    color: var(--color-proof);
 }
 

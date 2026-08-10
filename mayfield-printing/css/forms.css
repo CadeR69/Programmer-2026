@@ -1,1 +1,54 @@
-/* Forms */
+/* ==========================================================================
+   Forms — ready for the contact + quote pages
+   ========================================================================== */
+
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-bottom: 0.4rem;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-carbon);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius);
+    padding: 0.7rem 0.9rem;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--color-press);
+    box-shadow: 0 0 0 3px rgba(30, 93, 145, 0.15);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 140px;
+}
+
+.form-error {
+    color: #C0392B;
+    font-size: var(--text-xs);
+    margin-top: 0.3rem;
+}
+
+.form-success {
+    color: #1E7A34;
+    font-size: var(--text-sm);
+}

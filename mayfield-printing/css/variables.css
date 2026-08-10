@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Design Tokens — Mayfield Printing
+   Palette + type from /branding. Do not redeclare these elsewhere.
+   ========================================================================== */
+
+:root {
+    /* Brand colors */
+    --color-ink: #0A3D62;        /* primary — deep navy, headings & header */
+    --color-press: #1E5D91;      /* secondary — lighter blue, links & accents */
+    --color-proof: #F9B233;      /* accent — amber, CTAs & the signature mark */
+    --color-paper: #F8F9FA;      /* background — off-white, section base */
+    --color-carbon: #222222;     /* body text */
+    --color-white: #FFFFFF;
+
+    /* Supporting neutrals (derived, not in original brand doc — used for hairlines/shadows only) */
+    --color-hairline: #DDE3E8;
+    --color-muted: #5C6B77;
+
+    /* Type */
+    --font-display: 'Poppins', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+
+    /* Type scale */
+    --text-xs: 0.8rem;
+    --text-sm: 0.95rem;
+    --text-base: 1rem;
+    --text-lg: 1.15rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
+    --text-3xl: 2.75rem;
+
+    /* Spacing scale */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2.5rem;
+    --space-xl: 4rem;
+    --space-2xl: 6rem;
+
+    /* Layout */
+    --container-width: 1120px;
+    --radius: 4px;
+
+    /* Elevation + motion */
+    --shadow-card: 0 1px 2px rgba(10, 61, 98, 0.06), 0 4px 12px rgba(10, 61, 98, 0.06);
+    --shadow-card-hover: 0 2px 4px rgba(10, 61, 98, 0.08), 0 12px 24px rgba(10, 61, 98, 0.1);
+    --transition-base: 180ms ease;
+}

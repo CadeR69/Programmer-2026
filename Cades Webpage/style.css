@@ -1,23 +1,39 @@
+:root {
+    --primary: gold;
+    --secondary: rgb(8, 107, 8);
+}
+
 body {
-    background-color: white;
+    background-color: rgb(222, 245, 222);
+    color: rgb(223, 47, 70);
+    font-family: Roboto, Helvetica, sans-serif;
+    margin: 0;
+    padding: 40px;
+    margin-left: 32px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    margin-right: 32px;
 }
 
-h1 {
-    color: darkolivegreen;
+main {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 60px;
 }
 
-p.ex {
-    color: rgb(0,0,255);
+
+.box-Intro {
+    color: white;
+    margin-bottom: 32px;
+    margin-top: 32px;
+    margin-left: 32px;
+    margin-right: 32px;
+    flex-wrap: wrap;
 }
 
-.intro {
-    color: darkolivegreen;
-}
-
-.classroom {
-    color: darkolivegreen;
-}
-
-.classroom {
-    color: darkolivegreen;
+.box-About-Me {
+    margin-bottom: 32px;
+    margin-top: 35px;
+    margin-left: 32px;
+margin-right: 32px;
 }
