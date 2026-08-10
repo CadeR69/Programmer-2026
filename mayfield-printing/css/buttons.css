@@ -1,1 +1,62 @@
-/* Buttons */
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    padding: 0.8rem 1.6rem;
+    border-radius: var(--radius);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform var(--transition-base), box-shadow var(--transition-base),
+        background-color var(--transition-base), color var(--transition-base),
+        border-color var(--transition-base);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: var(--space-md);
+}
+
+.btn-primary {
+    background-color: var(--color-proof);
+    color: var(--color-ink);
+    border-color: var(--color-proof);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-card-hover);
+    color: var(--color-ink);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+    background-color: var(--color-ink);
+    color: var(--color-white);
+}
+
+/* Secondary buttons inside the dark hero need light borders instead */
+.hero .btn-secondary {
+    color: var(--color-white);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.hero .btn-secondary:hover,
+.hero .btn-secondary:focus-visible {
+    background-color: var(--color-white);
+    color: var(--color-ink);
+}

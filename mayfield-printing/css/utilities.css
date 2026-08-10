@@ -1,1 +1,19 @@
-/* Utilities */
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+.text-center {
+    text-align: center;
+}
+
+.text-muted {
+    color: var(--color-muted);
+}
+
+.section-intro {
+    max-width: 620px;
+    margin: 0 auto var(--space-md);
+}
+
+.mt-0 { margin-top: 0; }
+.mb-0 { margin-bottom: 0; }

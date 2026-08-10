@@ -1,1 +1,35 @@
-/* Cards */
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-md);
+    margin: var(--space-md) 0 var(--space-lg);
+}
+
+.service-card {
+    background-color: var(--color-white);
+    border-radius: var(--radius);
+    padding: var(--space-md);
+    box-shadow: var(--shadow-card);
+    border-top: 3px solid var(--color-proof);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.service-card h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-xs);
+}
+
+.service-card p {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    margin: 0;
+}
