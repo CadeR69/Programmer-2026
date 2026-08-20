@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Contact Us | Mayfield Printing</title>
+    <meta name="description" content="Contact Mayfield Printing in Mayfield, KY. Call (270) 247-0033 or send us a message to discuss your next printing project.">
+    <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
 
     <link rel="stylesheet" href="../css/variables.css">
     <link rel="stylesheet" href="../css/style.css">
@@ -61,7 +63,13 @@
         <section>
             <h2>Send Us a Message</h2>
 
-            <form>
+            <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="contact">
+
+                <p class="visually-hidden">
+                    <label>Don't fill this out if you're human: <input name="bot-field"></label>
+                </p>
+
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" id="name" name="name" required>
