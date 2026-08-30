@@ -1,6 +1,6 @@
 import ast
-import sys
 import os
+import time
 from google import genai
 
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
@@ -47,18 +47,30 @@ Explanation:
 {explanation}
 """
             summaries.append(summary)
+            time.sleep(2)
 
     return summaries
 
 
-filepath = sys.argv[1]
-results = get_functions(filepath)
-
-filename_only = os.path.basename(filepath)
-name, ext = os.path.splitext(filename_only)
-output_path = os.path.join("notes", name + "_notes.md")
 os.makedirs("notes", exist_ok=True)
 
-with open(output_path, "w") as f:
-    for summary in results:
-        f.write(summary)
+all_files = os.listdir(".")
+python_files = [f for f in all_files if f.endswith(".py")]
+
+for py_file in python_files:
+    filename_only = os.path.basename(py_file)
+    name, ext = os.path.splitext(filename_only)
+    output_path = os.path.join("notes", name + "_notes.md")
+
+    if os.path.exists(output_path):
+        print(f"Skipping {py_file} — notes already exist.")
+        continue
+
+    print(f"Processing {py_file}...")
+    results = get_functions(py_file)
+
+    with open(output_path, "w") as f:
+        for summary in results:
+            f.write(summary)
+
+print("Done.")
