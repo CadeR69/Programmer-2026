@@ -1,2 +1,0 @@
-Step 1.  Inside the  section container identify the section tag like this Ex: <section class="your-name" id="your-name">
-Think about it like this, the content needs to be identifiable when its being called upon and searched for. Hence the "class" next to section, its an html attribute we use for specifying a class for an html element . Also The `class` attribute is often used to point to a class name in a style sheet. It can also be used by JavaScript to access and manipulate elements with the specific class name.
