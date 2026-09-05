@@ -13,13 +13,16 @@ those three publish their own hosted MCP server the way Perplexity does.
 
 ## How auth works here
 
-Cowork's "Add custom connector" screen only takes a URL — no header field,
-no API-key field. So instead of a Bearer token header, this server checks
-a secret token that's baked into the URL path itself:
-`https://your-app.onrender.com/mcp/<MCP_ACCESS_TOKEN>`
+Cowork's "Add custom connector" screen only takes a URL, and it always
+tries to OAuth-register with whatever server you point it at — if that
+fails, the connection is refused outright (no fallback to "just trust the
+URL"). So this server implements the smallest possible OAuth authorization
+server: when Cowork connects, it opens a one-field login page (served by
+this app, at `/login`) asking for `MCP_ACCESS_TOKEN`. Type it once and
+Cowork stores the resulting session — no header, no token-in-URL needed.
 
-Treat that full URL like a password — anyone who has it can call your
-OpenAI/xAI/Gemini keys and run up your bill. Don't post it publicly.
+Treat `MCP_ACCESS_TOKEN` like a password — anyone who has it can log in at
+that page and then call your OpenAI/xAI/Gemini keys, running up your bill.
 
 ## 1. Get your three API keys
 
@@ -46,9 +49,11 @@ Save this — it's `MCP_ACCESS_TOKEN` below and becomes part of your connector U
    - `OPENAI_API_KEY`
    - `XAI_API_KEY`
    - `GEMINI_API_KEY`
-5. Deploy. Render gives you a URL like `https://triggtech-ai-proxy.onrender.com`.
-6. Your connector URL is that plus the path:
-   `https://triggtech-ai-proxy.onrender.com/mcp/<MCP_ACCESS_TOKEN>`
+5. Deploy. Render gives you a URL like `https://triggtech-ai-proxy.onrender.com`
+   — Render also sets `RENDER_EXTERNAL_URL` to this automatically, which the
+   server needs for OAuth (no extra env var required on Render).
+6. Your connector URL is just that domain plus `/mcp`:
+   `https://triggtech-ai-proxy.onrender.com/mcp`
 
 Note: Render's free tier spins down after inactivity and takes ~30-60s to
 wake back up on the next request — the first tool call after idle time may
@@ -56,8 +61,10 @@ time out or feel slow. That's normal for the free tier, not a bug.
 
 ## 4. Add it to Cowork
 
-Settings → Connectors → Add custom connector → paste the full URL from
-step 3.6 (including `/mcp/<token>`) → Continue.
+Settings → Connectors → Add custom connector → paste the URL from step 3.6
+(`https://your-app.onrender.com/mcp`) → Continue. Cowork will open a login
+page — enter your `MCP_ACCESS_TOKEN` there once. That's a one-time step;
+Cowork remembers the session after that.
 
 ## 5. Test locally before deploying (optional)
 
