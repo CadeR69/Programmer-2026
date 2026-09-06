@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mayfield Printing</title>
-    <meta name="description" content="Mayfield Printing has provided trusted commercial printing services in Mayfield, KY since 1933 - business cards, brochures, forms, labels, and bound materials.">
+    <title>Business Printing</title>
+    <meta name="description" content="Business Printing has provided trusted commercial printing services in Mayfield, KY since 1933 - business cards, brochures, forms, labels, and bound materials.">
     <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
 
     <link rel="stylesheet" href="css/variables.css">
@@ -23,9 +23,13 @@
     <a href="#main" class="skip-link">Skip to main content</a>
 
     <header>
-        <h1>Mayfield Printing</h1>
+        <h1>Business Printing</h1>
 
-        <nav>
+        <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+            <span class="nav-toggle-bar"></span>
+        </button>
+
+        <nav id="siteNav">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="pages/about.html">About Us</a></li>
@@ -42,12 +46,12 @@
             <h2>Trusted Printing Solutions Since 1933</h2>
 
             <p>
-                Mayfield Printing has provided dependable commercial printing services since 1933. Combining experienced professionals with modern equipment, we help businesses bring their ideas to life through quality printing and exceptional customer service.
+                Business Printing has provided dependable commercial printing services since 1933. Combining experienced professionals with modern equipment, we help businesses bring their ideas to life through quality printing and exceptional customer service.
             </p>
         </section>
 
         <section class="why-us">
-            <h2>Why Choose Mayfield Printing?</h2>
+            <h2>Why Choose Business Printing?</h2>
 
             <div class="hero-buttons">
                 <a href="pages/quote.html" class="btn btn-primary">Request a Quote</a>
@@ -123,7 +127,7 @@
             <h2>Our Mission</h2>
 
             <p>
-                For generations, Mayfield Printing has been committed to quality, reliability, and personal service. We treat every project, large or small, with the same care and attention to detail — because our name goes on it too.
+                For generations, Business Printing has been committed to quality, reliability, and personal service. We treat every project, large or small, with the same care and attention to detail — because our name goes on it too.
             </p>
         </section>
 
@@ -139,7 +143,11 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Mayfield Printing. All rights reserved.</p>
+        <p>&copy; 2026 Business Printing. All rights reserved.</p>
     </footer>
+
+    <script src="js/form-validation.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
