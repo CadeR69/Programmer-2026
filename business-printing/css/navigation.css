@@ -1,0 +1,115 @@
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: var(--space-md);
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: var(--color-carbon);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    padding: 0.4rem 0;
+    position: relative;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background: var(--color-proof);
+    transition: width var(--transition-base);
+}
+
+nav a:hover,
+nav a:focus-visible {
+    color: var(--color-ink);
+}
+
+nav a:hover::after,
+nav a:focus-visible::after {
+    width: 100%;
+}
+
+/* Mobile nav toggle — hidden by default, shown only under the phone breakpoint */
+.nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius);
+    cursor: pointer;
+}
+
+.nav-toggle-bar,
+.nav-toggle-bar::before,
+.nav-toggle-bar::after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--color-ink);
+}
+
+.nav-toggle-bar {
+    position: relative;
+}
+
+.nav-toggle-bar::before {
+    position: absolute;
+    top: -6px;
+}
+
+.nav-toggle-bar::after {
+    position: absolute;
+    top: 6px;
+}
+
+@media (max-width: 640px) {
+    .nav-toggle {
+        display: inline-flex;
+    }
+
+    #siteNav {
+        display: none;
+        width: 100%;
+        order: 3;
+    }
+
+    #siteNav.is-open {
+        display: block;
+    }
+
+    #siteNav ul {
+        flex-direction: column;
+        gap: 0;
+        padding-top: var(--space-xs);
+    }
+
+    #siteNav li {
+        border-top: 1px solid var(--color-hairline);
+    }
+
+    #siteNav a {
+        display: block;
+        padding: 0.7rem 0.2rem;
+    }
+
+    #siteNav a::after {
+        display: none;
+    }
+}

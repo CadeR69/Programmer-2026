@@ -1,0 +1,102 @@
+/* ==========================================================================
+   Forms — ready for the contact + quote pages
+   ========================================================================== */
+
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-bottom: 0.4rem;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-carbon);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius);
+    padding: 0.7rem 0.9rem;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--color-press);
+    box-shadow: 0 0 0 3px rgba(30, 93, 145, 0.15);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 140px;
+}
+
+.form-error {
+    color: #C0392B;
+    font-size: var(--text-xs);
+    margin-top: 0.3rem;
+}
+
+.form-success {
+    color: #1E7A34;
+    font-size: var(--text-sm);
+}
+
+/* Accessibly hide the honeypot field — off-screen, not display:none, so
+   screen readers relying on visibility rather than the accessibility tree
+   still skip it the way sighted visitors do. Was referenced by the honeypot
+   markup on the quote and contact forms but never actually defined, so the
+   "Don't fill this out if you're human" text was visible on the live page. */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Overall submit feedback banner (success/failure), injected by form-validation.js */
+.form-status {
+    margin-top: var(--space-sm);
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius);
+    font-size: var(--text-sm);
+}
+
+.form-status.success {
+    background: rgba(30, 122, 52, 0.1);
+    color: #1E7A34;
+    border: 1px solid rgba(30, 122, 52, 0.3);
+}
+
+.form-status.error {
+    background: rgba(192, 57, 43, 0.08);
+    color: #C0392B;
+    border: 1px solid rgba(192, 57, 43, 0.3);
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+    border-color: #C0392B;
+}
+
+button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

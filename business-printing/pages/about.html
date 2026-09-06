@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>About Us | Mayfield Printing</title>
-    <meta name="description" content="Learn about Mayfield Printing, a family-owned commercial printing company serving Mayfield, KY businesses with quality and personal service since 1933.">
+    <title>About Us | Business Printing</title>
+    <meta name="description" content="Learn about Business Printing, a family-owned commercial printing company serving Mayfield, KY businesses with quality and personal service since 1933.">
     <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
 
     <link rel="stylesheet" href="../css/variables.css">
@@ -23,9 +23,13 @@
     <a href="#main" class="skip-link">Skip to main content</a>
 
     <header>
-        <h1>Mayfield Printing</h1>
+        <h1>Business Printing</h1>
 
-        <nav>
+        <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Toggle menu">
+            <span class="nav-toggle-bar"></span>
+        </button>
+
+        <nav id="siteNav">
             <ul>
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="about.html">About Us</a></li>
@@ -42,7 +46,7 @@
             <h2>About Us</h2>
 
             <p>
-                Mayfield Printing has provided dependable commercial printing services since 1933. We combine experienced professionals with modern equipment to help businesses bring their ideas to life.
+                Business Printing has provided dependable commercial printing services since 1933. We combine experienced professionals with modern equipment to help businesses bring their ideas to life.
             </p>
         </section>
 
@@ -50,12 +54,12 @@
             <h2>Our Story</h2>
 
             <p>
-                For generations, Mayfield Printing has helped businesses create professional printed materials. From everyday business essentials to marketing materials and custom projects, we focus on quality, reliability, and personal service.
+                For generations, Business Printing has helped businesses create professional printed materials. From everyday business essentials to marketing materials and custom projects, we focus on quality, reliability, and personal service.
             </p>
         </section>
 
         <section>
-            <h2>Why Choose Mayfield Printing?</h2>
+            <h2>Why Choose Business Printing?</h2>
 
             <p>
                 We provide personal service, dependable turnaround times, and careful attention to detail. Our team is here to help make every project look professional and ready to represent your business.
@@ -74,7 +78,11 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Mayfield Printing. All rights reserved.</p>
+        <p>&copy; 2026 Business Printing. All rights reserved.</p>
     </footer>
+
+    <script src="../js/form-validation.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/main.js"></script>
 </body>
 </html>
