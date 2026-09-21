@@ -20,48 +20,142 @@
     <link rel="stylesheet" href="stylez.css" />
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
     <!-- Header & Navigation -->
     <header>
       <nav class="navbar">
-        <div class="logo">Cade Riley</div>
+        <a class="logo" href="#hero">Cade&nbsp;Riley</a>
         <ul class="nav-links">
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#work">Work</a></li>
           <li><a href="#about">About</a></li>
+          <li><a href="#work">Work</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
     </header>
 
-    <main>
+    <main id="main">
       <!-- Hero Section -->
       <section id="hero" class="hero-section">
+        <div class="hero-glow" aria-hidden="true"></div>
         <div class="hero-content">
-          <h1>Hi, I'm <span>Cade Riley</span></h1>
-          <p>
-            I'm 22, and I build for the web. Right now I'm going deep on website
-            design and Python — and working my way across the rest of
-            programming as I go.
+          <p class="eyebrow">22 · Website design &amp; Python</p>
+          <h1>Hi, I'm <span class="grad">Cade Riley</span></h1>
+          <p class="lede">
+            I build for the web. Right now I'm going deep on website design
+            and Python — and working my way across the rest of programming as
+            I go.
           </p>
-          <a href="#work" class="btn">View My Work</a>
+          <div class="hero-actions">
+            <a href="#about" class="btn btn-primary">More about me</a>
+            <a href="mailto:caderiley010@gmail.com" class="btn btn-ghost">
+              Email me
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Me Section — placed right after the hero on purpose -->
+      <section id="about" class="section about-section">
+        <div class="about-inner">
+          <div class="section-head">
+            <p class="eyebrow eyebrow-dark">About</p>
+            <h2>A personal interest turning into real skill</h2>
+          </div>
+
+          <div class="about-grid">
+            <div class="about-main">
+              <p class="about-lede">
+                I'm Cade Riley, 22. I came into this through website design
+                and Python, and I stayed because programming is broad — there
+                is always another corner of it worth learning.
+              </p>
+              <p>
+                Most of my time goes into researching and building projects to
+                grow. I'd rather write something small and understand every
+                line of it than copy something large I can't explain, so the
+                work below is all hand-built: multi-page sites, a few tools,
+                and whatever idea I'm chasing at the time.
+              </p>
+              <p>
+                Right now that means going deeper on website design and
+                Python, and steadily widening out into the rest of
+                programming.
+              </p>
+
+              <h3 class="about-subhead">What I work with</h3>
+              <ul class="skills-list">
+                <li>HTML / CSS</li>
+                <li>JavaScript</li>
+                <li>Python</li>
+                <li>Website Design</li>
+                <li>Git / GitHub</li>
+              </ul>
+            </div>
+
+            <aside class="about-aside">
+              <div class="profile-card">
+                <div class="avatar" aria-hidden="true">CR</div>
+                <p class="profile-name">Cade Riley</p>
+                <p class="profile-role">Website design &amp; Python</p>
+                <dl class="facts">
+                  <div class="fact">
+                    <dt>Age</dt>
+                    <dd>22</dd>
+                  </div>
+                  <div class="fact">
+                    <dt>Focus</dt>
+                    <dd>Website design, Python</dd>
+                  </div>
+                  <div class="fact">
+                    <dt>Also learning</dt>
+                    <dd>JavaScript, Git, and a broad range of programming</dd>
+                  </div>
+                  <div class="fact">
+                    <dt>Projects here</dt>
+                    <dd>6, and counting</dd>
+                  </div>
+                </dl>
+                <a
+                  href="https://github.com/CadeR69"
+                  class="project-link"
+                  target="_blank"
+                  rel="noopener"
+                  >github.com/CadeR69 →</a
+                >
+              </div>
+            </aside>
+          </div>
         </div>
       </section>
 
       <!-- Work / Portfolio Section -->
-      <section id="work" class="work-section">
-        <h2>Selected Work</h2>
+      <section id="work" class="section work-section">
+        <div class="section-head">
+          <p class="eyebrow eyebrow-dark">Selected work</p>
+          <h2>Things I've built</h2>
+          <p class="section-sub">
+            Six projects, from a full multi-page business site to small tools
+            I wrote to learn a specific idea properly.
+          </p>
+        </div>
+
         <div class="project-grid">
-          <!-- Project 1 — Business Printing -->
-          <div class="project-card">
-            <div class="project-image"></div>
+          <!-- Business Printing -->
+          <article class="project-card">
+            <div class="project-art art-1"><span aria-hidden="true">BP</span></div>
             <div class="project-info">
               <h3>Business Printing</h3>
               <p>
                 A seven-page site for a commercial print shop — services,
                 sample gallery, quote request, about, privacy and contact —
-                with its own branding assets. Hand-written HTML, CSS and
-                vanilla JavaScript, no framework.
+                with its own branding assets.
               </p>
+              <ul class="tags">
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+              </ul>
               <a
                 href="https://github.com/CadeR69/Programmer-2026/tree/main/business-printing"
                 class="project-link"
@@ -70,10 +164,11 @@
                 >View Business Printing →</a
               >
             </div>
-          </div>
-          <!-- Project 2 — Minecraft Hub -->
-          <div class="project-card">
-            <div class="project-image"></div>
+          </article>
+
+          <!-- Minecraft Hub -->
+          <article class="project-card">
+            <div class="project-art art-2"><span aria-hidden="true">MH</span></div>
             <div class="project-info">
               <h3>Minecraft Hub</h3>
               <p>
@@ -81,6 +176,11 @@
                 and external tools — that I built to practice deploying and
                 maintaining a live site, not just building one locally.
               </p>
+              <ul class="tags">
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>Deploying</li>
+              </ul>
               <a
                 href="https://github.com/CadeR69/Minecraft-Hub"
                 class="project-link"
@@ -89,17 +189,47 @@
                 >View Minecraft Hub →</a
               >
             </div>
-          </div>
-          <!-- Project 3 — Temperature Converter -->
-          <div class="project-card">
-            <div class="project-image"></div>
+          </article>
+
+          <!-- Note Generator -->
+          <article class="project-card">
+            <div class="project-art art-3"><span aria-hidden="true">NG</span></div>
+            <div class="project-info">
+              <h3>Note Generator</h3>
+              <p>
+                Walks a folder of Python files, pulls out every function with
+                the <code>ast</code> module, and has the Gemini API write
+                study notes to markdown — skipping any file it has already
+                done.
+              </p>
+              <ul class="tags">
+                <li>Python</li>
+                <li>ast</li>
+                <li>Gemini API</li>
+              </ul>
+              <a
+                href="https://github.com/CadeR69/Programmer-2026/tree/main/practicing_python"
+                class="project-link"
+                target="_blank"
+                rel="noopener"
+                >View Note Generator →</a
+              >
+            </div>
+          </article>
+
+          <!-- Temperature Converter -->
+          <article class="project-card">
+            <div class="project-art art-4"><span aria-hidden="true">TC</span></div>
             <div class="project-info">
               <h3>Temperature Converter</h3>
               <p>
-                Celsius, Fahrenheit and Kelvin that convert live as you type,
+                Celsius, Fahrenheit and Kelvin converting live as you type,
                 driven by one shared input handler instead of three separate
-                ones. Vanilla JavaScript.
+                ones.
               </p>
+              <ul class="tags">
+                <li>JavaScript</li>
+              </ul>
               <a
                 href="https://github.com/CadeR69/Programmer-2026/tree/main/Temperature%20Converter"
                 class="project-link"
@@ -108,46 +238,85 @@
                 >View Temperature Converter →</a
               >
             </div>
-          </div>
-        </div>
-      </section>
+          </article>
 
-      <!-- About Me Section -->
-      <section id="about" class="about-section">
-        <h2>About Me</h2>
-        <div class="about-content">
-          <p>
-            I'm Cade Riley, 22. I came into this through website design and
-            Python, and I stayed because programming is broad — there is always
-            another corner of it worth learning. Most of my time goes into
-            researching and building projects to grow, and this is where those
-            end up.
-          </p>
-          <ul class="skills-list">
-            <li>HTML / CSS</li>
-            <li>JavaScript</li>
-            <li>Python</li>
-            <li>Website Design</li>
-            <li>Git / GitHub</li>
-          </ul>
+          <!-- Tip Calculator -->
+          <article class="project-card">
+            <div class="project-art art-5"><span aria-hidden="true">TP</span></div>
+            <div class="project-info">
+              <h3>Tip Calculator</h3>
+              <p>
+                Takes a bill and a tip percentage and returns the total to the
+                cent. Small on purpose — it was about getting DOM events and
+                number formatting right.
+              </p>
+              <ul class="tags">
+                <li>JavaScript</li>
+              </ul>
+              <a
+                href="https://github.com/CadeR69/Programmer-2026/tree/main/Calculator%20Project"
+                class="project-link"
+                target="_blank"
+                rel="noopener"
+                >View Tip Calculator →</a
+              >
+            </div>
+          </article>
+
+          <!-- Reusable Mockup Site -->
+          <article class="project-card">
+            <div class="project-art art-6"><span aria-hidden="true">RM</span></div>
+            <div class="project-info">
+              <h3>Reusable Mockup Site</h3>
+              <p>
+                A business-site skeleton I keep coming back to: header,
+                services, stock, testimonials and contact, with the structure
+                commented inline so it is quick to re-skin for a new client.
+              </p>
+              <ul class="tags">
+                <li>HTML</li>
+                <li>CSS</li>
+              </ul>
+              <a
+                href="https://github.com/CadeR69/Programmer-2026/tree/main/Reusable%20Mockup%20site"
+                class="project-link"
+                target="_blank"
+                rel="noopener"
+                >View Reusable Mockup Site →</a
+              >
+            </div>
+          </article>
         </div>
       </section>
 
       <!-- Contact Section -->
-      <section id="contact" class="contact-section">
-        <h2>Get In Touch</h2>
-        <p>Have a project in mind or want to say hello? Drop me an email.</p>
-        <a href="mailto:caderiley010@gmail.com" class="btn">Email Me</a>
-        <div class="social-links">
-          <a href="https://github.com/CadeR69" target="_blank" rel="noopener"
-            >GitHub</a
-          >
+      <section id="contact" class="section contact-section">
+        <div class="contact-card">
+          <p class="eyebrow">Get in touch</p>
+          <h2>Have something you want built?</h2>
+          <p>
+            I'm open to work and always up for a project that teaches me
+            something new. Email is the fastest way to reach me.
+          </p>
+          <div class="hero-actions">
+            <a href="mailto:caderiley010@gmail.com" class="btn btn-primary">
+              Email me
+            </a>
+            <a
+              href="https://github.com/CadeR69"
+              class="btn btn-ghost"
+              target="_blank"
+              rel="noopener"
+              >GitHub</a
+            >
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <p>&copy; 2026 Cade Riley</p>
+      <p class="footer-note">Built by hand with HTML and CSS.</p>
     </footer>
   </body>
 </html>
