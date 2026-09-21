@@ -12,9 +12,8 @@
   <body>
     <header>
       <nav class="navbar">
-        <div class="logo">Cade Riley</div>
+        <a class="logo" href="index.html">Cade&nbsp;Riley</a>
         <ul class="nav-links">
-          <li><a href="index.html#hero">Home</a></li>
           <li><a href="index.html#work">Work</a></li>
           <li><a href="index.html#about">About</a></li>
           <li><a href="index.html#contact">Contact</a></li>
@@ -22,21 +21,27 @@
       </nav>
     </header>
 
-    <main>
+    <main id="main">
       <section class="hero-section">
+        <div class="hero-glow" aria-hidden="true"></div>
         <div class="hero-content">
-          <h1>404 — <span>page not found</span></h1>
-          <p>
-            That page does not exist. It may have been renamed, or the link
-            that brought you here is out of date.
+          <p class="eyebrow">Error 404</p>
+          <h1>This page <span class="grad">does not exist</span></h1>
+          <p class="lede">
+            It may have been renamed, or the link that brought you here is out
+            of date.
           </p>
-          <a href="index.html" class="btn">Back to the homepage</a>
+          <div class="hero-actions">
+            <a href="index.html" class="btn btn-primary">Back to the homepage</a>
+            <a href="index.html#work" class="btn btn-ghost">See my work</a>
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <p>&copy; 2026 Cade Riley</p>
+      <p class="footer-note">Built by hand with HTML and CSS.</p>
     </footer>
   </body>
 </html>
