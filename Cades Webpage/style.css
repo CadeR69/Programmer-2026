@@ -1,7 +1,7 @@
 /* Site gradient: white into grey. The deep version (buttons) keeps white button text readable (4.6:1 and up). */
 :root {
   --gradient: linear-gradient(135deg, #ffffff, #9ca3af);
-  --gradient-deep: linear-gradient(135deg, #db2777, #7c3aed);
+  --gradient-deep: linear-gradient(135deg, #4b5563, #1f2937);
 }
 
 /* Core Layout Utilities */
@@ -147,30 +147,8 @@
 }
 
 .btn:focus-visible {
-  outline: 2px solid #0056b3;
+  outline: 2px solid #111827;
   outline-offset: 2px;
-}
-
-.btn-primary {
-  background-color: #0070f3;
-  border-color: #0070f3;
-  color: #fff;
-}
-
-.btn-primary:hover {
-  background-color: #990492;
-  border-color: #8700b1;
-}
-
-.btn-outline {
-  background-color: transparent;
-  border-color: #ccc;
-  color: #333;
-}
-
-.btn-outline:hover {
-  background-color: #f5f5f5;
-  border-color: #999;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -436,7 +414,7 @@ main > section {
 .btn:hover,
 .btn:focus-visible {
   transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.35);
+  box-shadow: 0 10px 20px rgba(31, 41, 55, 0.35);
 }
 
 .btn:active {
