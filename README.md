@@ -1,0 +1,3 @@
+I'm learning to design and build websites with clean code and interfaces that are easy to use for people of all backgrounds and abilities. I'm most eager to collaborate on projects with other beginners. I haven't worked on a team project yet, and I want to close that gap, starting small and building up from there. With my current skills, I'm fairly confident I can write clean code and create original designs that are accessible and enjoyable to explore.
+
+I'm also curious about what programming makes possible. I want to find out what I can do with old tech I no longer use and how to repurpose it for my own needs. Programming and designing websites have become a real creative outlet for me.
