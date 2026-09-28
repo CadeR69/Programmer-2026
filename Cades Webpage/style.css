@@ -1,6 +1,6 @@
-/* Site gradient: pink into violet. The deep version keeps white button text readable (4.6:1 and up). */
+/* Site gradient: white into grey. The deep version (buttons) keeps white button text readable (4.6:1 and up). */
 :root {
-  --gradient: linear-gradient(135deg, #ec4899, #8b5cf6);
+  --gradient: linear-gradient(135deg, #ffffff, #9ca3af);
   --gradient-deep: linear-gradient(135deg, #db2777, #7c3aed);
 }
 
@@ -273,7 +273,7 @@
     rgba(0, 0, 0, 0.1) 50%,
     rgba(255, 255, 255, 0.2) 100%
   );
-  /* Light base under the gradient: keeps black text at 5:1 or better over pink and violet */
+  /* Light base under the gradient: keeps black text at 5:1 or better over the background */
   background-color: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(1px);
   border: 2px solid rgba(255, 255, 255, 0.6);
