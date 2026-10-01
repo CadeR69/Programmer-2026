@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cadence</title>
+  <meta name="description" content="Private, offline-first music player">
+  <meta name="theme-color" content="#0b0b12">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Cadence">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/vendor/jsmediatags.min.js" defer></script>
+  <script type="module" src="/js/main.js"></script>
+</head>
+<body>
+  <div id="login" hidden>
+    <form id="login-form" class="login-card" autocomplete="on">
+      <img src="/icons/icon-192.png" alt="" width="88" height="88">
+      <h1>Cadence</h1>
+      <p class="muted">Your private music library</p>
+      <input id="password" type="password" class="text-input" placeholder="Password" autocomplete="current-password" required>
+      <button id="login-button" class="btn wide" type="submit">Sign in</button>
+      <p id="login-error" class="error" role="alert"></p>
+    </form>
+  </div>
+
+  <div id="app" hidden>
+    <div class="stage">
+      <div id="banner" hidden>Offline. Showing music saved on this device.</div>
+      <main id="view"></main>
+      <div id="mini" hidden></div>
+    </div>
+    <nav class="tabs" aria-label="Main">
+      <div class="brand">Cadence</div>
+      <a href="#/songs" data-tab="songs"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg><span>Songs</span></a>
+      <a href="#/albums" data-tab="albums"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/></svg><span>Albums</span></a>
+      <a href="#/artists" data-tab="artists" class="desktop-only"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Artists</span></a>
+      <a href="#/playlists" data-tab="playlists"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"/></svg><span>Playlists</span></a>
+      <a href="#/downloads" data-tab="downloads"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg><span>Downloads</span></a>
+      <a href="#/more" data-tab="more"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg><span>More</span></a>
+    </nav>
+  </div>
+
+  <div id="overlays"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
