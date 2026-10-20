@@ -6,34 +6,72 @@
   <title>Outlet</title>
   <style>
     :root {
-      --bg: #f4f4f4;
-      --panel: #d9d9d9;
-      --panel-strong: #c0c0c0;
+      --face: #c0c0c0;
       --ink: #111;
       --accent: #000080;
-      --danger: #cc0000;
+      --danger: #a00000;
       --success: #008000;
+      /* Windows 98 3D edges, reusable on anything */
+      --raised: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
+      --pressed: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
+      --sunken: inset -1px -1px #fff, inset 1px 1px #808080, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
+      --etched: inset 1px 1px #808080, inset -1px -1px #fff, inset 2px 2px #fff, inset -2px -2px #808080;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--bg);
+      padding: 1rem 1rem 3.5rem; /* bottom room for the taskbar */
+      font-family: Tahoma, "MS Sans Serif", Verdana, Arial, sans-serif;
       color: var(--ink);
+      /* XP-style hillside wallpaper drawn in CSS (an original scene, not Microsoft's "Bliss" photo):
+         clouds, a far hill, the main sunlit hill, then the sky behind everything */
+      background:
+        radial-gradient(ellipse 9% 4% at 22% 26%, #fff 0 40%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(ellipse 7% 5% at 27% 23%, #fff 0 35%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(ellipse 14% 4% at 25% 29%, rgba(255, 255, 255, 0.9) 0 30%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(ellipse 8% 3% at 72% 18%, #fff 0 35%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(ellipse 12% 3.5% at 76% 21%, rgba(255, 255, 255, 0.85) 0 30%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(ellipse 75% 45% at 95% 112%, #3f8f2a 0 92%, rgba(63, 143, 42, 0) 93%),
+        radial-gradient(ellipse 115% 58% at 35% 118%, #2f6f1d 0 40%, #4f9f2e 75%, #86c94f 97%, rgba(134, 201, 79, 0) 98%),
+        linear-gradient(#1859c4, #3f86dd 35%, #8fc3f0 65%, #cfe7fa 82%);
+      background-attachment: fixed;
+    }
+
+    .window {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3px;
+      background: var(--face);
+      box-shadow: var(--raised);
+    }
+
+    .title-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.4rem;
+      background: linear-gradient(90deg, var(--accent), #1070b8); /* Win98 title bar; the classic #1084d0 end drops white text below 4.5:1 contrast */
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .title-bar img,
+    .start img {
+      width: 16px;
+      height: 16px;
     }
 
     .app {
       display: grid;
       grid-template-columns: 220px 1fr;
-      min-height: 100vh;
+      min-height: calc(100vh - 7rem);
     }
 
     .sidebar {
-      background: var(--panel-strong);
-      border-right: 4px solid #808080;
       padding: 1rem;
+      border-right: 2px groove var(--face);
     }
 
     .sidebar h2 {
@@ -52,11 +90,10 @@
       width: 100%;
       margin: 0.25rem 0;
       padding: 0.6rem;
-      background: #efefef;
-      border: 1px solid #666;
       font-weight: 700;
-      cursor: pointer;
     }
+
+    .nav button[aria-current="page"] { box-shadow: var(--pressed); }
 
     .status {
       margin-top: 2rem;
@@ -77,16 +114,24 @@
       font-size: clamp(2rem, 4vw, 3rem);
       text-transform: uppercase;
       letter-spacing: 0.04em;
+      text-shadow: 2px 2px #fff, 4px 4px #808080; /* WordArt-style 3D */
     }
 
     .ticker {
-      background: linear-gradient(90deg, var(--accent), #1070b8); /* Win98 title bar; the classic #1084d0 end drops white text below 4.5:1 contrast */
+      background: linear-gradient(90deg, var(--accent), #1070b8);
       color: #fff;
-      padding: 0.6rem 1rem;
+      padding: 0.6rem 0;
       font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
-      border: 2px solid #000;
+      box-shadow: var(--sunken);
+    }
+
+    /* <marquee>-style scroll: start past the right edge, slide fully off the left */
+    .ticker span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 25s linear infinite;
     }
 
     .view {
@@ -97,10 +142,9 @@
     .view.active { display: block; }
 
     .panel {
-      background: var(--panel);
-      border: 3px solid #808080;
       padding: 1rem;
       margin-bottom: 1rem;
+      box-shadow: var(--etched);
     }
 
     .grid {
@@ -110,14 +154,35 @@
     }
 
     .stats {
-      background: #d9d9d9;
-      border: 5px solid #fff;
       padding: 1rem;
       margin-top: 1rem;
+      background: #fff;
+      box-shadow: var(--sunken);
     }
 
     input, textarea, button {
       font: inherit;
+    }
+
+    button {
+      padding: 0.35rem 0.9rem;
+      background: var(--face);
+      color: var(--ink);
+      border: 0;
+      box-shadow: var(--raised);
+      cursor: pointer;
+    }
+
+    button:active { box-shadow: var(--pressed); }
+    button:focus-visible { outline: 1px dotted #000; outline-offset: -5px; }
+
+    input[type="text"],
+    textarea {
+      max-width: 100%;
+      padding: 0.35rem 0.5rem;
+      background: #fff;
+      border: 0;
+      box-shadow: var(--sunken);
     }
 
     textarea {
@@ -126,16 +191,72 @@
       resize: vertical;
     }
 
+    /* white sunken boxes, like a Win98 list view */
+    .listview,
+    #log-entries,
+    #notes-list,
+    #workflow-list {
+      padding: 2px;
+      background: #fff;
+      box-shadow: var(--sunken);
+    }
+
+    #log-entries,
+    #notes-list { padding: 0.75rem 0.75rem 0.75rem 2rem; }
+
+    #workflow-list {
+      list-style: none;
+      padding: 0.75rem;
+    }
+
+    #workflow-list > li { margin-bottom: 0.75rem; }
+    #workflow-list ol { margin: 0.35rem 0 0; }
+
+    #log-entries:empty,
+    #notes-list:empty,
+    #workflow-list:empty,
+    #workflow-status:empty { display: none; }
+
     table {
       width: 100%;
       border-collapse: collapse;
     }
 
     th, td {
-      border: 2px solid #808080;
+      border: 1px solid var(--face);
       padding: 0.5rem;
       text-align: left;
       vertical-align: top;
+    }
+
+    th {
+      background: var(--face);
+      box-shadow: var(--raised);
+    }
+
+    .taskbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      padding: 0.25rem;
+      background: var(--face);
+      box-shadow: inset 0 1px #dfdfdf, inset 0 2px #fff;
+    }
+
+    .start {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 700;
+    }
+
+    .clock {
+      margin-left: auto;
+      padding: 0.3rem 0.75rem;
+      box-shadow: inset 1px 1px #808080, inset -1px -1px #fff;
     }
 
     .task-actions {
@@ -165,14 +286,26 @@
       50% { opacity: 0.4; }
     }
 
+    @keyframes marquee {
+      to { transform: translateX(-100%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ticker span { animation: none; padding-left: 1rem; }
+      .status { animation: none; }
+    }
+
     @media (max-width: 720px) {
-      .app { grid-template-columns: 1fr; }
-      .sidebar { border-right: 0; border-bottom: 4px solid #808080; }
+      body { padding: 0 0 3.5rem; }
+      .app { grid-template-columns: 1fr; min-height: 0; }
+      .sidebar { border-right: 0; border-bottom: 2px groove var(--face); }
       .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <div class="window">
+  <div class="title-bar"><img src="icon.svg" alt=""> Outlet</div>
   <div class="app">
     <aside class="sidebar">
       <h2>MENU</h2>
@@ -180,14 +313,15 @@
         <li><button type="button" data-view="welcome">Welcome</button></li>
         <li><button type="button" data-view="log">Daily Log</button></li>
         <li><button type="button" data-view="tasks">Tasks</button></li>
+        <li><button type="button" data-view="workflows">Workflows</button></li>
         <li><button type="button" data-view="notes">Notes</button></li>
       </ul>
-      <div class="status">⚠️ SYSTEM ONLINE<br>v1.1 ACTIVE ⚠️</div>
+      <div class="status">⚠️ SYSTEM ONLINE<br>v1.2 ACTIVE ⚠️</div>
     </aside>
 
     <main class="content">
       <h1>Outlet</h1>
-      <div class="ticker">+++ SURF YOUR WORKFLOW +++ DATA STORED LOCALLY VIA MODERN COOKIE TECHNOLOGY +++ RUNS ON MODERN BROWSERS +++</div>
+      <div class="ticker"><span>+++ SURF YOUR WORKFLOW +++ DATA STORED LOCALLY VIA MODERN COOKIE TECHNOLOGY +++ RUNS ON MODERN BROWSERS +++</span></div>
 
       <section id="view-welcome" class="view active">
         <div class="grid">
@@ -208,7 +342,7 @@
         <h2>💾 Daily Logger Node</h2>
         <div class="panel">
           <label for="new-log-text"><strong>Add New Entry:</strong></label><br><br>
-          <input id="new-log-text" type="text" size="50" placeholder="What's happening?" />
+          <input id="new-log-text" type="text" spellcheck="true" size="50" placeholder="What's happening?" />
           <button type="button" id="add-log-btn">Post Entry</button>
         </div>
         <ul id="log-entries"></ul>
@@ -218,10 +352,11 @@
         <h2>📝 Master Task Matrix</h2>
         <div class="panel">
           <label for="new-task-title"><strong>New Task Name:</strong></label>
-          <input id="new-task-title" type="text" size="30" placeholder="Task title" />
+          <input id="new-task-title" type="text" spellcheck="true" size="30" placeholder="Task title" />
           <button type="button" id="add-task-btn">Insert Task</button>
         </div>
 
+        <div class="listview">
         <table>
           <thead>
             <tr>
@@ -232,12 +367,29 @@
           </thead>
           <tbody id="tasks-table-body"></tbody>
         </table>
+        </div>
+      </section>
+
+      <section id="view-workflows" class="view">
+        <h2>⚙️ Workflow Control Panel</h2>
+        <div class="panel">
+          <label for="workflow-name"><strong>Workflow Name:</strong></label>
+          <input id="workflow-name" type="text" spellcheck="true" size="30" placeholder="e.g. Deploy" />
+          <br><br>
+          <label for="workflow-steps"><strong>Steps (one per line):</strong></label>
+          <textarea spellcheck="true" id="workflow-steps" placeholder="Run tests&#10;Bump version&#10;Push to GitHub"></textarea>
+          <br><br>
+          <button type="button" id="save-workflow-btn">Save Workflow</button>
+          <button type="button" id="cancel-workflow-btn" hidden>Cancel</button>
+          <p id="workflow-status" aria-live="polite"></p>
+        </div>
+        <ul id="workflow-list"></ul>
       </section>
 
       <section id="view-notes" class="view">
         <h2>🗒️ Notes Vault</h2>
         <div class="panel">
-          <textarea id="notes-area" aria-label="New note" placeholder="Write a note here..."></textarea>
+          <textarea spellcheck="true" id="notes-area" aria-label="New note" placeholder="Write a note here..."></textarea>
           <br><br>
           <button type="button" id="add-note-btn">Add Note</button>
           <p>Notes are not saved: they disappear when Outlet is closed or reloaded.</p>
@@ -246,12 +398,19 @@
       </section>
     </main>
   </div>
+  </div>
+
+  <footer class="taskbar">
+    <button type="button" class="start" data-view="welcome"><img src="icon.svg" alt=""> Start</button>
+    <span class="clock" id="clock"></span>
+  </footer>
 
   <script>
     const STORAGE_KEY = 'cyberzone_data';
     const appData = {
       logs: [],
-      tasks: []
+      tasks: [],
+      workflows: []
     };
     const sessionNotes = []; // kept in memory only, never saved to the device
 
@@ -269,6 +428,7 @@
       // Welcome entry on the very first run only, so deleting every entry doesn't bring it back.
       if (!saved) appData.logs = [{ date: '2026-10-19', text: 'System boot successful. Exploring the web.' }];
       if (!Array.isArray(appData.tasks)) appData.tasks = [];
+      if (!Array.isArray(appData.workflows)) appData.workflows = [];
 
       // Older versions saved notes: show them this one last time, then remove them from the device.
       if ('notes' in appData) {
@@ -286,10 +446,14 @@
       document.querySelectorAll('.view').forEach((view) => {
         view.classList.toggle('active', view.id === `view-${viewId}`);
       });
+      document.querySelectorAll('.nav [data-view]').forEach((button) => {
+        button.setAttribute('aria-current', button.dataset.view === viewId ? 'page' : 'false');
+      });
 
       if (viewId === 'log') renderLogs();
       if (viewId === 'tasks') renderTasks();
       if (viewId === 'notes') renderNotes();
+      if (viewId === 'workflows') renderWorkflows();
     }
 
     function renderLogs() {
@@ -367,6 +531,7 @@
       const row = document.getElementById('tasks-table-body').rows[index];
       const input = document.createElement('input');
       input.type = 'text';
+      input.spellcheck = true;
       input.value = appData.tasks[index].title;
       input.setAttribute('aria-label', 'Task name');
       input.addEventListener('keydown', (event) => {
@@ -427,6 +592,101 @@
       notesArea.value = '';
     }
 
+    // ===== WORKFLOWS: reusable step lists; Apply copies the steps into Tasks =====
+    let editingWorkflow = null; // index of the workflow loaded into the form, or null when adding a new one
+
+    function plural(count, word) {
+      return `${count} ${word}${count === 1 ? '' : 's'}`;
+    }
+
+    function showWorkflowStatus(message) {
+      document.getElementById('workflow-status').textContent = message;
+    }
+
+    function renderWorkflows() {
+      const list = document.getElementById('workflow-list');
+      list.innerHTML = '';
+      appData.workflows.forEach((workflow, index) => {
+        const item = document.createElement('li');
+        const name = document.createElement('strong');
+        name.textContent = workflow.name;
+        item.append(name, ` (${plural(workflow.steps.length, 'step')}) `);
+        item.insertAdjacentHTML('beforeend', `
+          <button type="button" data-action="apply-workflow" data-index="${index}">Apply</button>
+          <button type="button" data-action="edit-workflow" data-index="${index}">Edit</button>
+          <button type="button" data-action="delete-workflow" data-index="${index}" aria-label="Delete workflow">X</button>
+        `);
+        const steps = document.createElement('ol');
+        workflow.steps.forEach((step) => {
+          const stepItem = document.createElement('li');
+          stepItem.textContent = step;
+          steps.append(stepItem);
+        });
+        item.append(steps);
+        list.append(item);
+      });
+    }
+
+    function resetWorkflowForm() {
+      editingWorkflow = null;
+      document.getElementById('workflow-name').value = '';
+      document.getElementById('workflow-steps').value = '';
+      document.getElementById('save-workflow-btn').textContent = 'Save Workflow';
+      document.getElementById('cancel-workflow-btn').hidden = true;
+    }
+
+    function saveWorkflow() {
+      const name = document.getElementById('workflow-name').value.trim();
+      const steps = document.getElementById('workflow-steps').value.split('\n').map((step) => step.trim()).filter(Boolean);
+      if (!name || !steps.length) return showWorkflowStatus('Give the workflow a name and at least one step.');
+
+      if (editingWorkflow === null) appData.workflows.push({ name, steps });
+      else appData.workflows[editingWorkflow] = { name, steps };
+      saveData();
+      resetWorkflowForm();
+      renderWorkflows();
+      showWorkflowStatus(`Saved "${name}".`);
+    }
+
+    function editWorkflow(index) {
+      const workflow = appData.workflows[index];
+      if (!workflow) return;
+
+      editingWorkflow = index;
+      document.getElementById('workflow-name').value = workflow.name;
+      document.getElementById('workflow-steps').value = workflow.steps.join('\n');
+      document.getElementById('save-workflow-btn').textContent = 'Update Workflow';
+      document.getElementById('cancel-workflow-btn').hidden = false;
+      showWorkflowStatus(`Editing "${workflow.name}".`);
+      document.getElementById('workflow-name').focus();
+    }
+
+    function deleteWorkflow(index) {
+      appData.workflows.splice(index, 1);
+      if (editingWorkflow === index) {
+        resetWorkflowForm();
+        showWorkflowStatus('');
+      } else if (editingWorkflow !== null && editingWorkflow > index) {
+        editingWorkflow--; // the workflow being edited moved up one place
+      }
+      saveData();
+      renderWorkflows();
+    }
+
+    function applyWorkflow(index) {
+      const workflow = appData.workflows[index];
+      if (!workflow) return;
+
+      workflow.steps.forEach((step) => appData.tasks.push({ title: `${workflow.name}: ${step}`, done: false }));
+      saveData();
+      renderTasks();
+      showWorkflowStatus(`Added ${plural(workflow.steps.length, 'step')} from "${workflow.name}" to Tasks.`);
+    }
+
+    function updateClock() {
+      document.getElementById('clock').textContent = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    }
+
     document.querySelectorAll('[data-view]').forEach((button) => {
       button.addEventListener('click', () => showView(button.dataset.view));
     });
@@ -434,6 +694,11 @@
     document.getElementById('add-log-btn').addEventListener('click', addLog);
     document.getElementById('add-task-btn').addEventListener('click', addTask);
     document.getElementById('add-note-btn').addEventListener('click', addNote);
+    document.getElementById('save-workflow-btn').addEventListener('click', saveWorkflow);
+    document.getElementById('cancel-workflow-btn').addEventListener('click', () => {
+      resetWorkflowForm();
+      showWorkflowStatus('');
+    });
 
     // Notes are never saved, so ask before a close or reload throws them away.
     window.addEventListener('beforeunload', (event) => {
@@ -455,12 +720,17 @@
       if (action === 'cancel-edit') closeTaskEdit(index);
       if (action === 'delete') deleteTask(index);
       if (action === 'delete-log') deleteLog(index);
+      if (action === 'apply-workflow') applyWorkflow(index);
+      if (action === 'edit-workflow') editWorkflow(index);
+      if (action === 'delete-workflow') deleteWorkflow(index);
     });
 
     loadData();
     renderLogs();
     renderTasks();
     showView('welcome');
+    updateClock();
+    setInterval(updateClock, 10000);
   </script>
 </body>
 </html>
