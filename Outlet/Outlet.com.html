@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Outlet</title>
+  <style>
+    :root {
+      --bg: #f4f4f4;
+      --panel: #d9d9d9;
+      --panel-strong: #c0c0c0;
+      --ink: #111;
+      --accent: #000080;
+      --danger: #cc0000;
+      --success: #008000;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--panel-strong);
+      border-right: 4px solid #808080;
+      padding: 1rem;
+    }
+
+    .sidebar h2 {
+      margin: 0 0 1rem;
+      text-align: center;
+      font-size: 1.3rem;
+    }
+
+    .nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav button {
+      width: 100%;
+      margin: 0.25rem 0;
+      padding: 0.6rem;
+      background: #efefef;
+      border: 1px solid #666;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .status {
+      margin-top: 2rem;
+      text-align: center;
+      color: var(--danger);
+      font-weight: 700;
+      animation: flash 1.2s steps(2, end) infinite;
+    }
+
+    .content {
+      padding: 1.5rem;
+    }
+
+    h1 {
+      margin-top: 0;
+      color: var(--accent);
+      font-size: clamp(2rem, 4vw, 3rem);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .ticker {
+      background: linear-gradient(90deg, var(--accent), #1070b8); /* Win98 title bar; the classic #1084d0 end drops white text below 4.5:1 contrast */
+      color: #fff;
+      padding: 0.6rem 1rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      border: 2px solid #000;
+    }
+
+    .view {
+      display: none;
+      margin-top: 1.5rem;
+    }
+
+    .view.active { display: block; }
+
+    .panel {
+      background: var(--panel);
+      border: 3px solid #808080;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 1rem;
+    }
+
+    .stats {
+      background: #d9d9d9;
+      border: 5px solid #fff;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    input, textarea, button {
+      font: inherit;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 2px solid #808080;
+      padding: 0.5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .task-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .status-done { color: var(--success); font-weight: 700; }
+    .status-pending { color: var(--danger); font-weight: 700; }
+
+    @keyframes flash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    @media (max-width: 720px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { border-right: 0; border-bottom: 4px solid #808080; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <h2>MENU</h2>
+      <ul class="nav">
+        <li><button type="button" data-view="welcome">Welcome</button></li>
+        <li><button type="button" data-view="log">Daily Log</button></li>
+        <li><button type="button" data-view="tasks">Tasks</button></li>
+        <li><button type="button" data-view="notes">Notes</button></li>
+      </ul>
+      <div class="status">⚠️ SYSTEM ONLINE<br>v1.0 ACTIVE ⚠️</div>
+    </aside>
+
+    <main class="content">
+      <h1>Outlet</h1>
+      <div class="ticker">+++ SURF YOUR WORKFLOW +++ DATA STORED LOCALLY VIA MODERN COOKIE TECHNOLOGY +++ RUNS ON MODERN BROWSERS +++</div>
+
+      <section id="view-welcome" class="view active">
+        <div class="grid">
+          <div>
+            <h2>System Diagnostics</h2>
+            <p>Select an item from the menu to access your workspace.</p>
+          </div>
+          <div class="stats">
+            <strong>Webmaster System Stats:</strong><br>
+            Engine: HTML5/LocalStorage<br>
+            Memory: Optimized<br>
+            Status: Ready
+          </div>
+        </div>
+      </section>
+
+      <section id="view-log" class="view">
+        <h2>💾 Daily Logger Node</h2>
+        <div class="panel">
+          <label for="new-log-text"><strong>Add New Entry:</strong></label><br><br>
+          <input id="new-log-text" type="text" size="50" placeholder="What's happening?" />
+          <button type="button" id="add-log-btn">Post Entry</button>
+        </div>
+        <ul id="log-entries"></ul>
+      </section>
+
+      <section id="view-tasks" class="view">
+        <h2>📝 Master Task Matrix</h2>
+        <div class="panel">
+          <label for="new-task-title"><strong>New Task Name:</strong></label>
+          <input id="new-task-title" type="text" size="30" placeholder="Task title" />
+          <button type="button" id="add-task-btn">Insert Task</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Task</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tasks-table-body"></tbody>
+        </table>
+      </section>
+
+      <section id="view-notes" class="view">
+        <h2>🗒️ Notes Vault</h2>
+        <div class="panel">
+          <textarea id="notes-area" placeholder="Write your notes here..."></textarea>
+          <br><br>
+          <button type="button" id="save-notes-btn">Save Notes</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'cyberzone_data';
+    const appData = {
+      logs: [],
+      tasks: [],
+      notes: ''
+    };
+
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          Object.assign(appData, JSON.parse(saved));
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      if (!Array.isArray(appData.logs) || appData.logs.length === 0) {
+        appData.logs = [{ date: '2026-10-19', text: 'System boot successful. Exploring the web.' }];
+      }
+      if (!Array.isArray(appData.tasks)) appData.tasks = [];
+      if (typeof appData.notes !== 'string') appData.notes = '';
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    }
+
+    function showView(viewId) {
+      document.querySelectorAll('.view').forEach((view) => {
+        view.classList.toggle('active', view.id === `view-${viewId}`);
+      });
+
+      if (viewId === 'log') renderLogs();
+      if (viewId === 'tasks') renderTasks();
+      if (viewId === 'notes') {
+        const notesArea = document.getElementById('notes-area');
+        notesArea.value = appData.notes || '';
+      }
+    }
+
+    function renderLogs() {
+      const container = document.getElementById('log-entries');
+      container.innerHTML = '';
+      appData.logs.forEach((log) => {
+        const item = document.createElement('li');
+        item.innerHTML = `<strong>[${log.date}]</strong> - `;
+        item.append(log.text);
+        container.appendChild(item);
+      });
+    }
+
+    function addLog() {
+      const text = document.getElementById('new-log-text').value.trim();
+      if (!text) return;
+
+      const today = new Date().toLocaleDateString('en-CA'); // local YYYY-MM-DD; toISOString is UTC and rolls to tomorrow in the evening
+      appData.logs.unshift({ date: today, text });
+      saveData();
+      renderLogs();
+      document.getElementById('new-log-text').value = '';
+    }
+
+    function renderTasks() {
+      const tbody = document.getElementById('tasks-table-body');
+      tbody.innerHTML = '';
+
+      appData.tasks.forEach((task, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${task.done ? '<span class="status-done">[DONE]</span>' : '<span class="status-pending">[PENDING]</span>'}</td>
+          <td></td>
+          <td>
+            <div class="task-actions">
+              <button type="button" data-action="toggle" data-index="${index}">${task.done ? 'Undo' : 'Complete'}</button>
+              <button type="button" data-action="delete" data-index="${index}">X</button>
+            </div>
+          </td>
+        `;
+        row.cells[1].textContent = task.title;
+        tbody.appendChild(row);
+      });
+    }
+
+    function addTask() {
+      const title = document.getElementById('new-task-title').value.trim();
+      if (!title) return;
+
+      appData.tasks.push({ title, done: false });
+      saveData();
+      renderTasks();
+      document.getElementById('new-task-title').value = '';
+    }
+
+    function toggleTask(index) {
+      if (!appData.tasks[index]) return;
+      appData.tasks[index].done = !appData.tasks[index].done;
+      saveData();
+      renderTasks();
+    }
+
+    function deleteTask(index) {
+      appData.tasks.splice(index, 1);
+      saveData();
+      renderTasks();
+    }
+
+    function saveNotes() {
+      appData.notes = document.getElementById('notes-area').value;
+      saveData();
+      alert('Notes saved to local storage.');
+    }
+
+    document.querySelectorAll('[data-view]').forEach((button) => {
+      button.addEventListener('click', () => showView(button.dataset.view));
+    });
+
+    document.getElementById('add-log-btn').addEventListener('click', addLog);
+    document.getElementById('add-task-btn').addEventListener('click', addTask);
+    document.getElementById('save-notes-btn').addEventListener('click', saveNotes);
+
+    document.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      const action = target.dataset.action;
+      const index = Number(target.dataset.index);
+      if (action === 'toggle') toggleTask(index);
+      if (action === 'delete') deleteTask(index);
+    });
+
+    loadData();
+    renderLogs();
+    renderTasks();
+    showView('welcome');
+  </script>
+</body>
+</html>
