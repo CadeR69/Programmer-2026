@@ -68,6 +68,7 @@
 
     .content {
       padding: 1.5rem;
+      min-width: 0; /* lets the column shrink; otherwise the ticker's one-line text forces sideways scrolling */
     }
 
     h1 {
@@ -143,6 +144,19 @@
       flex-wrap: wrap;
     }
 
+    #log-entries li {
+      margin-bottom: 0.4rem;
+    }
+
+    #tasks-table-body input {
+      width: 100%;
+    }
+
+    #notes-list li {
+      white-space: pre-wrap;
+      margin-bottom: 0.5rem;
+    }
+
     .status-done { color: var(--success); font-weight: 700; }
     .status-pending { color: var(--danger); font-weight: 700; }
 
@@ -168,7 +182,7 @@
         <li><button type="button" data-view="tasks">Tasks</button></li>
         <li><button type="button" data-view="notes">Notes</button></li>
       </ul>
-      <div class="status">⚠️ SYSTEM ONLINE<br>v1.0 ACTIVE ⚠️</div>
+      <div class="status">⚠️ SYSTEM ONLINE<br>v1.1 ACTIVE ⚠️</div>
     </aside>
 
     <main class="content">
@@ -223,10 +237,12 @@
       <section id="view-notes" class="view">
         <h2>🗒️ Notes Vault</h2>
         <div class="panel">
-          <textarea id="notes-area" placeholder="Write your notes here..."></textarea>
+          <textarea id="notes-area" aria-label="New note" placeholder="Write a note here..."></textarea>
           <br><br>
-          <button type="button" id="save-notes-btn">Save Notes</button>
+          <button type="button" id="add-note-btn">Add Note</button>
+          <p>Notes are not saved: they disappear when Outlet is closed or reloaded.</p>
         </div>
+        <ul id="notes-list"></ul>
       </section>
     </main>
   </div>
@@ -235,9 +251,9 @@
     const STORAGE_KEY = 'cyberzone_data';
     const appData = {
       logs: [],
-      tasks: [],
-      notes: ''
+      tasks: []
     };
+    const sessionNotes = []; // kept in memory only, never saved to the device
 
     function loadData() {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -249,11 +265,17 @@
         }
       }
 
-      if (!Array.isArray(appData.logs) || appData.logs.length === 0) {
-        appData.logs = [{ date: '2026-10-19', text: 'System boot successful. Exploring the web.' }];
-      }
+      if (!Array.isArray(appData.logs)) appData.logs = [];
+      // Welcome entry on the very first run only, so deleting every entry doesn't bring it back.
+      if (!saved) appData.logs = [{ date: '2026-10-19', text: 'System boot successful. Exploring the web.' }];
       if (!Array.isArray(appData.tasks)) appData.tasks = [];
-      if (typeof appData.notes !== 'string') appData.notes = '';
+
+      // Older versions saved notes: show them this one last time, then remove them from the device.
+      if ('notes' in appData) {
+        if (typeof appData.notes === 'string' && appData.notes.trim()) sessionNotes.push(appData.notes);
+        delete appData.notes;
+        saveData();
+      }
     }
 
     function saveData() {
@@ -267,19 +289,17 @@
 
       if (viewId === 'log') renderLogs();
       if (viewId === 'tasks') renderTasks();
-      if (viewId === 'notes') {
-        const notesArea = document.getElementById('notes-area');
-        notesArea.value = appData.notes || '';
-      }
+      if (viewId === 'notes') renderNotes();
     }
 
     function renderLogs() {
       const container = document.getElementById('log-entries');
       container.innerHTML = '';
-      appData.logs.forEach((log) => {
+      appData.logs.forEach((log, index) => {
         const item = document.createElement('li');
         item.innerHTML = `<strong>[${log.date}]</strong> - `;
         item.append(log.text);
+        item.insertAdjacentHTML('beforeend', ` <button type="button" data-action="delete-log" data-index="${index}" aria-label="Delete log entry">X</button>`);
         container.appendChild(item);
       });
     }
@@ -295,6 +315,12 @@
       document.getElementById('new-log-text').value = '';
     }
 
+    function deleteLog(index) {
+      appData.logs.splice(index, 1);
+      saveData();
+      renderLogs();
+    }
+
     function renderTasks() {
       const tbody = document.getElementById('tasks-table-body');
       tbody.innerHTML = '';
@@ -307,6 +333,7 @@
           <td>
             <div class="task-actions">
               <button type="button" data-action="toggle" data-index="${index}">${task.done ? 'Undo' : 'Complete'}</button>
+              <button type="button" data-action="edit" data-index="${index}">Edit</button>
               <button type="button" data-action="delete" data-index="${index}">X</button>
             </div>
           </td>
@@ -333,16 +360,71 @@
       renderTasks();
     }
 
+    function editTask(index) {
+      if (!appData.tasks[index]) return;
+      renderTasks(); // closes any other task that was being edited
+
+      const row = document.getElementById('tasks-table-body').rows[index];
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = appData.tasks[index].title;
+      input.setAttribute('aria-label', 'Task name');
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault(); // otherwise this Enter also "clicks" the Edit button that gets focus after saving
+          saveTaskEdit(index);
+        }
+        if (event.key === 'Escape') closeTaskEdit(index);
+      });
+      row.cells[1].replaceChildren(input);
+      row.cells[2].querySelector('.task-actions').innerHTML = `
+        <button type="button" data-action="save-edit" data-index="${index}">Save</button>
+        <button type="button" data-action="cancel-edit" data-index="${index}">Cancel</button>
+        <button type="button" data-action="delete" data-index="${index}">X</button>
+      `;
+      input.focus();
+      input.select();
+    }
+
+    function saveTaskEdit(index) {
+      const input = document.getElementById('tasks-table-body').rows[index].cells[1].querySelector('input');
+      const title = input.value.trim();
+      if (!title) return input.focus();
+
+      appData.tasks[index].title = title;
+      saveData();
+      closeTaskEdit(index);
+    }
+
+    function closeTaskEdit(index) {
+      renderTasks();
+      document.querySelector(`[data-action="edit"][data-index="${index}"]`).focus();
+    }
+
     function deleteTask(index) {
       appData.tasks.splice(index, 1);
       saveData();
       renderTasks();
     }
 
-    function saveNotes() {
-      appData.notes = document.getElementById('notes-area').value;
-      saveData();
-      alert('Notes saved to local storage.');
+    function renderNotes() {
+      const list = document.getElementById('notes-list');
+      list.innerHTML = '';
+      sessionNotes.forEach((note) => {
+        const item = document.createElement('li');
+        item.textContent = note;
+        list.appendChild(item);
+      });
+    }
+
+    function addNote() {
+      const notesArea = document.getElementById('notes-area');
+      const text = notesArea.value.trim();
+      if (!text) return;
+
+      sessionNotes.unshift(text);
+      renderNotes();
+      notesArea.value = '';
     }
 
     document.querySelectorAll('[data-view]').forEach((button) => {
@@ -351,7 +433,15 @@
 
     document.getElementById('add-log-btn').addEventListener('click', addLog);
     document.getElementById('add-task-btn').addEventListener('click', addTask);
-    document.getElementById('save-notes-btn').addEventListener('click', saveNotes);
+    document.getElementById('add-note-btn').addEventListener('click', addNote);
+
+    // Notes are never saved, so ask before a close or reload throws them away.
+    window.addEventListener('beforeunload', (event) => {
+      if (sessionNotes.length || document.getElementById('notes-area').value.trim()) {
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    });
 
     document.addEventListener('click', (event) => {
       const target = event.target;
@@ -360,7 +450,11 @@
       const action = target.dataset.action;
       const index = Number(target.dataset.index);
       if (action === 'toggle') toggleTask(index);
+      if (action === 'edit') editTask(index);
+      if (action === 'save-edit') saveTaskEdit(index);
+      if (action === 'cancel-edit') closeTaskEdit(index);
       if (action === 'delete') deleteTask(index);
+      if (action === 'delete-log') deleteLog(index);
     });
 
     loadData();
