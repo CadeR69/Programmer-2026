@@ -6,6 +6,8 @@ Run it:
 
 Then open http://localhost:8000 on this computer, or http://<this computer's network address>:8000
 on a teammate's computer or phone, and type the same password in Outlet's Settings.
+On a phone, Share > Add to Home Screen (iPhone) or the menu's Add to Home screen (Android) keeps Outlet
+on the home screen with its own icon.
 
 Settings come from .env (git ignores it) or from environment variables, which win over .env.
 Either way no secret is ever written in code or in git, and your password stays out of shell history:
@@ -65,6 +67,11 @@ PAGES = {
     '/': ('Outlet.com.html', 'text/html; charset=utf-8'),
     '/Outlet.com.html': ('Outlet.com.html', 'text/html; charset=utf-8'),
     '/icon.svg': ('icon.svg', 'image/svg+xml'),
+    # what a phone needs to keep Outlet on its home screen
+    '/manifest.webmanifest': ('manifest.webmanifest', 'application/manifest+json'),
+    '/apple-touch-icon.png': ('apple-touch-icon.png', 'image/png'),
+    '/icon-192.png': ('icon-192.png', 'image/png'),
+    '/icon-512.png': ('icon-512.png', 'image/png'),
 }
 MAX_ITEM = 1024 * 1024       # one saved item, as JSON
 MAX_FILE = 5 * 1024 * 1024   # one attachment

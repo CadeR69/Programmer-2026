@@ -2,11 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- viewport-fit=cover lets the title bar and taskbar reach under a phone's notch and home bar (they pad themselves with the safe areas) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content="Outlet: a Windows 98-style workspace where a dev team shares tasks, notes, a calendar and a daily log." />
   <meta name="theme-color" content="#000080" />
   <title>Outlet</title>
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <!-- Added to a phone's Home Screen, Outlet opens full screen with its own icon -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Outlet" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <style>
     :root {
       --face: #c0c0c0;       /* windows and buttons */
@@ -719,6 +725,10 @@
       box-shadow: inset 1px 1px var(--shade), inset -1px -1px var(--light);
     }
 
+    /* phones only, see the phone section below */
+    .tabs,                 /* quick-switch buttons on the taskbar */
+    #focus-title { display: none; } /* the running focus timer, shown in the title bar */
+
     @keyframes flash {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.4; }
@@ -733,23 +743,120 @@
       .status { animation: none; }
     }
 
-    /* ----- Phones: the sidebar becomes a Start menu, tables become stacked cards ----- */
-    @media (max-width: 720px) {
-      body { padding: 0 0 3.25rem; }
+    /* ----- Phones, and phones turned sideways. Keep this query the same as `phone` in the script. -----
+       The sidebar becomes a Start menu, the taskbar gets quick tabs, tables become stacked cards,
+       and everything you tap is at least 44px, Apple's minimum for a finger. */
+    @media (max-width: 720px), (pointer: coarse) and (max-height: 500px) {
+      /* the taskbar is 56px tall, plus the phone's home bar when there is one */
+      body { padding: 0 env(safe-area-inset-right) calc(4rem + env(safe-area-inset-bottom)) env(safe-area-inset-left); }
       .app { grid-template-columns: 1fr; min-height: 0; }
       .content { padding: 0.75rem; }
       .grid { grid-template-columns: 1fr; }
-      .toolbar .label { display: none; } /* icons only; each button keeps its aria-label */
+      .panel { padding: 0.75rem; }
+
+      /* The title bar stays on top. In a Home Screen app it also fills in behind the phone's clock and battery. */
+      .window > .title-bar {
+        position: sticky;
+        top: 0;
+        z-index: 15;
+        padding-top: calc(0.25rem + env(safe-area-inset-top));
+      }
+
+      /* Make room: the big banner and the ticker go, and the toolbar keeps only Find.
+         Its other buttons are one tap away on the taskbar, the Start menu or each page. */
+      .ticker,
+      .toolbar > button,
+      .toolbar .sep { display: none; }
+      h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } /* still there for screen readers */
       #search-form { flex: 1 1 100%; }
+      .view { margin-top: 0.25rem; }
+
+      /* ----- Sized for fingers ----- */
+      button,
+      select,
+      input:not([type="checkbox"], [type="file"], [type="color"]) { min-height: 44px; }
+      button {
+        min-width: 44px;
+        touch-action: manipulation; /* no double-tap zoom when tapping a button twice quickly */
+        -webkit-user-select: none;
+        user-select: none;
+      }
+      * { -webkit-tap-highlight-color: transparent; } /* the pressed-in bevel is the tap feedback */
+      .panel button:not(.swatch) { margin-top: 0.4rem; }
+      .tag { min-height: 2rem; padding: 0 0.6rem; } /* small tag chips, still past the 24px accessibility floor */
+      input[type="checkbox"] { width: 1.5rem; height: 1.5rem; }
+      input[type="color"] { width: 44px; height: 44px; }
+      input[type="file"] { max-width: 100%; }
+      input[type="file"]::file-selector-button { min-height: 44px; }
+      .swatch,
+      .sticky-bar .swatch { width: 44px; height: 44px; flex: none; }
+
+      /* form fields fill the width instead of sitting side by side, each under its own label */
+      .panel input:not([type="checkbox"], [type="file"], [type="color"]),
+      .panel select { width: 100%; }
+      .inline-form > label { flex-basis: 100%; }
+
+      /* a delete button sits at the right of its line */
+      #log-entries li,
+      #day-items li,
+      #search-results > li { display: flow-root; }
+      #log-entries li > button,
+      #day-items li > button,
+      #search-results > li > button { float: right; margin: 0 0 0.25rem 0.5rem; }
+
+      /* ----- Taskbar: Start, four quick tabs, and the tray ----- */
+      .taskbar {
+        gap: 3px;
+        padding: 4px calc(4px + env(safe-area-inset-right)) calc(4px + env(safe-area-inset-bottom)) calc(4px + env(safe-area-inset-left));
+      }
+      .start,
+      .tabs button { min-height: 48px; }
+      .start { padding: 0.35rem 0.45rem; }
+      .tabs {
+        display: flex;
+        flex: 1 1 auto;
+        gap: 3px;
+        min-width: 0;
+      }
+      .tabs button {
+        display: flex;
+        flex: 1 1 0;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1px;
+        min-width: 0;
+        padding: 1px;
+        overflow: hidden;
+        font-size: 0.66rem; /* about the size of an iPhone tab bar label */
+        font-weight: 700;
+        line-height: 1.15;
+        white-space: nowrap;
+      }
+      .tab-icon { font-size: 1.15rem; line-height: 1; }
+      .tab-label { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+      .tabs button[aria-current="page"] { box-shadow: var(--pressed); }
+      /* The tray only appears when saving has a problem. The phone's status bar already shows the time,
+         and a running focus timer moves up to the title bar. */
+      .tray {
+        align-self: stretch;
+        align-items: center;
+        margin-left: 0;
+        padding: 0 0.45rem;
+      }
+      .tray.calm,
+      #clock,
+      #focus-tray { display: none; }
+      #focus-title:not([hidden]) { display: inline; margin-left: auto; }
 
       .sidebar {
         display: none;
         position: fixed;
-        left: 0;
-        bottom: 2.9rem;
+        left: env(safe-area-inset-left);
+        bottom: calc(56px + env(safe-area-inset-bottom));
         z-index: 20;
         width: min(260px, 85vw);
-        max-height: calc(100dvh - 3.5rem);
+        max-height: calc(100dvh - 56px - env(safe-area-inset-bottom) - env(safe-area-inset-top) - 0.5rem);
         overflow-y: auto;
         padding: 0.5rem 0.5rem 0.5rem 2.3rem;
         background: var(--face);
@@ -777,25 +884,82 @@
       }
 
       .sidebar h2 { display: none; }
-      .nav button { text-align: left; padding: 0.45rem 0.6rem; }
+      .nav button { min-height: 48px; text-align: left; padding: 0.45rem 0.6rem; }
       .status { margin-top: 0.75rem; }
 
+      /* ----- Tasks: each row becomes a card. Title and status on top, owner and due date, then the buttons. ----- */
+      .stack,
+      .stack tbody { display: block; }
       .stack thead { display: none; }
-      .stack tr { display: block; padding: 0.5rem; border-bottom: 2px groove var(--face); }
-      .stack td { display: block; padding: 0.15rem 0; border: 0; }
-      .stack td[data-label]::before { content: attr(data-label) ": "; font-weight: 700; }
+      .stack tr {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.3rem 0.75rem;
+        padding: 0.6rem;
+        border-bottom: 2px groove var(--face);
+      }
+      .stack td { display: block; padding: 0; border: 0; }
+      .stack td[data-label="Task"] { grid-row: 1; grid-column: 1; }
+      .stack td[data-label="Status"] { grid-row: 1; grid-column: 2; }
+      .stack td:last-child { grid-column: 1 / -1; }
+      .stack td[data-label="Owner"]::before,
+      .stack td[data-label="Due"]::before { content: attr(data-label) ": "; font-weight: 700; }
       .stack td:empty { display: none; }
+      .stack .task-title { font-weight: 700; }
+      .task-actions { gap: 0.4rem; }
+      .task-actions > button { flex: 1 1 0; padding: 0.35rem 0.4rem; }
 
       .props label { grid-template-columns: 1fr; gap: 0.2rem; }
       .progress-row { grid-template-columns: 1fr; gap: 0.2rem; }
-      .day { min-height: 3.4rem; padding: 0.15rem; }
-      .chip, .more { font-size: 0.6rem; }
+
+      /* ----- Calendar: a phone-sized day can't fit any words, so each item is a colored bar. Tap the day to read them. ----- */
+      .calendar { gap: 1px; padding: 2px; }
+      .day { min-width: 0; min-height: 3.2rem; padding: 0.15rem; gap: 3px; } /* seven across must fit even a narrow phone */
+      .day .num { padding: 0 0.2rem; }
+      .chip { height: 5px; padding: 0; font-size: 0; }
+      .chip.done { opacity: 0.45; }
+      .more { display: none; }
+
+      /* ----- Task Properties fills the screen, with its title bar pinned at the top ----- */
+      #task-dialog {
+        width: 100%;
+        max-width: none;
+        height: 100%;
+        max-height: none;
+        margin: 0;
+        padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
+      }
+      #task-dialog .title-bar {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        padding-top: calc(0.25rem + env(safe-area-inset-top));
+      }
+      #task-dialog .dialog-body { padding-bottom: calc(0.75rem + env(safe-area-inset-bottom)); }
+      #checklist li,
+      #attachments li { display: flex; align-items: center; gap: 0.5rem; }
+      #checklist label { display: flex; flex: 1; align-items: center; gap: 0.5rem; min-height: 44px; }
+      #checklist .done-step { text-decoration: none; } /* cross out just the step's words, not its X button */
+      #checklist .done-step label { text-decoration: line-through; }
+
+      /* ----- Sticky notes stack in one column. No dragging on a phone, so it never rearranges the desk your team sees. ----- */
+      #sticky-board {
+        display: grid;
+        gap: 0.75rem;
+        height: auto;
+        min-height: 8rem;
+        padding: 0.75rem;
+      }
+      .sticky { position: static; width: auto; }
+      .sticky-bar { gap: 6px; cursor: auto; touch-action: auto; }
+      .sticky-close { min-width: 44px; }
+      .drag-hint { display: none; }
     }
   </style>
 </head>
 <body>
   <div class="window">
-  <div class="title-bar"><img src="icon.svg" alt=""> Outlet</div>
+  <div class="title-bar"><img src="icon.svg" alt=""> Outlet<span id="focus-title" hidden></span></div>
   <div class="toolbar">
     <button type="button" data-action="new-task" aria-label="New task" title="New task"><span aria-hidden="true">📝</span><span class="label">New Task</span></button>
     <button type="button" data-action="new-note" aria-label="New note" title="New note"><span aria-hidden="true">🗒️</span><span class="label">New Note</span></button>
@@ -826,7 +990,7 @@
         <li><button type="button" data-view="prompts">Prompt Wizard</button></li>
         <li><button type="button" data-view="settings">Settings</button></li>
       </ul>
-      <div class="status">⚠️ SYSTEM ONLINE<br>v1.5 ACTIVE ⚠️</div>
+      <div class="status">⚠️ SYSTEM ONLINE<br>v1.6 ACTIVE ⚠️</div>
     </aside>
 
     <main class="content">
@@ -981,7 +1145,7 @@
         <h2>📌 Sticky Notes</h2>
         <div class="panel">
           <button type="button" data-action="new-sticky">New Sticky Note</button>
-          <span class="muted">Drag a note by its top bar. The squares change its color.</span>
+          <span class="muted"><span class="drag-hint">Drag a note by its top bar. </span>The squares change its color.</span>
         </div>
         <div id="sticky-board"></div>
       </section>
@@ -1067,6 +1231,12 @@
 
   <footer class="taskbar">
     <button type="button" class="start" id="start-btn" aria-controls="start-menu" aria-expanded="false"><img src="icon.svg" alt=""> Start</button>
+    <nav class="tabs" aria-label="Quick switch">
+      <button type="button" data-view="tasks"><span class="tab-icon" aria-hidden="true">📝</span><span class="tab-label">Tasks</span></button>
+      <button type="button" data-view="log"><span class="tab-icon" aria-hidden="true">📓</span><span class="tab-label">Log</span></button>
+      <button type="button" data-view="calendar"><span class="tab-icon" aria-hidden="true">📅</span><span class="tab-label">Calendar</span></button>
+      <button type="button" data-view="notes"><span class="tab-icon" aria-hidden="true">🗒️</span><span class="tab-label">Notes</span></button>
+    </nav>
     <div class="tray">
       <span id="focus-tray" hidden></span>
       <span id="sync-status"></span>
@@ -1129,6 +1299,7 @@
     const BREAK_MINUTES = 5;
     const HIGHLIGHTS = ['yellow', 'green', 'pink', 'blue'];
     const STICKY_COLORS = ['yellow', 'pink', 'green', 'blue'];
+    const phone = matchMedia('(max-width: 720px), (pointer: coarse) and (max-height: 500px)'); // same as the phone section in the CSS
 
     // ===== AI: what each AI button asks for. Edit these to fit how your team works. =====
     // The page sends { system, prompt } to the backend, and the backend passes them to the AI (Gemini in server.py).
@@ -1549,7 +1720,7 @@
       document.querySelectorAll('.view').forEach((view) => {
         view.classList.toggle('active', view.id === `view-${viewId}`);
       });
-      document.querySelectorAll('.nav [data-view]').forEach((button) => {
+      document.querySelectorAll('.nav [data-view], .tabs [data-view]').forEach((button) => {
         button.setAttribute('aria-current', button.dataset.view === viewId ? 'page' : 'false');
       });
       closeStartMenu();
@@ -1567,11 +1738,15 @@
 
     function renderTray() {
       const tray = $('sync-status');
-      let text = '🖧 Synced';
-      if (unsaved.size && syncState === 'offline') text = `⚠️ ${plural(unsaved.size, 'unsaved change')}`;
-      else if (syncState === 'offline') text = '⚠️ Offline';
-      else if (storage === browserStorage) text = '💾 Local';
+      let [icon, words] = ['🖧', 'Synced'];
+      if (unsaved.size && syncState === 'offline') [icon, words] = ['⚠️', plural(unsaved.size, 'unsaved change')];
+      else if (syncState === 'offline') [icon, words] = ['⚠️', 'Offline'];
+      else if (storage === browserStorage) [icon, words] = ['💾', 'Local'];
+      // A phone's taskbar keeps its room for the tabs: the tray only shows up there when saving has a problem,
+      // as a warning icon plus how many changes are waiting.
+      const text = phone.matches ? `${icon}${unsaved.size && syncState === 'offline' ? ` ${unsaved.size}` : ''}` : `${icon} ${words}`;
       if (tray.textContent !== text) tray.textContent = text;
+      tray.parentElement.classList.toggle('calm', syncState !== 'offline');
       tray.title = storage === browserStorage ? 'Saved in this browser only' : `Team backend: ${storage.label}`;
     }
 
@@ -1752,6 +1927,8 @@
       $('prop-status').textContent = '';
       $('attach-status').textContent = '';
       renderTaskDialog();
+      // On a phone, focusing the task name would pop the keyboard up over the dialog, so the close button gets focus instead.
+      $('prop-title').autofocus = !phone.matches;
       if (!$('task-dialog').open) $('task-dialog').showModal();
     }
 
@@ -2121,7 +2298,7 @@
       const board = $('sticky-board');
       board.addEventListener('pointerdown', (event) => {
         const bar = event.target.closest('.sticky-bar');
-        if (!bar || event.target.closest('button')) return;
+        if (!bar || event.target.closest('button') || phone.matches) return; // phones show the notes as a list, not a desk
         const note = bar.parentElement;
         note.style.zIndex = ++topSticky; // the note you grab comes to the front, like clicking a window
         dragging = { id: bar.dataset.drag, note, dx: event.clientX - note.offsetLeft, dy: event.clientY - note.offsetTop };
@@ -2172,6 +2349,8 @@
       $('focus-start').textContent = focus.endsAt ? 'Pause' : 'Start';
       $('focus-tray').hidden = !focus.endsAt;
       $('focus-tray').textContent = `⏱️ ${clock}`;
+      $('focus-title').hidden = !focus.endsAt; // phones show the running timer in the title bar instead of the tray
+      $('focus-title').textContent = `⏱️ ${clock}`;
       document.title = focus.endsAt ? `${clock} · Outlet` : 'Outlet';
     }
 
@@ -2397,8 +2576,6 @@
     }
 
     // ----- Start menu (phones) and the clock -----
-    const phone = matchMedia('(max-width: 720px)');
-
     function closeStartMenu() {
       document.body.classList.remove('menu-open');
       $('start-btn').setAttribute('aria-expanded', 'false');
@@ -2481,13 +2658,23 @@
       'open-result': (id, button) => openResult(button.dataset.kind, id),
     };
 
-    document.addEventListener('click', (event) => {
+    // A stray tap is easy on a phone, so there deleting asks first, like Windows 98's "Confirm Delete" box.
+    const CONFIRM_DELETE = {
+      'delete-log': 'log entry', 'delete-task': 'task', 'remove-step': 'step', 'remove-file': 'attachment',
+      'delete-event': 'event', 'delete-workflow': 'workflow', 'delete-note': 'note', 'delete-sticky': 'sticky note',
+    };
+
+    document.addEventListener('click', async (event) => {
       if (document.body.classList.contains('menu-open') && !event.target.closest('.sidebar, #start-btn')) closeStartMenu();
 
       const target = event.target.closest('[data-action]');
       const run = target && actions[target.dataset.action];
       if (!run) return;
       const { action, id } = target.dataset;
+      if (phone.matches && CONFIRM_DELETE[action]) {
+        const answer = await msgBox(`Are you sure you want to delete this ${CONFIRM_DELETE[action]}?`, { title: 'Confirm Delete', icon: '🗑️', buttons: ['Yes', 'No'] });
+        if (answer !== 'Yes') return;
+      }
       run(id, target);
       // the redraw replaced the button that was clicked; put keyboard focus back on its new copy
       if (!target.isConnected && id) document.querySelector(`[data-action="${action}"][data-id="${CSS.escape(id)}"]`)?.focus();
@@ -2617,6 +2804,19 @@
         event.returnValue = '';
       }
     });
+
+    // ----- Phone extras -----
+    // Switching apps on a phone skips beforeunload, and a sticky note only saves when it loses focus, so drop focus on the way out.
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && phone.matches) document.activeElement?.blur?.();
+    });
+    // Turning a phone sideways or resizing a window can cross into or out of the phone layout.
+    phone.addEventListener('change', () => {
+      closeStartMenu();
+      render();
+    });
+    // iPhones only show :active styles (the pressed-in bevel) when a page listens for touches.
+    document.addEventListener('touchstart', () => {}, { passive: true });
 
     applyTheme();
     updateClock();
