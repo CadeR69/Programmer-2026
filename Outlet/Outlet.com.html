@@ -335,6 +335,14 @@
 
     legend { padding: 0 0.3rem; font-weight: 700; }
 
+    /* A long link, file name or snake_case word wraps instead of pushing the page sideways */
+    .content,
+    dialog { overflow-wrap: anywhere; }
+    /* ...but buttons, table headers and the short task columns keep their words whole */
+    button:not(.link),
+    th,
+    .stack td:not([data-label="Task"]) { overflow-wrap: normal; }
+
     .muted { color: var(--muted); }
     .meta { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
 
@@ -893,12 +901,13 @@
       .stack thead { display: none; }
       .stack tr {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: minmax(0, 1fr) auto; /* the title column can always shrink to fit the card */
         gap: 0.3rem 0.75rem;
         padding: 0.6rem;
         border-bottom: 2px groove var(--face);
       }
       .stack td { display: block; padding: 0; border: 0; }
+      .stack td[data-label="Owner"] { overflow-wrap: anywhere; } /* a long name wraps on its card; cards can't squeeze it like a table can */
       .stack td[data-label="Task"] { grid-row: 1; grid-column: 1; }
       .stack td[data-label="Status"] { grid-row: 1; grid-column: 2; }
       .stack td:last-child { grid-column: 1 / -1; }
@@ -990,7 +999,7 @@
         <li><button type="button" data-view="prompts">Prompt Wizard</button></li>
         <li><button type="button" data-view="settings">Settings</button></li>
       </ul>
-      <div class="status">⚠️ SYSTEM ONLINE<br>v1.6 ACTIVE ⚠️</div>
+      <div class="status">⚠️ SYSTEM ONLINE<br>v1.7 ACTIVE ⚠️</div>
     </aside>
 
     <main class="content">
@@ -1197,8 +1206,8 @@
           </fieldset>
           <fieldset>
             <legend>Team backend</legend>
-            <p class="muted">Leave the address empty to keep everything in this browser only. To share with your team, run a backend (server.py in Outlet's folder is a ready example) and type its address and team password here. Saved on this device only.</p>
-            <label>Backend address <input id="set-backend" type="url" placeholder="http://localhost:8000" /></label>
+            <p class="muted">Leave the address empty to keep everything in this browser only. To share with your team and turn on the AI buttons, run a backend (server.py in Outlet's folder is a ready example) and type its full address and team password here. When this page's own address starts with https:// (like the github.io link and its Home Screen app), browsers only allow a backend address that starts with https:// too, or http://localhost on the same computer. Saved on this device only.</p>
+            <label>Backend address <input id="set-backend" type="url" /></label>
             <label>Team password <input id="set-key" type="password" autocomplete="off" /></label>
           </fieldset>
           <button type="submit">Apply</button>
@@ -1372,20 +1381,30 @@
       return new Date(year, month - 1, day);
     }
 
+    // Every toLocaleDateString() call builds a whole new date formatter, which adds up across hundreds of rows.
+    // So a redraw builds one of each kind and reuses it. render() starts a fresh set, so a new time zone still shows.
+    let dateFormats = {};
+
+    function formatDate(date, kind, options) {
+      if (Number.isNaN(date.getTime())) return 'Invalid Date'; // what toLocaleDateString() shows; format() would throw
+      dateFormats[kind] ??= new Intl.DateTimeFormat([], options);
+      return dateFormats[kind].format(date);
+    }
+
     function shortDate(iso) {
-      return dateFromIso(iso).toLocaleDateString([], { month: 'short', day: 'numeric' });
+      return formatDate(dateFromIso(iso), 'short', { month: 'short', day: 'numeric' });
     }
 
     function longDate(iso) {
-      return dateFromIso(iso).toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+      return formatDate(dateFromIso(iso), 'long', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
     }
 
     function formatTime(time) {
-      return new Date(`2000-01-01T${time}`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      return formatDate(new Date(`2000-01-01T${time}`), 'time', { hour: 'numeric', minute: '2-digit' });
     }
 
     function formatStamp(ms) {
-      return new Date(ms).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+      return formatDate(new Date(ms), 'stamp', { dateStyle: 'medium', timeStyle: 'short' });
     }
 
     function formatSize(bytes) {
@@ -1398,12 +1417,20 @@
       setTimeout(() => URL.revokeObjectURL(link.href), 1000);
     }
 
+    // Resolves true once the text is on the clipboard, false if the browser refused.
     async function copyText(textarea) {
       try {
         await navigator.clipboard.writeText(textarea.value);
+        return true;
       } catch {
-        textarea.select(); // the clipboard API only exists on https:// and localhost
-        document.execCommand('copy');
+        // the clipboard API only exists on https:// and localhost, so fall back to copying the selected text
+        textarea.select();
+        textarea.setSelectionRange(0, textarea.value.length); // select() alone selects nothing on an iPhone
+        try {
+          return document.execCommand('copy');
+        } catch {
+          return false;
+        }
       }
     }
 
@@ -1548,13 +1575,25 @@
       },
     };
 
+    // A page on https:// may only call https:// addresses, plus http://localhost on the same computer.
+    function blockedByHttps(url) {
+      try {
+        const { protocol, hostname } = new URL(url);
+        return location.protocol === 'https:' && protocol === 'http:' && !['localhost', '127.0.0.1', '[::1]'].includes(hostname);
+      } catch {
+        return false;
+      }
+    }
+
     function httpBackend(baseUrl, teamKey) {
       async function call(path, options = {}) {
         let response;
         try {
           response = await fetch(`${baseUrl}/api/${path}`, { ...options, headers: { Authorization: `Bearer ${teamKey}`, ...options.headers } });
         } catch {
-          throw new Error(`Can't reach ${baseUrl}. Is the backend running?`);
+          throw new Error(blockedByHttps(baseUrl)
+            ? `This page is on https://, so the browser blocks ${baseUrl} because it's a plain http:// address. Use the backend's https:// address.`
+            : `Can't reach ${baseUrl}. Is the backend running?`);
         }
         if (!response.ok) {
           const body = await response.text();
@@ -1730,6 +1769,7 @@
 
     function render() {
       needsRender = false;
+      dateFormats = {};
       renderers[currentView]?.();
       if (currentTaskId) renderTaskDialog();
       renderPeople();
@@ -1815,10 +1855,9 @@
     // ----- Tasks -----
     let editingTaskId = null;
 
-    function taskRow(task) {
+    function taskRow(task, comments) {
       const doneSteps = task.checklist.filter((step) => step.done).length;
       const nextStep = task.checklist.find((step) => !step.done);
-      const comments = db.comments.filter((comment) => comment.taskId === task.id).length;
       const overdue = task.due && !task.done && task.due < today();
       const extras = [
         task.attachments.length ? `📎 ${task.attachments.length}` : '',
@@ -1847,7 +1886,9 @@
       editingTaskId = null; // a redraw closes any task that was being edited
       const filter = $('task-filter').value;
       const tasks = db.tasks.filter((task) => filter === 'all' || (filter === 'mine' ? isMe(task.owner) : !task.owner));
-      $('tasks-table-body').replaceChildren(...tasks.map(taskRow));
+      const comments = new Map(); // comments per task, counted in one pass instead of one pass per row
+      db.comments.forEach((comment) => comments.set(comment.taskId, (comments.get(comment.taskId) || 0) + 1));
+      $('tasks-table-body').replaceChildren(...tasks.map((task) => taskRow(task, comments.get(task.id) || 0)));
       const percent = percentDone(db.tasks);
       $('tasks-progress').value = percent;
       $('tasks-progress-text').textContent = `${percent}%`;
@@ -2040,7 +2081,10 @@
     function calendarItems() {
       const mine = $('cal-filter').value === 'mine';
       const byDate = new Map();
-      const add = (date, item) => byDate.set(date, [...(byDate.get(date) || []), item]);
+      const add = (date, item) => {
+        if (!byDate.has(date)) byDate.set(date, []);
+        byDate.get(date).push(item); // adding to the day's list, not copying it each time
+      };
       db.events.forEach((entry) => {
         if (!mine || isMe(entry.author)) {
           add(entry.date, { kind: 'event', id: entry.id, time: entry.time || '', author: entry.author, text: `${entry.time ? `${formatTime(entry.time)} ` : ''}${entry.title}` });
@@ -2478,7 +2522,6 @@
       $('set-theme').value = settings.theme;
       $('set-accent').value = settings.accent || '#000080';
       $('set-backend').value = settings.backendUrl;
-      $('set-backend').placeholder = location.protocol.startsWith('http') ? location.origin : 'http://localhost:8000';
       $('set-key').value = settings.teamKey;
       $('settings-status').textContent = '';
     }
@@ -2771,8 +2814,9 @@
 
     $('prompt-form').addEventListener('submit', createPrompt);
     $('copy-prompt-btn').addEventListener('click', async () => {
-      await copyText($('prompt-output'));
-      $('copy-status').textContent = 'Copied.';
+      $('copy-status').textContent = (await copyText($('prompt-output')))
+        ? 'Copied.'
+        : "Couldn't copy automatically. The prompt is selected, so copy it yourself.";
     });
 
     $('settings-form').addEventListener('submit', applySettings);
@@ -2817,6 +2861,10 @@
     });
     // iPhones only show :active styles (the pressed-in bevel) when a page listens for touches.
     document.addEventListener('touchstart', () => {}, { passive: true });
+    // sw.js lets the Home Screen app open with no signal. Browsers only allow it on https:// and localhost.
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(console.error));
+    }
 
     applyTheme();
     updateClock();

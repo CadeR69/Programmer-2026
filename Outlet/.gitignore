@@ -3,3 +3,6 @@ outlet-data/
 
 # Your own team password and Gemini key (copy .env.example to make it).
 .env
+
+# Python's cache, made when test_server.py runs.
+__pycache__/
