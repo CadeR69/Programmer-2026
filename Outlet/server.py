@@ -12,6 +12,8 @@ Either way no secret is ever written in code or in git, and your password stays 
     OUTLET_TEAM_KEY   required. The shared team password every request must send.
     GEMINI_API_KEY    optional. Your own Gemini key; without it the AI buttons say AI isn't set up.
     GEMINI_MODEL      optional. Defaults to gemini-3.8-flash.
+    GEMINI_FALLBACK_MODEL  optional. Asked once when the main model is overloaded or too slow.
+                      Defaults to gemini-3.6-flash; set it empty to turn the retry off.
     OUTLET_PORT       optional. Defaults to 8000.
     OUTLET_DATA_DIR   optional. Defaults to outlet-data/ next to this file (git ignores it).
 
@@ -49,6 +51,9 @@ load_env_file(HERE / '.env')
 TEAM_KEY = os.environ.get('OUTLET_TEAM_KEY', '')
 GEMINI_KEY = os.environ.get('GEMINI_API_KEY', '')
 GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-3.8-flash')
+GEMINI_FALLBACK_MODEL = os.environ.get('GEMINI_FALLBACK_MODEL', 'gemini-3.6-flash')
+BUSY_CODES = {429, 500, 503}  # Gemini's "overloaded, try again later" answers
+SLOW_SECONDS = 30  # how long the main model gets before the backup is tried
 PORT = int(os.environ.get('OUTLET_PORT', '8000'))
 DATA_DIR = Path(os.environ.get('OUTLET_DATA_DIR', HERE / 'outlet-data'))
 DATA_FILE = DATA_DIR / 'data.json'
@@ -81,22 +86,61 @@ def store():
     temp.replace(DATA_FILE)  # swaps the new file in one step, so a crash mid-save can't leave half a file
 
 
-def ask_gemini(system, prompt):
+class GeminiBusy(Exception):
+    """The model is overloaded or too slow right now; a different model may still answer."""
+
+
+def ask_gemini(model, system, prompt, timeout):
     body = {'contents': [{'role': 'user', 'parts': [{'text': prompt}]}]}
     if system:
         body['system_instruction'] = {'parts': [{'text': system}]}
     request = urllib.request.Request(
-        f'https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent',
+        f'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent',
         data=json.dumps(body).encode(),
         headers={'Content-Type': 'application/json', 'x-goog-api-key': GEMINI_KEY},  # key in a header, never the URL
     )
-    with urllib.request.urlopen(request, timeout=60) as response:
-        reply = json.load(response)
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            reply = json.load(response)
+    except urllib.error.HTTPError as error:
+        if error.code in BUSY_CODES:
+            raise GeminiBusy(f'{model} answered {error.code}') from error
+        raise
+    except TimeoutError as error:  # waited too long for the answer
+        raise GeminiBusy(f'{model} took longer than {timeout} seconds') from error
+    except urllib.error.URLError as error:  # waited too long to connect
+        if isinstance(error.reason, TimeoutError):
+            raise GeminiBusy(f'{model} took longer than {timeout} seconds') from error
+        raise
     parts = (reply.get('candidates') or [{}])[0].get('content', {}).get('parts', [])
     text = ''.join(part.get('text', '') for part in parts)
     if not text:
         raise ValueError('Gemini sent back no text (the request may have been blocked).')
     return text
+
+
+def ask_ai(system, prompt):
+    """Asks the main model; if it's overloaded or too slow, asks the backup model once."""
+    models = [GEMINI_MODEL]
+    if GEMINI_FALLBACK_MODEL and GEMINI_FALLBACK_MODEL != GEMINI_MODEL:
+        models.append(GEMINI_FALLBACK_MODEL)
+    for number, model in enumerate(models, 1):
+        last = number == len(models)
+        try:
+            # with a backup waiting, the main model gets less time, so a stuck answer doesn't use up the whole wait
+            return ask_gemini(model, system, prompt, timeout=60 if last else SLOW_SECONDS)
+        except GeminiBusy as busy:
+            print(f'AI: {busy}' + ('' if last else f', trying {models[number]}'))
+    raise GeminiBusy(f'Gemini is overloaded right now (tried {" and then ".join(models)}). Wait a minute and try again.')
+
+
+def gemini_complaint(error):
+    """Google's own explanation from an error reply, like "API key not valid"."""
+    raw = error.read().decode(errors='replace')
+    try:
+        return json.loads(raw)['error']['message']
+    except (ValueError, KeyError, TypeError):
+        return raw[:300]
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -201,12 +245,15 @@ class Handler(BaseHTTPRequestHandler):
                     return self.send(503, {'error': 'AI is not set up yet: put your own GEMINI_API_KEY in the backend\'s .env file and restart it.'})
                 request = json.loads(self.read_body(MAX_ITEM))
                 try:
-                    text = ask_gemini(str(request.get('system', '')), str(request.get('prompt', '')))
-                except urllib.error.HTTPError as error:
-                    detail = error.read().decode(errors='replace')[:300]
-                    return self.send(502, {'error': f'Gemini answered {error.code}: {detail}'})
-                except (urllib.error.URLError, TimeoutError, ValueError) as error:
-                    return self.send(502, {'error': f'Gemini failed: {error}'})
+                    text = ask_ai(str(request.get('system', '')), str(request.get('prompt', '')))
+                except GeminiBusy as busy:
+                    return self.send(503, {'error': str(busy)})
+                except urllib.error.HTTPError as error:  # not a busy problem, so retrying wouldn't help (a bad key, say)
+                    return self.send(502, {'error': f'Gemini refused the request ({error.code}): {gemini_complaint(error)}'})
+                except urllib.error.URLError as error:
+                    return self.send(502, {'error': f"Couldn't reach Gemini: {error.reason}"})
+                except ValueError as error:
+                    return self.send(502, {'error': str(error)})
                 return self.send(200, {'text': text})
 
         self.send(404, {'error': 'Unknown API call'})
@@ -224,5 +271,6 @@ if __name__ == '__main__':
         raise SystemExit('Set a team password first: copy .env.example to .env and fill in OUTLET_TEAM_KEY.')
     server = make_server(PORT)
     print(f'Outlet backend running on http://localhost:{PORT} (saving to {DATA_DIR})')
-    print(f'AI: on ({GEMINI_MODEL})' if GEMINI_KEY else 'AI: off (set GEMINI_API_KEY to turn it on)')
+    backup = f', backup {GEMINI_FALLBACK_MODEL}' if GEMINI_FALLBACK_MODEL and GEMINI_FALLBACK_MODEL != GEMINI_MODEL else ''
+    print(f'AI: on ({GEMINI_MODEL}{backup})' if GEMINI_KEY else 'AI: off (set GEMINI_API_KEY to turn it on)')
     server.serve_forever()
