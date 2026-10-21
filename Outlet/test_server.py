@@ -59,6 +59,16 @@ assert call('GET', '/', key='')[0] == 200
 assert call('GET', '/outlet-data/data.json', key='')[0] == 404
 assert call('GET', '/server.py', key='')[0] == 404
 
+# a phone can fetch what it needs for the home screen, without the password, as the right file types
+with real_urlopen(BASE + '/manifest.webmanifest') as response:
+    assert response.headers['Content-Type'] == 'application/manifest+json'
+    manifest = json.load(response)
+assert manifest['display'] == 'standalone'
+for icon in manifest['icons'] + [{'src': 'apple-touch-icon.png'}]:
+    with real_urlopen(f'{BASE}/{icon["src"]}') as response:
+        assert response.headers['Content-Type'] == 'image/png'
+        assert response.read(8) == b'\x89PNG\r\n\x1a\n'
+
 # A fake Gemini: each call to it takes the next reply from `replies` (text to answer, or an error to raise)
 calls, replies = [], []
 
