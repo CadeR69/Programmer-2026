@@ -68,6 +68,10 @@ for icon in manifest['icons'] + [{'src': 'apple-touch-icon.png'}]:
     with real_urlopen(f'{BASE}/{icon["src"]}') as response:
         assert response.headers['Content-Type'] == 'image/png'
         assert response.read(8) == b'\x89PNG\r\n\x1a\n'
+# ...and the service worker that opens it with no signal, as JavaScript (browsers refuse a worker sent as anything else)
+with real_urlopen(BASE + '/sw.js') as response:
+    assert response.headers['Content-Type'].startswith('text/javascript')
+    assert b'caches.open' in response.read()
 
 # A fake Gemini: each call to it takes the next reply from `replies` (text to answer, or an error to raise)
 calls, replies = [], []

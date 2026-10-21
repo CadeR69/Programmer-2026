@@ -67,8 +67,9 @@ PAGES = {
     '/': ('Outlet.com.html', 'text/html; charset=utf-8'),
     '/Outlet.com.html': ('Outlet.com.html', 'text/html; charset=utf-8'),
     '/icon.svg': ('icon.svg', 'image/svg+xml'),
-    # what a phone needs to keep Outlet on its home screen
+    # what a phone needs to keep Outlet on its home screen, and open it with no signal
     '/manifest.webmanifest': ('manifest.webmanifest', 'application/manifest+json'),
+    '/sw.js': ('sw.js', 'text/javascript; charset=utf-8'),
     '/apple-touch-icon.png': ('apple-touch-icon.png', 'image/png'),
     '/icon-192.png': ('icon-192.png', 'image/png'),
     '/icon-512.png': ('icon-512.png', 'image/png'),
