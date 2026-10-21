@@ -3,19 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Outlet: a Windows 98-style workspace where a dev team shares tasks, notes, a calendar and a daily log." />
+  <meta name="theme-color" content="#000080" />
   <title>Outlet</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <style>
     :root {
-      --face: #c0c0c0;
+      --face: #c0c0c0;       /* windows and buttons */
       --ink: #111;
-      --accent: #000080;
+      --field: #fff;         /* text boxes and list views */
+      --muted: #404040;
+      --heading: #000080;
+      --link: #0000ee;
+      --accent: #000080;     /* title bars, progress blocks, today on the calendar */
+      --accent-end: #1070b8; /* Win98 title bar end; the classic #1084d0 drops white text below 4.5:1 contrast */
+      --accent-ink: #fff;
       --danger: #a00000;
       --success: #008000;
+      --desk: #008080;       /* the classic teal desktop, behind the sticky notes */
+      --light: #fff;
+      --hilite: #dfdfdf;
+      --shade: #808080;
+      --dark: #0a0a0a;
       /* Windows 98 3D edges, reusable on anything */
-      --raised: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
-      --pressed: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
-      --sunken: inset -1px -1px #fff, inset 1px 1px #808080, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
-      --etched: inset 1px 1px #808080, inset -1px -1px #fff, inset 2px 2px #fff, inset -2px -2px #808080;
+      --raised: inset -1px -1px var(--dark), inset 1px 1px var(--light), inset -2px -2px var(--shade), inset 2px 2px var(--hilite);
+      --pressed: inset -1px -1px var(--light), inset 1px 1px var(--dark), inset -2px -2px var(--hilite), inset 2px 2px var(--shade);
+      --sunken: inset -1px -1px var(--light), inset 1px 1px var(--shade), inset -2px -2px var(--hilite), inset 2px 2px var(--dark);
+      --etched: inset 1px 1px var(--shade), inset -1px -1px var(--light), inset 2px 2px var(--light), inset -2px -2px var(--shade);
+      /* XP-style hillside wallpaper drawn in CSS (an original scene, not Microsoft's "Bliss" photo):
+         clouds, a far hill, the main sunlit hill, then the sky behind everything */
+      --wallpaper:
+        radial-gradient(ellipse 9% 4% at 22% 26%, #fff 0 40%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(ellipse 7% 5% at 27% 23%, #fff 0 35%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(ellipse 14% 4% at 25% 29%, rgba(255, 255, 255, 0.9) 0 30%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(ellipse 8% 3% at 72% 18%, #fff 0 35%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(ellipse 12% 3.5% at 76% 21%, rgba(255, 255, 255, 0.85) 0 30%, rgba(255, 255, 255, 0) 100%),
+        radial-gradient(ellipse 75% 45% at 95% 112%, #3f8f2a 0 92%, rgba(63, 143, 42, 0) 93%),
+        radial-gradient(ellipse 115% 58% at 35% 118%, #2f6f1d 0 40%, #4f9f2e 75%, #86c94f 97%, rgba(134, 201, 79, 0) 98%),
+        linear-gradient(#1859c4, #3f86dd 35%, #8fc3f0 65%, #cfe7fa 82%);
+      color-scheme: light;
+    }
+
+    /* Dark mode: the same hill at night */
+    :root[data-theme="dark"] {
+      --face: #3c3c3c;
+      --ink: #ececec;
+      --field: #1f1f1f;
+      --muted: #b8b8b8;
+      --heading: #8fb8ff;
+      --link: #9cc4ff;
+      --accent: #1c3f94;
+      --accent-end: #2f68b8;
+      --danger: #ff8080;
+      --success: #7fdc7f;
+      --desk: #0b3b3b;
+      --light: #707070;
+      --hilite: #555;
+      --shade: #262626;
+      --dark: #000;
+      --wallpaper:
+        radial-gradient(circle at 80% 14%, #fdf6c3 0 1.6%, rgba(253, 246, 195, 0) 2.2%),
+        radial-gradient(ellipse 75% 45% at 95% 112%, #1d4a17 0 92%, rgba(29, 74, 23, 0) 93%),
+        radial-gradient(ellipse 115% 58% at 35% 118%, #102a0c 0 40%, #1e4a16 75%, #2f6a24 97%, rgba(47, 106, 36, 0) 98%),
+        linear-gradient(#020b24, #0b1f4d 45%, #1d3a73 75%, #2a4a80 88%);
+      color-scheme: dark;
+    }
+
+    /* Like Windows 98's "High Contrast Black" scheme */
+    :root[data-theme="contrast"] {
+      --face: #000;
+      --ink: #fff;
+      --field: #000;
+      --muted: #c0c0c0;
+      --heading: #fff;
+      --link: #ffff00;
+      --accent: #800080;
+      --accent-end: #800080;
+      --danger: #ffff00;
+      --success: #00ff00;
+      --desk: #000;
+      --light: #fff;
+      --hilite: #000;
+      --shade: #c0c0c0;
+      --dark: #fff;
+      --wallpaper: #000;
+      color-scheme: dark;
     }
 
     * { box-sizing: border-box; }
@@ -25,19 +97,12 @@
       padding: 1rem 1rem 3.5rem; /* bottom room for the taskbar */
       font-family: Tahoma, "MS Sans Serif", Verdana, Arial, sans-serif;
       color: var(--ink);
-      /* XP-style hillside wallpaper drawn in CSS (an original scene, not Microsoft's "Bliss" photo):
-         clouds, a far hill, the main sunlit hill, then the sky behind everything */
-      background:
-        radial-gradient(ellipse 9% 4% at 22% 26%, #fff 0 40%, rgba(255, 255, 255, 0) 100%),
-        radial-gradient(ellipse 7% 5% at 27% 23%, #fff 0 35%, rgba(255, 255, 255, 0) 100%),
-        radial-gradient(ellipse 14% 4% at 25% 29%, rgba(255, 255, 255, 0.9) 0 30%, rgba(255, 255, 255, 0) 100%),
-        radial-gradient(ellipse 8% 3% at 72% 18%, #fff 0 35%, rgba(255, 255, 255, 0) 100%),
-        radial-gradient(ellipse 12% 3.5% at 76% 21%, rgba(255, 255, 255, 0.85) 0 30%, rgba(255, 255, 255, 0) 100%),
-        radial-gradient(ellipse 75% 45% at 95% 112%, #3f8f2a 0 92%, rgba(63, 143, 42, 0) 93%),
-        radial-gradient(ellipse 115% 58% at 35% 118%, #2f6f1d 0 40%, #4f9f2e 75%, #86c94f 97%, rgba(134, 201, 79, 0) 98%),
-        linear-gradient(#1859c4, #3f86dd 35%, #8fc3f0 65%, #cfe7fa 82%);
+      background: var(--wallpaper);
       background-attachment: fixed;
     }
+
+    body.waiting,
+    body.waiting * { cursor: progress !important; }
 
     .window {
       max-width: 1200px;
@@ -52,8 +117,8 @@
       align-items: center;
       gap: 0.4rem;
       padding: 0.25rem 0.4rem;
-      background: linear-gradient(90deg, var(--accent), #1070b8); /* Win98 title bar; the classic #1084d0 end drops white text below 4.5:1 contrast */
-      color: #fff;
+      background: linear-gradient(90deg, var(--accent), var(--accent-end));
+      color: var(--accent-ink);
       font-weight: 700;
     }
 
@@ -63,10 +128,57 @@
       height: 16px;
     }
 
+    .title-bar .close {
+      margin-left: auto;
+      padding: 0 0.45rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* Quick access toolbar: flat buttons that pop up on hover, like Office 97 */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2px;
+      padding: 3px 4px;
+      border-bottom: 1px solid var(--shade);
+      box-shadow: 0 1px var(--light);
+    }
+
+    .toolbar > button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0.5rem;
+      box-shadow: none;
+    }
+
+    .toolbar > button:hover,
+    .toolbar > button:focus-visible { box-shadow: var(--raised); }
+    .toolbar > button:active,
+    .toolbar > button[aria-pressed="true"] { box-shadow: var(--pressed); }
+
+    .toolbar .sep {
+      width: 2px;
+      align-self: stretch;
+      margin: 0 3px;
+      box-shadow: inset 1px 0 var(--shade), inset -1px 0 var(--light);
+    }
+
+    #search-form {
+      display: flex;
+      gap: 4px;
+      margin-left: auto;
+      flex: 0 1 18rem;
+    }
+
+    #search-input { flex: 1; min-width: 0; }
+
     .app {
       display: grid;
       grid-template-columns: 220px 1fr;
-      min-height: calc(100vh - 7rem);
+      min-height: calc(100vh - 9rem);
     }
 
     .sidebar {
@@ -88,8 +200,8 @@
 
     .nav button {
       width: 100%;
-      margin: 0.25rem 0;
-      padding: 0.6rem;
+      margin: 0.2rem 0;
+      padding: 0.5rem;
       font-weight: 700;
     }
 
@@ -110,16 +222,16 @@
 
     h1 {
       margin-top: 0;
-      color: var(--accent);
+      color: var(--heading);
       font-size: clamp(2rem, 4vw, 3rem);
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      text-shadow: 2px 2px #fff, 4px 4px #808080; /* WordArt-style 3D */
+      text-shadow: 2px 2px var(--light), 4px 4px var(--shade); /* WordArt-style 3D */
     }
 
     .ticker {
-      background: linear-gradient(90deg, var(--accent), #1070b8);
-      color: #fff;
+      background: linear-gradient(90deg, var(--accent), var(--accent-end));
+      color: var(--accent-ink);
       padding: 0.6rem 0;
       font-weight: 700;
       white-space: nowrap;
@@ -156,33 +268,49 @@
     .stats {
       padding: 1rem;
       margin-top: 1rem;
-      background: #fff;
+      background: var(--field);
       box-shadow: var(--sunken);
     }
 
-    input, textarea, button {
-      font: inherit;
-    }
+    input, textarea, button, select { font: inherit; }
 
     button {
       padding: 0.35rem 0.9rem;
       background: var(--face);
       color: var(--ink);
       border: 0;
+      border-radius: 0;
       box-shadow: var(--raised);
       cursor: pointer;
     }
 
     button:active { box-shadow: var(--pressed); }
-    button:focus-visible { outline: 1px dotted #000; outline-offset: -5px; }
+    button:focus-visible { outline: 1px dotted var(--ink); outline-offset: -5px; }
+    button:disabled { color: var(--shade); text-shadow: 1px 1px var(--light); cursor: default; }
 
-    input[type="text"],
-    textarea {
+    input:not([type="checkbox"], [type="file"], [type="color"]),
+    select,
+    textarea,
+    .editor {
       max-width: 100%;
-      padding: 0.35rem 0.5rem;
-      background: #fff;
+      padding: 0.3rem 0.45rem;
+      color: var(--ink);
+      background: var(--field);
       border: 0;
+      border-radius: 0;
       box-shadow: var(--sunken);
+    }
+
+    input[type="checkbox"] { accent-color: var(--accent); width: 1rem; height: 1rem; vertical-align: middle; }
+
+    input[type="file"]::file-selector-button {
+      margin-right: 0.5rem;
+      padding: 0.3rem 0.8rem;
+      font: inherit;
+      color: var(--ink);
+      background: var(--face);
+      border: 0;
+      box-shadow: var(--raised);
     }
 
     textarea {
@@ -191,31 +319,74 @@
       resize: vertical;
     }
 
+    fieldset {
+      min-width: 0;
+      margin: 0 0 1rem;
+      padding: 0.75rem;
+      border: 1px solid var(--shade);
+      box-shadow: 1px 1px var(--light), inset 1px 1px var(--light); /* Win98 etched group box */
+    }
+
+    legend { padding: 0 0.3rem; font-weight: 700; }
+
+    .muted { color: var(--muted); }
+    .meta { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+
+    .link {
+      padding: 0;
+      background: none;
+      box-shadow: none;
+      color: var(--link);
+      text-decoration: underline;
+    }
+
+    .link:active { box-shadow: none; }
+
+    .tag {
+      padding: 0 0.35rem;
+      margin: 0 0.25rem 0.15rem 0;
+      font-size: 0.75rem;
+    }
+
     /* white sunken boxes, like a Win98 list view */
     .listview,
     #log-entries,
     #notes-list,
-    #workflow-list {
+    #workflow-list,
+    #search-results {
       padding: 2px;
-      background: #fff;
+      background: var(--field);
       box-shadow: var(--sunken);
     }
 
-    #log-entries,
-    #notes-list { padding: 0.75rem 0.75rem 0.75rem 2rem; }
+    #log-entries { padding: 0.75rem 0.75rem 0.75rem 2rem; }
 
-    #workflow-list {
+    #notes-list,
+    #workflow-list,
+    #search-results {
       list-style: none;
       padding: 0.75rem;
     }
 
-    #workflow-list > li { margin-bottom: 0.75rem; }
+    #notes-list > li,
+    #workflow-list > li,
+    #search-results > li {
+      padding-bottom: 0.6rem;
+      margin-bottom: 0.6rem;
+      border-bottom: 1px dotted var(--shade);
+    }
+
     #workflow-list ol { margin: 0.35rem 0 0; }
 
     #log-entries:empty,
     #notes-list:empty,
     #workflow-list:empty,
+    #search-results:empty,
     #workflow-status:empty { display: none; }
+
+    #log-entries li { margin-bottom: 0.4rem; }
+
+    .note-body { white-space: pre-wrap; margin: 0.3rem 0; }
 
     table {
       width: 100%;
@@ -234,16 +405,300 @@
       box-shadow: var(--raised);
     }
 
+    #tasks-table-body input { width: 100%; }
+
+    .task-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .status-done { color: var(--success); font-weight: 700; }
+    .status-pending { color: var(--danger); font-weight: 700; }
+    .overdue { color: var(--danger); font-weight: 700; }
+
+    /* Win98 progress bar: blue blocks in a sunken box */
+    progress {
+      appearance: none;
+      width: 100%;
+      height: 1.25rem;
+      padding: 2px;
+      border: 0;
+      background: var(--field);
+      box-shadow: var(--sunken);
+    }
+
+    progress::-webkit-progress-bar { background: transparent; }
+    progress::-webkit-progress-value { background: repeating-linear-gradient(90deg, var(--accent) 0 8px, transparent 8px 10px); }
+    progress::-moz-progress-bar { background: repeating-linear-gradient(90deg, var(--accent) 0 8px, transparent 8px 10px); }
+
+    .progress-row {
+      display: grid;
+      grid-template-columns: minmax(6rem, 10rem) 1fr auto;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .filter-bar .progress-row { flex: 1 1 18rem; margin: 0; }
+
+    /* ----- Dialogs: task properties and message boxes ----- */
+    dialog {
+      width: min(640px, calc(100vw - 1rem));
+      max-height: calc(100dvh - 2rem);
+      padding: 3px;
+      overflow: auto;
+      color: var(--ink);
+      background: var(--face);
+      border: 0;
+      box-shadow: var(--raised);
+    }
+
+    dialog::backdrop { background: rgb(0 0 0 / 0.35); }
+
+    .dialog-body { padding: 0.75rem; }
+
+    .props label {
+      display: grid;
+      grid-template-columns: 8rem 1fr;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    #checklist,
+    #attachments,
+    #comments,
+    #day-items {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 0.5rem;
+    }
+
+    #checklist li,
+    #attachments li,
+    #day-items li { margin-bottom: 0.3rem; }
+
+    #checklist .next { font-weight: 700; }
+    #checklist .next::before { content: "▶ "; color: var(--accent); }
+    #checklist .done-step { text-decoration: line-through; color: var(--muted); }
+
+    #comments li {
+      padding: 0.4rem 0.5rem;
+      margin-bottom: 0.4rem;
+      background: var(--field);
+      box-shadow: var(--sunken);
+    }
+
+    #comments p { margin: 0.25rem 0 0; white-space: pre-wrap; }
+    #new-comment { min-height: 4rem; }
+
+    .inline-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .inline-form input[type="text"] { flex: 1 1 12rem; }
+
+    .msgbox { width: min(440px, calc(100vw - 1rem)); }
+
+    .msg {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      padding: 1rem;
+    }
+
+    .msg p { margin: 0; white-space: pre-line; }
+    .msg-icon { font-size: 2rem; line-height: 1; }
+
+    .msg-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0 1rem 1rem;
+    }
+
+    .msg-buttons button { min-width: 5.5rem; }
+
+    /* ----- Calendar ----- */
+    .cal-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    #cal-month { min-width: 10rem; text-align: center; font-size: 1.1rem; }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 2px;
+      padding: 3px;
+      margin-bottom: 1rem;
+      background: var(--field);
+      box-shadow: var(--sunken);
+    }
+
+    .dow {
+      padding: 0.2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: var(--face);
+      box-shadow: var(--raised);
+    }
+
+    .day {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 2px;
+      min-height: 5.5rem;
+      padding: 0.25rem;
+      overflow: hidden;
+      text-align: left;
+      background: var(--field);
+      border: 1px solid var(--hilite);
+      box-shadow: none;
+    }
+
+    .day:active { box-shadow: none; }
+    .day[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .day .num { align-self: flex-start; padding: 0 0.25rem; font-weight: 700; }
+    .day.today .num { background: var(--accent); color: var(--accent-ink); }
+
+    .chip {
+      padding: 0 0.2rem;
+      overflow: hidden;
+      font-size: 0.72rem;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: var(--accent-ink);
+      background: var(--accent);
+    }
+
+    .chip.event { color: #fff; background: #6b3a00; }
+    .chip.done { text-decoration: line-through; }
+    .more { font-size: 0.72rem; color: var(--muted); }
+
+    /* ----- Notes editor with highlighters ----- */
+    .note-tools {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .swatch {
+      width: 1.6rem;
+      height: 1.6rem;
+      padding: 0;
+    }
+
+    .editor {
+      display: block;
+      width: 100%;
+      min-height: 140px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .editor:empty::before { content: attr(data-placeholder); color: var(--muted); }
+
+    mark { color: #000; padding: 0 1px; }
+    .hl-yellow { background: #ffff00; }
+    .hl-green { background: #7dff7d; }
+    .hl-pink { background: #ff9de2; }
+    .hl-blue { background: #8fd8ff; }
+
+    /* ----- Sticky notes on a little teal desktop ----- */
+    #sticky-board {
+      position: relative;
+      height: 60vh;
+      min-height: 420px;
+      overflow: hidden;
+      background: var(--desk);
+      box-shadow: var(--sunken);
+    }
+
+    .sticky {
+      position: absolute;
+      width: 190px;
+      color: #000;
+      box-shadow: 3px 3px 0 rgb(0 0 0 / 0.45);
+    }
+
+    .sticky-bar {
+      display: flex;
+      gap: 3px;
+      padding: 3px;
+      cursor: move;
+      touch-action: none; /* lets a finger drag the note instead of scrolling the page */
+      background: rgb(0 0 0 / 0.12);
+    }
+
+    .sticky-bar .swatch { width: 1rem; height: 1rem; }
+
+    .sticky-close {
+      margin-left: auto;
+      padding: 0 0.4rem;
+      line-height: 1;
+    }
+
+    .sticky textarea {
+      display: block;
+      min-height: 130px;
+      color: #000;
+      background: transparent;
+      box-shadow: none;
+      resize: none;
+    }
+
+    .sticky-yellow { background: #fff68f; }
+    .sticky-pink { background: #ffc4e1; }
+    .sticky-green { background: #c9f5c0; }
+    .sticky-blue { background: #c4e4ff; }
+
+    /* ----- Focus timer ----- */
+    .lcd {
+      max-width: 22rem;
+      margin: 1rem 0 0.5rem;
+      padding: 0.5rem 1rem;
+      font-family: "Lucida Console", "Courier New", monospace;
+      font-size: clamp(2.5rem, 10vw, 4.5rem);
+      text-align: center;
+      color: #33ff66;
+      background: #000;
+      box-shadow: var(--sunken);
+    }
+
+    /* ----- Taskbar ----- */
     .taskbar {
       position: fixed;
       left: 0;
       right: 0;
       bottom: 0;
+      z-index: 10;
       display: flex;
       align-items: center;
+      gap: 0.5rem;
       padding: 0.25rem;
       background: var(--face);
-      box-shadow: inset 0 1px #dfdfdf, inset 0 2px #fff;
+      box-shadow: inset 0 1px var(--hilite), inset 0 2px var(--light);
     }
 
     .start {
@@ -253,33 +708,16 @@
       font-weight: 700;
     }
 
-    .clock {
+    .start[aria-expanded="true"] { box-shadow: var(--pressed); }
+
+    .tray {
+      display: flex;
+      gap: 0.75rem;
       margin-left: auto;
       padding: 0.3rem 0.75rem;
-      box-shadow: inset 1px 1px #808080, inset -1px -1px #fff;
+      white-space: nowrap;
+      box-shadow: inset 1px 1px var(--shade), inset -1px -1px var(--light);
     }
-
-    .task-actions {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    #log-entries li {
-      margin-bottom: 0.4rem;
-    }
-
-    #tasks-table-body input {
-      width: 100%;
-    }
-
-    #notes-list li {
-      white-space: pre-wrap;
-      margin-bottom: 0.5rem;
-    }
-
-    .status-done { color: var(--success); font-weight: 700; }
-    .status-pending { color: var(--danger); font-weight: 700; }
 
     @keyframes flash {
       0%, 100% { opacity: 1; }
@@ -295,28 +733,100 @@
       .status { animation: none; }
     }
 
+    /* ----- Phones: the sidebar becomes a Start menu, tables become stacked cards ----- */
     @media (max-width: 720px) {
-      body { padding: 0 0 3.5rem; }
+      body { padding: 0 0 3.25rem; }
       .app { grid-template-columns: 1fr; min-height: 0; }
-      .sidebar { border-right: 0; border-bottom: 2px groove var(--face); }
+      .content { padding: 0.75rem; }
       .grid { grid-template-columns: 1fr; }
+      .toolbar .label { display: none; } /* icons only; each button keeps its aria-label */
+      #search-form { flex: 1 1 100%; }
+
+      .sidebar {
+        display: none;
+        position: fixed;
+        left: 0;
+        bottom: 2.9rem;
+        z-index: 20;
+        width: min(260px, 85vw);
+        max-height: calc(100dvh - 3.5rem);
+        overflow-y: auto;
+        padding: 0.5rem 0.5rem 0.5rem 2.3rem;
+        background: var(--face);
+        border: 0;
+        box-shadow: var(--raised);
+      }
+
+      .menu-open .sidebar { display: block; }
+
+      /* the vertical banner down the side of the Windows 98 Start menu */
+      .sidebar::before {
+        content: "Outlet";
+        position: absolute;
+        top: 3px;
+        bottom: 3px;
+        left: 3px;
+        width: 1.8rem;
+        padding: 0.5rem 0;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--accent-ink);
+        background: linear-gradient(var(--accent-end), var(--accent));
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+      }
+
+      .sidebar h2 { display: none; }
+      .nav button { text-align: left; padding: 0.45rem 0.6rem; }
+      .status { margin-top: 0.75rem; }
+
+      .stack thead { display: none; }
+      .stack tr { display: block; padding: 0.5rem; border-bottom: 2px groove var(--face); }
+      .stack td { display: block; padding: 0.15rem 0; border: 0; }
+      .stack td[data-label]::before { content: attr(data-label) ": "; font-weight: 700; }
+      .stack td:empty { display: none; }
+
+      .props label { grid-template-columns: 1fr; gap: 0.2rem; }
+      .progress-row { grid-template-columns: 1fr; gap: 0.2rem; }
+      .day { min-height: 3.4rem; padding: 0.15rem; }
+      .chip, .more { font-size: 0.6rem; }
     }
   </style>
 </head>
 <body>
   <div class="window">
   <div class="title-bar"><img src="icon.svg" alt=""> Outlet</div>
+  <div class="toolbar">
+    <button type="button" data-action="new-task" aria-label="New task" title="New task"><span aria-hidden="true">📝</span><span class="label">New Task</span></button>
+    <button type="button" data-action="new-note" aria-label="New note" title="New note"><span aria-hidden="true">🗒️</span><span class="label">New Note</span></button>
+    <button type="button" data-action="new-sticky" aria-label="New sticky note" title="New sticky note"><span aria-hidden="true">📌</span><span class="label">Sticky</span></button>
+    <span class="sep" aria-hidden="true"></span>
+    <button type="button" data-view="calendar" aria-label="Calendar" title="Calendar"><span aria-hidden="true">📅</span><span class="label">Calendar</span></button>
+    <button type="button" data-view="focus" aria-label="Focus timer" title="Focus timer"><span aria-hidden="true">⏱️</span><span class="label">Focus</span></button>
+    <button type="button" data-view="prompts" aria-label="Prompt Wizard" title="Prompt Wizard"><span aria-hidden="true">🧙</span><span class="label">Prompt Wizard</span></button>
+    <span class="sep" aria-hidden="true"></span>
+    <button type="button" data-action="toggle-dark" id="dark-btn" aria-label="Dark mode" title="Dark mode" aria-pressed="false"><span aria-hidden="true">🌙</span><span class="label">Dark Mode</span></button>
+    <form id="search-form" role="search">
+      <input id="search-input" type="search" aria-label="Search Outlet" placeholder="Search tasks, notes, log, #tags" />
+      <button type="submit">Find</button>
+    </form>
+  </div>
   <div class="app">
-    <aside class="sidebar">
+    <aside class="sidebar" id="start-menu">
       <h2>MENU</h2>
       <ul class="nav">
         <li><button type="button" data-view="welcome">Welcome</button></li>
         <li><button type="button" data-view="log">Daily Log</button></li>
         <li><button type="button" data-view="tasks">Tasks</button></li>
+        <li><button type="button" data-view="calendar">Calendar</button></li>
         <li><button type="button" data-view="workflows">Workflows</button></li>
         <li><button type="button" data-view="notes">Notes</button></li>
+        <li><button type="button" data-view="stickies">Sticky Notes</button></li>
+        <li><button type="button" data-view="focus">Focus</button></li>
+        <li><button type="button" data-view="prompts">Prompt Wizard</button></li>
+        <li><button type="button" data-view="settings">Settings</button></li>
       </ul>
-      <div class="status">⚠️ SYSTEM ONLINE<br>v1.2 ACTIVE ⚠️</div>
+      <div class="status">⚠️ SYSTEM ONLINE<br>v1.3 ACTIVE ⚠️</div>
     </aside>
 
     <main class="content">
@@ -327,41 +837,69 @@
         <div class="grid">
           <div>
             <h2>System Diagnostics</h2>
-            <p>Select an item from the menu to access your workspace.</p>
+            <p id="welcome-name"></p>
+            <h3>Progress Tracker</h3>
+            <div id="progress-list"></div>
           </div>
           <div class="stats">
             <strong>Webmaster System Stats:</strong><br>
-            Engine: HTML5/LocalStorage<br>
-            Memory: Optimized<br>
-            Status: Ready
+            Storage: <span id="stats-storage"></span><br>
+            Tasks: <span id="stats-tasks"></span><br>
+            Status: <span id="stats-status"></span>
           </div>
         </div>
       </section>
 
       <section id="view-log" class="view">
         <h2>💾 Daily Logger Node</h2>
-        <div class="panel">
+        <form class="panel" id="log-form">
           <label for="new-log-text"><strong>Add New Entry:</strong></label><br><br>
-          <input id="new-log-text" type="text" spellcheck="true" size="50" placeholder="What's happening?" />
-          <button type="button" id="add-log-btn">Post Entry</button>
+          <input id="new-log-text" type="text" spellcheck="true" size="50" placeholder="What's happening?" required />
+          <button type="submit">Post Entry</button>
+          <button type="button" id="summarize-btn">🤖 Summarize Today</button>
+        </form>
+        <div class="panel" id="summary-box" hidden>
+          <strong>Today's recap</strong>
+          <p id="summary-text"></p>
+          <button type="button" id="post-summary-btn">Post to Log</button>
         </div>
         <ul id="log-entries"></ul>
       </section>
 
       <section id="view-tasks" class="view">
         <h2>📝 Master Task Matrix</h2>
-        <div class="panel">
+        <form class="panel" id="task-form">
           <label for="new-task-title"><strong>New Task Name:</strong></label>
-          <input id="new-task-title" type="text" spellcheck="true" size="30" placeholder="Task title" />
-          <button type="button" id="add-task-btn">Insert Task</button>
+          <input id="new-task-title" type="text" spellcheck="true" size="30" placeholder="Task title" required />
+          <label for="new-task-owner">Assign to:</label>
+          <input id="new-task-owner" type="text" list="people" size="12" placeholder="Unassigned" />
+          <label for="new-task-due">Due:</label>
+          <input id="new-task-due" type="date" />
+          <button type="submit">Insert Task</button>
+        </form>
+
+        <div class="filter-bar">
+          <label for="task-filter">Show:</label>
+          <select id="task-filter">
+            <option value="all">Everyone's tasks</option>
+            <option value="mine">My tasks</option>
+            <option value="unassigned">Unassigned</option>
+          </select>
+          <div class="progress-row">
+            <span>Team progress</span>
+            <progress id="tasks-progress" max="100" value="0" aria-label="Team progress"></progress>
+            <span id="tasks-progress-text"></span>
+          </div>
         </div>
 
         <div class="listview">
-        <table>
+        <table class="stack">
           <thead>
             <tr>
               <th>Status</th>
               <th>Task</th>
+              <th>Owner</th>
+              <th>Due</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -370,8 +908,36 @@
         </div>
       </section>
 
+      <section id="view-calendar" class="view">
+        <h2>📅 Team Calendar</h2>
+        <div class="cal-head">
+          <button type="button" data-action="cal-prev" aria-label="Previous month">◀</button>
+          <strong id="cal-month" aria-live="polite"></strong>
+          <button type="button" data-action="cal-next" aria-label="Next month">▶</button>
+          <button type="button" data-action="cal-today">Today</button>
+          <label for="cal-filter">Show:</label>
+          <select id="cal-filter">
+            <option value="all">Everyone</option>
+            <option value="mine">Only mine</option>
+          </select>
+          <button type="button" data-action="export-ics" title="Import this file into Google Calendar, Apple Calendar or Microsoft Outlook">⬇ Export .ics</button>
+        </div>
+        <div class="calendar" id="calendar-grid"></div>
+        <div class="panel">
+          <h3 id="day-title"></h3>
+          <ul id="day-items"></ul>
+          <form class="inline-form" id="event-form">
+            <label for="event-title">New event:</label>
+            <input id="event-title" type="text" spellcheck="true" placeholder="Stand-up meeting" required />
+            <label for="event-time">Time:</label>
+            <input id="event-time" type="time" />
+            <button type="submit">Add Event</button>
+          </form>
+        </div>
+      </section>
+
       <section id="view-workflows" class="view">
-        <h2>⚙️ Workflow Control Panel</h2>
+        <h2>📋 Workflow Templates</h2>
         <div class="panel">
           <label for="workflow-name"><strong>Workflow Name:</strong></label>
           <input id="workflow-name" type="text" spellcheck="true" size="30" placeholder="e.g. Deploy" />
@@ -381,6 +947,7 @@
           <br><br>
           <button type="button" id="save-workflow-btn">Save Workflow</button>
           <button type="button" id="cancel-workflow-btn" hidden>Cancel</button>
+          <p>Apply adds one task with these steps as a checklist you tick off in order.</p>
           <p id="workflow-status" aria-live="polite"></p>
         </div>
         <ul id="workflow-list"></ul>
@@ -389,348 +956,1689 @@
       <section id="view-notes" class="view">
         <h2>🗒️ Notes Vault</h2>
         <div class="panel">
-          <textarea spellcheck="true" id="notes-area" aria-label="New note" placeholder="Write a note here..."></textarea>
+          <div class="note-tools" id="note-tools">
+            <span>Highlight:</span>
+            <button type="button" class="swatch hl-yellow" data-action="highlight" data-color="yellow" aria-label="Yellow highlighter" title="Yellow"></button>
+            <button type="button" class="swatch hl-green" data-action="highlight" data-color="green" aria-label="Green highlighter" title="Green"></button>
+            <button type="button" class="swatch hl-pink" data-action="highlight" data-color="pink" aria-label="Pink highlighter" title="Pink"></button>
+            <button type="button" class="swatch hl-blue" data-action="highlight" data-color="blue" aria-label="Blue highlighter" title="Blue"></button>
+            <button type="button" data-action="highlight" data-color="">Clear</button>
+            <span class="muted">Select text, then pick a color.</span>
+          </div>
+          <div id="note-editor" class="editor" contenteditable="plaintext-only" spellcheck="true" role="textbox" aria-multiline="true" aria-label="Note" data-placeholder="Write a note here..."></div>
+          <br>
+          <label for="note-tags">Tags:</label>
+          <input id="note-tags" type="text" size="30" placeholder="meeting, ideas" />
           <br><br>
-          <button type="button" id="add-note-btn">Add Note</button>
-          <p>Notes are not saved: they disappear when Outlet is closed or reloaded.</p>
+          <button type="button" id="save-note-btn">Add Note</button>
+          <button type="button" id="cancel-note-btn" hidden>Cancel</button>
+          <p>Notes are saved, and shared with your team when a team backend is connected in Settings.</p>
         </div>
         <ul id="notes-list"></ul>
+      </section>
+
+      <section id="view-stickies" class="view">
+        <h2>📌 Sticky Notes</h2>
+        <div class="panel">
+          <button type="button" data-action="new-sticky">New Sticky Note</button>
+          <span class="muted">Drag a note by its top bar. The squares change its color.</span>
+        </div>
+        <div id="sticky-board"></div>
+      </section>
+
+      <section id="view-focus" class="view">
+        <h2>⏱️ Focus Sessions</h2>
+        <div class="panel">
+          <label for="focus-task"><strong>Focus on:</strong></label>
+          <select id="focus-task"></select>
+          <div class="lcd" id="focus-time" role="timer">25:00</div>
+          <p id="focus-mode"><strong>Focus time</strong></p>
+          <button type="button" id="focus-start">Start</button>
+          <button type="button" id="focus-reset">Reset</button>
+          <p>25 minutes of focus, then a 5-minute break. Each finished focus session goes in the Daily Log.</p>
+        </div>
+      </section>
+
+      <section id="view-prompts" class="view">
+        <h2>🧙 Prompt Wizard</h2>
+        <form class="panel" id="prompt-form">
+          <label for="prompt-goal"><strong>Describe your goal:</strong></label>
+          <textarea id="prompt-goal" spellcheck="true" required placeholder="e.g. I want an AI to review my pull requests for security problems and explain each one simply"></textarea>
+          <br><br>
+          <button type="submit" id="prompt-btn">Create Prompt</button>
+          <p>The AI turns your goal into a professional prompt: a role, the goal, context, steps, rules and the answer format.</p>
+        </form>
+        <div class="panel" id="prompt-result" hidden>
+          <label for="prompt-output"><strong>Your prompt:</strong></label>
+          <textarea id="prompt-output" readonly></textarea>
+          <br><br>
+          <button type="button" id="copy-prompt-btn">Copy</button>
+          <span id="copy-status" aria-live="polite"></span>
+        </div>
+      </section>
+
+      <section id="view-search" class="view">
+        <h2>🔍 Find Results</h2>
+        <p id="search-summary" aria-live="polite"></p>
+        <ul id="search-results"></ul>
+      </section>
+
+      <section id="view-settings" class="view">
+        <h2>🔧 Control Panel</h2>
+        <form class="props" id="settings-form">
+          <fieldset>
+            <legend>You</legend>
+            <label>Your name <input id="set-name" type="text" maxlength="40" autocomplete="name" required /></label>
+            <p class="muted">Teammates assign tasks to this name, and it goes on your log entries, notes and comments.</p>
+          </fieldset>
+          <fieldset>
+            <legend>Team backend</legend>
+            <p class="muted">Leave the address empty to keep everything in this browser only. To share with your team, run a backend (server.py in Outlet's folder is a ready example) and type its address and team password here. Saved on this device only.</p>
+            <label>Backend address <input id="set-backend" type="url" placeholder="http://localhost:8000" /></label>
+            <label>Team password <input id="set-key" type="password" autocomplete="off" /></label>
+          </fieldset>
+          <button type="submit">Apply</button>
+          <span id="settings-status" aria-live="polite"></span>
+        </form>
+        <br>
+        <fieldset class="props">
+          <legend>Display</legend>
+          <label>Theme
+            <select id="set-theme">
+              <option value="standard">Windows Standard</option>
+              <option value="dark">Dark</option>
+              <option value="contrast">High Contrast</option>
+            </select>
+          </label>
+          <label>Title bar color <input id="set-accent" type="color" /></label>
+          <button type="button" id="reset-accent-btn">Default Color</button>
+        </fieldset>
+        <fieldset>
+          <legend>Your data</legend>
+          <p class="muted">Export saves everything as one file, for backups or moving to another backend. Attached files aren't included.</p>
+          <button type="button" id="export-btn">Export All Data</button>
+          <label for="import-input">Import a file:</label>
+          <input id="import-input" type="file" accept="application/json,.json" />
+        </fieldset>
       </section>
     </main>
   </div>
   </div>
 
   <footer class="taskbar">
-    <button type="button" class="start" data-view="welcome"><img src="icon.svg" alt=""> Start</button>
-    <span class="clock" id="clock"></span>
+    <button type="button" class="start" id="start-btn" aria-controls="start-menu" aria-expanded="false"><img src="icon.svg" alt=""> Start</button>
+    <div class="tray">
+      <span id="focus-tray" hidden></span>
+      <span id="sync-status"></span>
+      <span id="clock"></span>
+    </div>
   </footer>
 
-  <script>
-    const STORAGE_KEY = 'cyberzone_data';
-    const appData = {
-      logs: [],
-      tasks: [],
-      workflows: []
-    };
-    const sessionNotes = []; // kept in memory only, never saved to the device
+  <datalist id="people"></datalist>
 
-    function loadData() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
+  <dialog id="task-dialog" aria-labelledby="task-dialog-title">
+    <div class="title-bar"><span id="task-dialog-title">Task Properties</span><button type="button" class="close" data-action="close-dialog" aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <form class="props" id="task-props">
+        <label>Task <input id="prop-title" type="text" spellcheck="true" required autofocus /></label>
+        <label>Assigned to <input id="prop-owner" type="text" list="people" placeholder="Unassigned" /></label>
+        <label>Due date <input id="prop-due" type="date" /></label>
+        <label>Reminder <input id="prop-remind" type="datetime-local" /></label>
+        <label>Tags <input id="prop-tags" type="text" placeholder="bug, frontend" /></label>
+        <button type="submit">Save</button>
+        <span id="prop-status" aria-live="polite"></span>
+        <p class="muted">Reminders pop up for the person the task is assigned to, while Outlet is open.</p>
+      </form>
+      <fieldset>
+        <legend>Step-by-step checklist</legend>
+        <ol id="checklist"></ol>
+        <form class="inline-form" id="step-form">
+          <input id="new-step" type="text" spellcheck="true" aria-label="New step" placeholder="Next step" required />
+          <button type="submit">Add Step</button>
+          <button type="button" id="breakdown-btn">🤖 Break It Down</button>
+        </form>
+      </fieldset>
+      <fieldset>
+        <legend>Attachments</legend>
+        <ul id="attachments"></ul>
+        <label for="attach-input">Attach a file (up to 5 MB):</label>
+        <input id="attach-input" type="file" />
+        <span id="attach-status" aria-live="polite"></span>
+      </fieldset>
+      <fieldset>
+        <legend>Comments</legend>
+        <ul id="comments"></ul>
+        <form id="comment-form">
+          <textarea id="new-comment" spellcheck="true" aria-label="New comment" placeholder="Write a comment..." required></textarea>
+          <br><br>
+          <button type="submit">Post Comment</button>
+        </form>
+      </fieldset>
+    </div>
+  </dialog>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const STORAGE_KEY = 'cyberzone_data'; // the old app name, kept on purpose: renaming it would lose everyone's saved data
+    const SETTINGS_KEY = 'outlet_settings';
+    const REMINDED_KEY = 'outlet_reminded';
+    const COLLECTIONS = ['logs', 'tasks', 'comments', 'notes', 'events', 'stickies', 'workflows'];
+    const MAX_FILE_MB = 5;
+    const SYNC_SECONDS = 5;
+    const FOCUS_MINUTES = 25;
+    const BREAK_MINUTES = 5;
+    const HIGHLIGHTS = ['yellow', 'green', 'pink', 'blue'];
+    const STICKY_COLORS = ['yellow', 'pink', 'green', 'blue'];
+
+    // ===== AI: what each AI button asks for. Edit these to fit how your team works. =====
+    // The page sends { system, prompt } to the backend, and the backend passes them to the AI (Gemini in server.py).
+    const AI_INSTRUCTIONS = {
+      prompt: 'You are an expert prompt engineer. Turn the goal below into one professional prompt the person can paste into an AI assistant. ' +
+        'Give it a role for the AI, the goal, the context it needs (use [square-bracket placeholders] for details only the person knows), ' +
+        'step-by-step instructions, constraints, and the exact format the answer should come back in. Reply with the finished prompt only.',
+      breakdown: 'Break the task below into 3 to 8 short, concrete steps a developer can check off in order. ' +
+        'Reply with one step per line and nothing else: no numbers, bullets or extra words.',
+      summary: 'Summarize these daily log entries as a short end-of-day recap for a dev team: what got done, what is still in progress, and any blockers. ' +
+        'Plain text, under 120 words.',
+    };
+
+    // ===== SMALL HELPERS =====
+    // Builds an element from plain values; text always goes in as text, never as HTML.
+    function el(tag, props = {}, ...children) {
+      const node = document.createElement(tag);
+      Object.entries(props).forEach(([key, value]) => {
+        if (value == null) return;
+        if (key === 'data') Object.assign(node.dataset, value);
+        else if (key in node) node[key] = value;
+        else node.setAttribute(key, value);
+      });
+      node.append(...children.flat().filter((child) => child != null && child !== false && child !== ''));
+      return node;
+    }
+
+    function actionButton(label, action, id, ariaLabel) {
+      return el('button', { type: 'button', 'aria-label': ariaLabel, data: { action, id } }, label);
+    }
+
+    function tagChip(tag) {
+      return el('button', { type: 'button', className: 'tag', data: { action: 'search-tag', tag: String(tag) } }, `#${tag}`);
+    }
+
+    function newId() {
+      return Array.from(crypto.getRandomValues(new Uint8Array(8)), (byte) => byte.toString(16).padStart(2, '0')).join('');
+    }
+
+    function today() {
+      return new Date().toLocaleDateString('en-CA'); // local YYYY-MM-DD; toISOString is UTC and rolls to tomorrow in the evening
+    }
+
+    function readJson(key) {
+      try {
+        return JSON.parse(localStorage.getItem(key)) || {};
+      } catch {
+        return {};
+      }
+    }
+
+    function list(value) {
+      return Array.isArray(value) ? value : [];
+    }
+
+    function plural(count, word) {
+      return `${count} ${word}${count === 1 ? '' : 's'}`;
+    }
+
+    function isMe(name) {
+      return Boolean(name && settings.name) && name.trim().toLowerCase() === settings.name.trim().toLowerCase();
+    }
+
+    function parseTags(text) {
+      return [...new Set(text.split(/[\s,]+/).map((tag) => tag.replace(/^#+/, '').toLowerCase()).filter(Boolean))];
+    }
+
+    function dateFromIso(iso) {
+      const [year, month, day] = iso.split('-').map(Number);
+      return new Date(year, month - 1, day);
+    }
+
+    function shortDate(iso) {
+      return dateFromIso(iso).toLocaleDateString([], { month: 'short', day: 'numeric' });
+    }
+
+    function longDate(iso) {
+      return dateFromIso(iso).toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    }
+
+    function formatTime(time) {
+      return new Date(`2000-01-01T${time}`).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    }
+
+    function formatStamp(ms) {
+      return new Date(ms).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+    }
+
+    function formatSize(bytes) {
+      return bytes < 1024 * 1024 ? `${Math.ceil(bytes / 1024)} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+    }
+
+    function download(name, blob) {
+      const link = el('a', { href: URL.createObjectURL(blob), download: name });
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+    }
+
+    async function copyText(textarea) {
+      try {
+        await navigator.clipboard.writeText(textarea.value);
+      } catch {
+        textarea.select(); // the clipboard API only exists on https:// and localhost
+        document.execCommand('copy');
+      }
+    }
+
+    // A Windows 98 message box. Resolves with the label of the button pressed, or null for Esc.
+    function msgBox(text, { title = 'Outlet', icon = 'ℹ️', buttons = ['OK'] } = {}) {
+      return new Promise((resolve) => {
+        const dialog = el('dialog', { className: 'msgbox' },
+          el('div', { className: 'title-bar' }, title),
+          el('div', { className: 'msg' }, el('span', { className: 'msg-icon', 'aria-hidden': 'true' }, icon), el('p', {}, text)),
+          el('div', { className: 'msg-buttons' }, buttons.map((label) => el('button', { type: 'button', onclick: () => dialog.close(label) }, label))));
+        dialog.addEventListener('close', () => {
+          dialog.remove();
+          resolve(dialog.returnValue || null);
+        });
+        document.body.append(dialog);
+        dialog.showModal();
+      });
+    }
+
+    function notify(title, body) {
+      if ('Notification' in window && Notification.permission === 'granted') new Notification(title, { body, icon: 'icon.svg' });
+      else msgBox(body, { title, icon: '⏰' });
+    }
+
+    function askNotificationPermission() {
+      if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission();
+    }
+
+    // ===== SETTINGS: kept on this device only =====
+    const settings = { name: '', theme: 'standard', accent: '', backendUrl: '', teamKey: '', ...readJson(SETTINGS_KEY) };
+
+    function saveSettings() {
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    }
+
+    function luminance(hex) {
+      const [r, g, b] = [1, 3, 5].map((start) => parseInt(hex.slice(start, start + 2), 16) / 255)
+        .map((channel) => (channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4));
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    }
+
+    function contrast(a, b) {
+      return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    }
+
+    function applyTheme() {
+      const root = document.documentElement;
+      root.dataset.theme = settings.theme;
+      ['--accent', '--accent-end', '--accent-ink'].forEach((name) => root.style.removeProperty(name));
+      if (settings.accent) {
+        // the title bar fades from the chosen color to a lighter one; pick the text color that stays readable on both ends
+        const end = `#${[1, 3, 5].map((start) => {
+          const channel = parseInt(settings.accent.slice(start, start + 2), 16);
+          return Math.round(channel + (255 - channel) * 0.3).toString(16).padStart(2, '0');
+        }).join('')}`;
+        const ends = [luminance(settings.accent), luminance(end)];
+        const white = Math.min(...ends.map((l) => contrast(1, l)));
+        const black = Math.min(...ends.map((l) => contrast(0, l)));
+        root.style.setProperty('--accent', settings.accent);
+        root.style.setProperty('--accent-end', end);
+        root.style.setProperty('--accent-ink', white >= black ? '#fff' : '#000');
+      }
+      $('dark-btn').setAttribute('aria-pressed', String(settings.theme === 'dark'));
+    }
+
+    // ===== STORAGE: the one spot to swap for your own backend =====
+    // The rest of Outlet only calls these seven functions. To keep data somewhere else (Firebase, Supabase,
+    // Cloudflare, your own server), write an object with the same functions and return it from pickStorage().
+    // httpBackend talks to server.py, the example backend in this folder, or any server that answers the same calls.
+
+    // Attachments in browser-only mode go in IndexedDB, which (unlike localStorage) can hold whole files.
+    function fileStore(mode, action) {
+      return new Promise((resolve, reject) => {
+        const open = indexedDB.open('outlet-files', 1);
+        open.onupgradeneeded = () => open.result.createObjectStore('files');
+        open.onerror = () => reject(open.error);
+        open.onsuccess = () => {
+          const transaction = open.result.transaction('files', mode);
+          const request = action(transaction.objectStore('files'));
+          transaction.oncomplete = () => {
+            open.result.close();
+            resolve(request.result);
+          };
+          transaction.onerror = () => reject(transaction.error);
+        };
+      });
+    }
+
+    function writeLocal(change) {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      change(data);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    const browserStorage = {
+      label: 'this browser',
+      async loadAll() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        let data = {};
+        if (!raw) {
+          data.logs = [{ date: '2026-10-19', text: 'System boot successful. Exploring the web.' }]; // welcome entry on the very first run only
+        } else {
+          try {
+            data = JSON.parse(raw) || {};
+          } catch (error) {
+            console.error(error);
+            localStorage.setItem(`${STORAGE_KEY}_unreadable`, raw); // keep the broken copy instead of overwriting it
+          }
+        }
+        // Older versions saved items without ids, and kept notes as one block of text.
+        if (typeof data.notes === 'string') {
+          data.notes = data.notes.trim() ? [{ html: el('div', {}, data.notes).innerHTML, tags: [], at: Date.now() }] : [];
+        }
+        COLLECTIONS.forEach((name) => {
+          data[name] = list(data[name]).filter((item) => item && typeof item === 'object');
+          data[name].forEach((item) => { item.id ??= newId(); });
+        });
+        data.logs.forEach((log) => { log.at ??= Date.parse(`${log.date}T00:00`) || 0; });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        return data;
+      },
+      async put(collection, item) {
+        writeLocal((data) => {
+          const items = (data[collection] = list(data[collection]));
+          const index = items.findIndex((existing) => existing.id === item.id);
+          if (index < 0) items.push(item);
+          else items[index] = item;
+        });
+      },
+      async remove(collection, id) {
+        writeLocal((data) => { data[collection] = list(data[collection]).filter((item) => item.id !== id); });
+      },
+      async uploadFile(file) {
+        const id = newId();
+        await fileStore('readwrite', (files) => files.put(file, id));
+        return id;
+      },
+      getFile: (id) => fileStore('readonly', (files) => files.get(id)),
+      removeFile: (id) => fileStore('readwrite', (files) => files.delete(id)),
+      async ai() {
+        throw new Error('AI needs a team backend. Connect one in Settings; the backend uses your own GEMINI_API_KEY.');
+      },
+    };
+
+    function httpBackend(baseUrl, teamKey) {
+      async function call(path, options = {}) {
+        let response;
         try {
-          Object.assign(appData, JSON.parse(saved));
+          response = await fetch(`${baseUrl}/api/${path}`, { ...options, headers: { Authorization: `Bearer ${teamKey}`, ...options.headers } });
+        } catch {
+          throw new Error(`Can't reach ${baseUrl}. Is the backend running?`);
+        }
+        if (!response.ok) {
+          const body = await response.text();
+          let message = body;
+          try {
+            message = JSON.parse(body).error || body;
+          } catch {
+            // the server sent plain text
+          }
+          throw new Error(message || `${response.status} ${response.statusText}`);
+        }
+        return response;
+      }
+      const json = { 'Content-Type': 'application/json' };
+      const at = (collection, id) => `${collection}/${encodeURIComponent(id)}`;
+      return {
+        label: baseUrl,
+        loadAll: async () => (await call('all')).json(),
+        put: (collection, item) => call(at(collection, item.id), { method: 'PUT', headers: json, body: JSON.stringify(item) }),
+        remove: (collection, id) => call(at(collection, id), { method: 'DELETE' }),
+        uploadFile: async (file) => (await (await call('files', { method: 'POST', body: file })).json()).id,
+        getFile: async (id) => (await call(at('files', id))).blob(),
+        removeFile: (id) => call(at('files', id), { method: 'DELETE' }),
+        ai: async (system, prompt) => (await (await call('ai', { method: 'POST', headers: json, body: JSON.stringify({ system, prompt }) })).json()).text,
+      };
+    }
+
+    function pickStorage() {
+      return settings.backendUrl ? httpBackend(settings.backendUrl, settings.teamKey) : browserStorage;
+    }
+
+    let storage = pickStorage();
+
+    // ===== DATA: one copy in memory, every change saved one item at a time =====
+    // Saving single items (not the whole app) means two teammates saving at once don't erase each other's work.
+    let db = normalize({});
+    const unsaved = new Map(); // "collection/id" -> a change that hasn't reached storage yet
+    let syncState = 'local';   // 'local', 'ok' or 'offline'
+    let warnedOffline = false;
+    let writeCount = 0;
+    let inFlight = 0;
+    let needsRender = false;
+
+    // Data can come from teammates and other backends, so make sure every list and field has the right shape.
+    function normalize(data) {
+      const clean = {};
+      COLLECTIONS.forEach((name) => {
+        clean[name] = list(data?.[name]).filter((item) => item && typeof item.id === 'string');
+      });
+      clean.tasks = clean.tasks.map((task) => ({
+        ...task,
+        title: String(task.title ?? ''),
+        done: Boolean(task.done),
+        owner: String(task.owner ?? ''),
+        due: String(task.due ?? ''),
+        remindAt: String(task.remindAt ?? ''),
+        tags: list(task.tags).map(String),
+        checklist: list(task.checklist).filter((step) => step && typeof step === 'object'),
+        attachments: list(task.attachments).filter((file) => file && typeof file.id === 'string'),
+      }));
+      return clean;
+    }
+
+    function findItem(collection, id) {
+      return db[collection].find((item) => item.id === id);
+    }
+
+    function newTask(fields) {
+      return {
+        id: newId(), title: '', done: false, owner: '', due: '', remindAt: '',
+        tags: [], checklist: [], attachments: [], createdBy: settings.name, at: Date.now(), ...fields,
+      };
+    }
+
+    function upsert(collection, item) {
+      const items = db[collection];
+      const index = items.findIndex((existing) => existing.id === item.id);
+      if (index < 0) items.push(item);
+      else items[index] = item;
+    }
+
+    // quiet: the screen already shows the change (typing in a sticky note, dragging one), so don't redraw it
+    function save(collection, item, { quiet = false } = {}) {
+      upsert(collection, item);
+      if (!quiet) render();
+      return persist({ collection, id: item.id, item });
+    }
+
+    function remove(collection, id) {
+      db[collection] = db[collection].filter((item) => item.id !== id);
+      render();
+      return persist({ collection, id, item: null });
+    }
+
+    async function persist(write) {
+      const key = `${write.collection}/${write.id}`;
+      unsaved.set(key, write);
+      writeCount++;
+      inFlight++;
+      try {
+        if (write.item) await storage.put(write.collection, write.item);
+        else await storage.remove(write.collection, write.id);
+        if (unsaved.get(key) === write) unsaved.delete(key); // a newer change to the same item may still be waiting
+        if (!unsaved.size) {
+          warnedOffline = false;
+          syncState = storage === browserStorage ? 'local' : 'ok';
+        }
+      } catch (error) {
+        console.error(error);
+        syncState = 'offline';
+        if (!warnedOffline) {
+          warnedOffline = true;
+          msgBox(`Couldn't save to ${storage.label}:\n${error.message}\n\nYour change stays on screen and Outlet keeps retrying every few seconds. Keep Outlet open until the tray in the corner stops saying "unsaved".`, { title: 'Save failed', icon: '⚠️' });
+        }
+      } finally {
+        inFlight--;
+        renderTray();
+      }
+    }
+
+    // Typing, dragging or editing a task: redrawing now would throw away what the person is in the middle of.
+    function busy() {
+      const active = document.activeElement;
+      return Boolean(dragging || editingTaskId ||
+        active?.matches('textarea, select, [contenteditable], input:not([type="checkbox"], [type="button"], [type="submit"], [type="file"], [type="color"])'));
+    }
+
+    // Every few seconds: retry anything unsaved, then pick up teammates' changes.
+    async function sync() {
+      for (const write of [...unsaved.values()]) await persist(write);
+      if (!unsaved.size && storage !== browserStorage) {
+        const before = writeCount;
+        try {
+          const fresh = normalize(await storage.loadAll());
+          syncState = 'ok';
+          // If a save started meanwhile, this copy may be missing it, so wait for the next round.
+          if (writeCount === before && !inFlight && JSON.stringify(fresh) !== JSON.stringify(db)) {
+            db = fresh;
+            needsRender = true;
+          }
         } catch (error) {
           console.error(error);
+          syncState = 'offline';
         }
       }
-
-      if (!Array.isArray(appData.logs)) appData.logs = [];
-      // Welcome entry on the very first run only, so deleting every entry doesn't bring it back.
-      if (!saved) appData.logs = [{ date: '2026-10-19', text: 'System boot successful. Exploring the web.' }];
-      if (!Array.isArray(appData.tasks)) appData.tasks = [];
-      if (!Array.isArray(appData.workflows)) appData.workflows = [];
-
-      // Older versions saved notes: show them this one last time, then remove them from the device.
-      if ('notes' in appData) {
-        if (typeof appData.notes === 'string' && appData.notes.trim()) sessionNotes.push(appData.notes);
-        delete appData.notes;
-        saveData();
+      if (needsRender && !busy()) {
+        render();
+        checkReminders();
       }
+      renderTray();
     }
 
-    function saveData() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    async function syncLoop() {
+      await sync();
+      setTimeout(syncLoop, SYNC_SECONDS * 1000);
     }
+
+    // ===== VIEWS =====
+    let currentView = 'welcome';
 
     function showView(viewId) {
+      currentView = viewId;
       document.querySelectorAll('.view').forEach((view) => {
         view.classList.toggle('active', view.id === `view-${viewId}`);
       });
       document.querySelectorAll('.nav [data-view]').forEach((button) => {
         button.setAttribute('aria-current', button.dataset.view === viewId ? 'page' : 'false');
       });
+      closeStartMenu();
+      if (viewId === 'settings') fillSettings();
+      render();
+    }
 
-      if (viewId === 'log') renderLogs();
-      if (viewId === 'tasks') renderTasks();
-      if (viewId === 'notes') renderNotes();
-      if (viewId === 'workflows') renderWorkflows();
+    function render() {
+      needsRender = false;
+      renderers[currentView]?.();
+      if (currentTaskId) renderTaskDialog();
+      renderPeople();
+      renderTray();
+    }
+
+    function renderTray() {
+      const tray = $('sync-status');
+      let text = '🖧 Synced';
+      if (unsaved.size && syncState === 'offline') text = `⚠️ ${plural(unsaved.size, 'unsaved change')}`;
+      else if (syncState === 'offline') text = '⚠️ Offline';
+      else if (storage === browserStorage) text = '💾 Local';
+      if (tray.textContent !== text) tray.textContent = text;
+      tray.title = storage === browserStorage ? 'Saved in this browser only' : `Team backend: ${storage.label}`;
+    }
+
+    function renderPeople() {
+      const names = new Map();
+      [settings.name, ...db.tasks.map((task) => task.owner), ...db.logs.map((log) => log.author), ...db.comments.map((comment) => comment.author)]
+        .forEach((name) => { if (name && name.trim()) names.set(name.trim().toLowerCase(), name.trim()); });
+      $('people').replaceChildren(...[...names.values()].sort().map((name) => el('option', { value: name })));
+    }
+
+    // ----- Welcome + progress tracker -----
+    function taskProgress(task) {
+      if (task.done) return 1;
+      return task.checklist.length ? task.checklist.filter((step) => step.done).length / task.checklist.length : 0;
+    }
+
+    function percentDone(tasks) {
+      return tasks.length ? Math.round((100 * tasks.reduce((sum, task) => sum + taskProgress(task), 0)) / tasks.length) : 0;
+    }
+
+    function renderWelcome() {
+      $('welcome-name').textContent = settings.name
+        ? `Logged on as ${settings.name}.`
+        : 'Type your name in Settings so teammates can assign you tasks.';
+
+      const groups = new Map([['', { label: 'Whole team', tasks: db.tasks }]]);
+      db.tasks.forEach((task) => {
+        const key = task.owner.trim().toLowerCase() || '(unassigned)';
+        if (!groups.has(key)) groups.set(key, { label: task.owner.trim() || 'Unassigned', tasks: [] });
+        groups.get(key).tasks.push(task);
+      });
+      $('progress-list').replaceChildren(...[...groups.values()].map(({ label, tasks }) => {
+        const percent = percentDone(tasks);
+        return el('div', { className: 'progress-row' },
+          el('strong', {}, label),
+          el('progress', { max: 100, value: percent, 'aria-label': `${label}: ${percent}% done` }),
+          el('span', {}, `${percent}% · ${tasks.filter((task) => task.done).length}/${plural(tasks.length, 'task')}`));
+      }));
+
+      $('stats-storage').textContent = storage === browserStorage ? 'This browser' : 'Team backend';
+      $('stats-tasks').textContent = `${db.tasks.filter((task) => task.done).length} of ${db.tasks.length} done`;
+      $('stats-status').textContent = syncState === 'offline' ? 'Offline' : 'Ready';
+    }
+
+    // ----- Daily Log -----
+    function addLogEntry(text) {
+      return save('logs', { id: newId(), date: today(), at: Date.now(), text, author: settings.name });
     }
 
     function renderLogs() {
-      const container = document.getElementById('log-entries');
-      container.innerHTML = '';
-      appData.logs.forEach((log, index) => {
-        const item = document.createElement('li');
-        item.innerHTML = `<strong>[${log.date}]</strong> - `;
-        item.append(log.text);
-        item.insertAdjacentHTML('beforeend', ` <button type="button" data-action="delete-log" data-index="${index}" aria-label="Delete log entry">X</button>`);
-        container.appendChild(item);
-      });
+      const logs = [...db.logs].sort((a, b) => (b.at || 0) - (a.at || 0));
+      $('log-entries').replaceChildren(...logs.map((log) => el('li', {},
+        el('strong', {}, `[${log.date}]`), log.author ? ` ${log.author}` : '', ' - ', String(log.text ?? ''), ' ',
+        actionButton('X', 'delete-log', log.id, 'Delete log entry'))));
     }
 
-    function addLog() {
-      const text = document.getElementById('new-log-text').value.trim();
+    async function summarizeToday() {
+      const entries = db.logs.filter((log) => log.date === today());
+      if (!entries.length) return msgBox('There are no log entries from today to summarize yet.');
+      const text = await runAI('summary', entries.map((log) => `${log.author || 'Someone'}: ${log.text}`).join('\n'), $('summarize-btn'));
       if (!text) return;
-
-      const today = new Date().toLocaleDateString('en-CA'); // local YYYY-MM-DD; toISOString is UTC and rolls to tomorrow in the evening
-      appData.logs.unshift({ date: today, text });
-      saveData();
-      renderLogs();
-      document.getElementById('new-log-text').value = '';
+      $('summary-text').textContent = text;
+      $('summary-box').hidden = false;
     }
 
-    function deleteLog(index) {
-      appData.logs.splice(index, 1);
-      saveData();
-      renderLogs();
+    // ----- Tasks -----
+    let editingTaskId = null;
+
+    function taskRow(task) {
+      const doneSteps = task.checklist.filter((step) => step.done).length;
+      const nextStep = task.checklist.find((step) => !step.done);
+      const comments = db.comments.filter((comment) => comment.taskId === task.id).length;
+      const overdue = task.due && !task.done && task.due < today();
+      const extras = [
+        task.attachments.length ? `📎 ${task.attachments.length}` : '',
+        comments ? `💬 ${comments}` : '',
+        task.remindAt && !task.done ? `⏰ ${formatStamp(Date.parse(task.remindAt))}` : '',
+      ].filter(Boolean).join('  ');
+      return el('tr', { data: { id: task.id } },
+        el('td', { data: { label: 'Status' } },
+          el('span', { className: task.done ? 'status-done' : 'status-pending' }, task.done ? '[DONE]' : '[PENDING]')),
+        el('td', { data: { label: 'Task' } },
+          el('span', { className: 'task-title' }, task.title),
+          task.checklist.length
+            ? el('div', { className: 'meta' }, `${doneSteps}/${task.checklist.length} steps`, nextStep && !task.done ? ` · Next: ${nextStep.text}` : '')
+            : null,
+          task.tags.length || extras ? el('div', { className: 'meta' }, task.tags.map(tagChip), extras) : null),
+        el('td', { data: { label: 'Owner' } }, task.owner || el('span', { className: 'muted' }, 'Unassigned')),
+        el('td', { data: { label: 'Due' }, className: overdue ? 'overdue' : '' }, task.due ? `${shortDate(task.due)}${overdue ? ' (late)' : ''}` : ''),
+        el('td', {}, el('div', { className: 'task-actions' },
+          actionButton(task.done ? 'Undo' : 'Complete', 'toggle-task', task.id),
+          actionButton('Edit', 'edit-task', task.id),
+          actionButton('Details', 'open-task', task.id),
+          actionButton('X', 'delete-task', task.id, 'Delete task'))));
     }
 
     function renderTasks() {
-      const tbody = document.getElementById('tasks-table-body');
-      tbody.innerHTML = '';
-
-      appData.tasks.forEach((task, index) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${task.done ? '<span class="status-done">[DONE]</span>' : '<span class="status-pending">[PENDING]</span>'}</td>
-          <td></td>
-          <td>
-            <div class="task-actions">
-              <button type="button" data-action="toggle" data-index="${index}">${task.done ? 'Undo' : 'Complete'}</button>
-              <button type="button" data-action="edit" data-index="${index}">Edit</button>
-              <button type="button" data-action="delete" data-index="${index}">X</button>
-            </div>
-          </td>
-        `;
-        row.cells[1].textContent = task.title;
-        tbody.appendChild(row);
-      });
+      editingTaskId = null; // a redraw closes any task that was being edited
+      const filter = $('task-filter').value;
+      const tasks = db.tasks.filter((task) => filter === 'all' || (filter === 'mine' ? isMe(task.owner) : !task.owner));
+      $('tasks-table-body').replaceChildren(...tasks.map(taskRow));
+      const percent = percentDone(db.tasks);
+      $('tasks-progress').value = percent;
+      $('tasks-progress-text').textContent = `${percent}%`;
     }
 
-    function addTask() {
-      const title = document.getElementById('new-task-title').value.trim();
-      if (!title) return;
-
-      appData.tasks.push({ title, done: false });
-      saveData();
-      renderTasks();
-      document.getElementById('new-task-title').value = '';
+    function rowFor(id) {
+      return [...$('tasks-table-body').rows].find((row) => row.dataset.id === id);
     }
 
-    function toggleTask(index) {
-      if (!appData.tasks[index]) return;
-      appData.tasks[index].done = !appData.tasks[index].done;
-      saveData();
-      renderTasks();
+    function toggleTask(id) {
+      const task = findItem('tasks', id);
+      if (task) save('tasks', { ...task, done: !task.done });
     }
 
-    function editTask(index) {
-      if (!appData.tasks[index]) return;
+    function editTask(id) {
+      const task = findItem('tasks', id);
+      if (!task) return;
       renderTasks(); // closes any other task that was being edited
+      editingTaskId = id;
 
-      const row = document.getElementById('tasks-table-body').rows[index];
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.spellcheck = true;
-      input.value = appData.tasks[index].title;
-      input.setAttribute('aria-label', 'Task name');
+      const row = rowFor(id);
+      const input = el('input', { type: 'text', spellcheck: true, value: task.title, 'aria-label': 'Task name' });
       input.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
           event.preventDefault(); // otherwise this Enter also "clicks" the Edit button that gets focus after saving
-          saveTaskEdit(index);
+          saveTaskEdit(id);
         }
-        if (event.key === 'Escape') closeTaskEdit(index);
+        if (event.key === 'Escape') closeTaskEdit(id);
       });
-      row.cells[1].replaceChildren(input);
-      row.cells[2].querySelector('.task-actions').innerHTML = `
-        <button type="button" data-action="save-edit" data-index="${index}">Save</button>
-        <button type="button" data-action="cancel-edit" data-index="${index}">Cancel</button>
-        <button type="button" data-action="delete" data-index="${index}">X</button>
-      `;
+      row.querySelector('.task-title').replaceChildren(input);
+      row.querySelector('.task-actions').replaceChildren(
+        actionButton('Save', 'save-edit', id),
+        actionButton('Cancel', 'cancel-edit', id),
+        actionButton('X', 'delete-task', id, 'Delete task'));
       input.focus();
       input.select();
     }
 
-    function saveTaskEdit(index) {
-      const input = document.getElementById('tasks-table-body').rows[index].cells[1].querySelector('input');
+    function saveTaskEdit(id) {
+      const input = rowFor(id)?.querySelector('.task-title input');
+      const task = findItem('tasks', id);
+      if (!input || !task) return;
       const title = input.value.trim();
       if (!title) return input.focus();
 
-      appData.tasks[index].title = title;
-      saveData();
-      closeTaskEdit(index);
+      editingTaskId = null;
+      save('tasks', { ...task, title });
+      closeTaskEdit(id);
     }
 
-    function closeTaskEdit(index) {
+    function closeTaskEdit(id) {
       renderTasks();
-      document.querySelector(`[data-action="edit"][data-index="${index}"]`).focus();
+      rowFor(id)?.querySelector('[data-action="edit-task"]').focus();
     }
 
-    function deleteTask(index) {
-      appData.tasks.splice(index, 1);
-      saveData();
-      renderTasks();
+    function deleteTask(id) {
+      const task = findItem('tasks', id);
+      if (!task) return;
+      remove('tasks', id);
+      db.comments.filter((comment) => comment.taskId === id).forEach((comment) => remove('comments', comment.id));
+      task.attachments.forEach((file) => storage.removeFile(file.id).catch(console.error));
     }
 
-    function renderNotes() {
-      const list = document.getElementById('notes-list');
-      list.innerHTML = '';
-      sessionNotes.forEach((note) => {
-        const item = document.createElement('li');
-        item.textContent = note;
-        list.appendChild(item);
+    // ----- Task Properties dialog: details, checklist, attachments, comments -----
+    let currentTaskId = null;
+
+    function openTask(id) {
+      const task = findItem('tasks', id);
+      if (!task) return;
+      currentTaskId = id;
+      $('task-dialog-title').textContent = `${task.title} Properties`;
+      $('prop-title').value = task.title;
+      $('prop-owner').value = task.owner;
+      $('prop-due').value = task.due;
+      $('prop-remind').value = task.remindAt;
+      $('prop-tags').value = task.tags.join(', ');
+      $('prop-status').textContent = '';
+      $('attach-status').textContent = '';
+      renderTaskDialog();
+      if (!$('task-dialog').open) $('task-dialog').showModal();
+    }
+
+    function renderTaskDialog() {
+      const task = findItem('tasks', currentTaskId);
+      if (!task) return $('task-dialog').close(); // a teammate deleted it
+
+      const next = task.checklist.findIndex((step) => !step.done);
+      $('checklist').replaceChildren(...task.checklist.map((step, index) => el('li', { className: index === next ? 'next' : step.done ? 'done-step' : '' },
+        el('label', {}, el('input', { type: 'checkbox', checked: Boolean(step.done), data: { action: 'toggle-step', index } }), ` ${step.text}`),
+        ' ', el('button', { type: 'button', 'aria-label': `Remove step ${index + 1}`, data: { action: 'remove-step', index } }, 'X'))));
+
+      $('attachments').replaceChildren(...task.attachments.map((file) => el('li', {},
+        el('button', { type: 'button', className: 'link', data: { action: 'open-file', id: file.id } }, `📎 ${file.name}`),
+        ` (${formatSize(file.size || 0)}) `,
+        el('button', { type: 'button', 'aria-label': `Remove ${file.name}`, data: { action: 'remove-file', id: file.id } }, 'X'))));
+
+      const comments = db.comments.filter((comment) => comment.taskId === task.id).sort((a, b) => (a.at || 0) - (b.at || 0));
+      $('comments').replaceChildren(...comments.map((comment) => el('li', {},
+        el('strong', {}, comment.author || 'Someone'), ' ', el('small', { className: 'muted' }, formatStamp(comment.at)),
+        el('p', {}, String(comment.text ?? '')))));
+    }
+
+    function saveTaskProps(event) {
+      event.preventDefault();
+      const task = findItem('tasks', currentTaskId);
+      if (!task) return;
+      const title = $('prop-title').value.trim();
+      if (!title) return $('prop-title').focus();
+      const remindAt = $('prop-remind').value;
+      if (remindAt && remindAt !== task.remindAt) askNotificationPermission();
+      save('tasks', { ...task, title, owner: $('prop-owner').value.trim(), due: $('prop-due').value, remindAt, tags: parseTags($('prop-tags').value) });
+      $('task-dialog-title').textContent = `${title} Properties`;
+      $('prop-status').textContent = 'Saved.';
+    }
+
+    function changeChecklist(change) {
+      const task = findItem('tasks', currentTaskId);
+      if (task) save('tasks', { ...task, checklist: change(task.checklist) });
+    }
+
+    async function breakDownTask() {
+      const task = findItem('tasks', currentTaskId);
+      if (!task) return;
+      const reply = await runAI('breakdown', task.title, $('breakdown-btn'));
+      if (!reply) return;
+      const steps = reply.split('\n')
+        .map((line) => line.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, '').trim())
+        .filter(Boolean)
+        .slice(0, 12);
+      changeChecklist((checklist) => [...checklist, ...steps.map((text) => ({ text, done: false }))]);
+    }
+
+    async function attachFile() {
+      const input = $('attach-input');
+      const file = input.files[0];
+      input.value = '';
+      if (!file) return;
+      if (file.size > MAX_FILE_MB * 1024 * 1024) return msgBox(`"${file.name}" is bigger than ${MAX_FILE_MB} MB.`, { icon: '⚠️' });
+
+      $('attach-status').textContent = 'Uploading…';
+      try {
+        const id = await storage.uploadFile(file);
+        const task = findItem('tasks', currentTaskId);
+        if (task) save('tasks', { ...task, attachments: [...task.attachments, { id, name: file.name, size: file.size, type: file.type }] });
+        $('attach-status').textContent = '';
+      } catch (error) {
+        $('attach-status').textContent = '';
+        msgBox(`Couldn't attach "${file.name}":\n${error.message}`, { icon: '⚠️' });
+      }
+    }
+
+    async function openFile(id) {
+      const file = findItem('tasks', currentTaskId)?.attachments.find((attachment) => attachment.id === id);
+      if (!file) return;
+      try {
+        const blob = await storage.getFile(id);
+        if (!blob) throw new Error('The file is missing.');
+        download(file.name, new Blob([blob], { type: file.type }));
+      } catch (error) {
+        msgBox(`Couldn't open "${file.name}":\n${error.message}`, { icon: '⚠️' });
+      }
+    }
+
+    function removeFile(id) {
+      const task = findItem('tasks', currentTaskId);
+      if (!task) return;
+      save('tasks', { ...task, attachments: task.attachments.filter((file) => file.id !== id) });
+      storage.removeFile(id).catch(console.error);
+    }
+
+    // ----- Reminders: checked every few seconds while Outlet is open -----
+    function checkReminders() {
+      const reminded = readJson(REMINDED_KEY); // which reminders this device already showed
+      db.tasks.forEach((task) => {
+        if (!task.remindAt || task.done || reminded[task.id] === task.remindAt) return;
+        if (task.owner && !isMe(task.owner)) return; // reminders go to the person the task is assigned to
+        if (Date.parse(task.remindAt) > Date.now()) return;
+        reminded[task.id] = task.remindAt;
+        notify('⏰ Outlet reminder', task.title);
       });
+      localStorage.setItem(REMINDED_KEY, JSON.stringify(reminded));
     }
 
-    function addNote() {
-      const notesArea = document.getElementById('notes-area');
-      const text = notesArea.value.trim();
-      if (!text) return;
+    // ----- Calendar -----
+    let calMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    let selectedDate = today();
 
-      sessionNotes.unshift(text);
-      renderNotes();
-      notesArea.value = '';
+    function calendarItems() {
+      const mine = $('cal-filter').value === 'mine';
+      const byDate = new Map();
+      const add = (date, item) => byDate.set(date, [...(byDate.get(date) || []), item]);
+      db.events.forEach((entry) => {
+        if (!mine || isMe(entry.author)) {
+          add(entry.date, { kind: 'event', id: entry.id, time: entry.time || '', author: entry.author, text: `${entry.time ? `${formatTime(entry.time)} ` : ''}${entry.title}` });
+        }
+      });
+      byDate.forEach((items) => items.sort((a, b) => a.time.localeCompare(b.time)));
+      db.tasks.forEach((task) => {
+        if (task.due && (!mine || isMe(task.owner))) add(task.due, { kind: 'task', id: task.id, text: task.title, done: task.done, owner: task.owner });
+      });
+      return byDate;
     }
 
-    // ===== WORKFLOWS: reusable step lists; Apply copies the steps into Tasks =====
-    let editingWorkflow = null; // index of the workflow loaded into the form, or null when adding a new one
+    function renderCalendar() {
+      const year = calMonth.getFullYear();
+      const month = calMonth.getMonth();
+      const items = calendarItems();
+      $('cal-month').textContent = calMonth.toLocaleDateString([], { month: 'long', year: 'numeric' });
 
-    function plural(count, word) {
-      return `${count} ${word}${count === 1 ? '' : 's'}`;
+      const grid = $('calendar-grid');
+      grid.replaceChildren(...['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => el('div', { className: 'dow', 'aria-hidden': 'true' }, day)));
+      for (let blank = new Date(year, month, 1).getDay(); blank > 0; blank--) grid.append(el('div'));
+      const days = new Date(year, month + 1, 0).getDate();
+      for (let day = 1; day <= days; day++) {
+        const date = new Date(year, month, day).toLocaleDateString('en-CA');
+        const dayItems = items.get(date) || [];
+        grid.append(el('button', {
+          type: 'button',
+          className: `day${date === today() ? ' today' : ''}`,
+          'aria-pressed': String(date === selectedDate),
+          'aria-label': `${longDate(date)}, ${plural(dayItems.length, 'item')}`,
+          data: { action: 'pick-day', date },
+        },
+        el('span', { className: 'num' }, String(day)),
+        dayItems.slice(0, 3).map((item) => el('span', { className: `chip ${item.kind}${item.done ? ' done' : ''}` }, item.text)),
+        dayItems.length > 3 ? el('span', { className: 'more' }, `+${dayItems.length - 3} more`) : null));
+      }
+
+      const picked = items.get(selectedDate) || [];
+      $('day-title').textContent = longDate(selectedDate);
+      $('day-items').replaceChildren(...picked.map((item) => (item.kind === 'task'
+        ? el('li', {}, `📝 Due: ${item.text}`, item.owner ? ` (${item.owner})` : '', item.done ? ' [DONE]' : '', ' ', actionButton('Details', 'open-task', item.id))
+        : el('li', {}, `📅 ${item.text}`, item.author ? ` (${item.author})` : '', ' ', actionButton('X', 'delete-event', item.id, 'Delete event')))));
+      if (!picked.length) $('day-items').append(el('li', { className: 'muted' }, 'Nothing scheduled.'));
     }
+
+    function moveMonth(delta) {
+      calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + delta, 1);
+      renderCalendar();
+    }
+
+    // Google Calendar, Apple Calendar and Microsoft Outlook can all import this file.
+    function exportCalendar() {
+      const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
+      const escape = (text) => String(text).replace(/[\\,;]/g, (character) => `\\${character}`).replace(/\n/g, '\\n');
+      const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Outlet//EN'];
+      const add = (id, start, summary, allDay) => lines.push('BEGIN:VEVENT', `UID:${id}@outlet`, `DTSTAMP:${stamp}`,
+        allDay ? `DTSTART;VALUE=DATE:${start}` : `DTSTART:${start}`, ...(allDay ? [] : ['DURATION:PT1H']), `SUMMARY:${escape(summary)}`, 'END:VEVENT');
+      db.tasks.forEach((task) => { if (task.due) add(task.id, task.due.replace(/-/g, ''), `Due: ${task.title}`, true); });
+      db.events.forEach((entry) => {
+        const day = String(entry.date).replace(/-/g, '');
+        add(entry.id, entry.time ? `${day}T${entry.time.replace(':', '')}00` : day, entry.title, !entry.time);
+      });
+      lines.push('END:VCALENDAR');
+      download('outlet-calendar.ics', new Blob([lines.join('\r\n')], { type: 'text/calendar' }));
+    }
+
+    // ----- Workflows: reusable checklists; Apply adds one task with the steps to tick off -----
+    let editingWorkflow = null; // id of the workflow loaded into the form, or null when adding a new one
 
     function showWorkflowStatus(message) {
-      document.getElementById('workflow-status').textContent = message;
+      $('workflow-status').textContent = message;
     }
 
     function renderWorkflows() {
-      const list = document.getElementById('workflow-list');
-      list.innerHTML = '';
-      appData.workflows.forEach((workflow, index) => {
-        const item = document.createElement('li');
-        const name = document.createElement('strong');
-        name.textContent = workflow.name;
-        item.append(name, ` (${plural(workflow.steps.length, 'step')}) `);
-        item.insertAdjacentHTML('beforeend', `
-          <button type="button" data-action="apply-workflow" data-index="${index}">Apply</button>
-          <button type="button" data-action="edit-workflow" data-index="${index}">Edit</button>
-          <button type="button" data-action="delete-workflow" data-index="${index}" aria-label="Delete workflow">X</button>
-        `);
-        const steps = document.createElement('ol');
-        workflow.steps.forEach((step) => {
-          const stepItem = document.createElement('li');
-          stepItem.textContent = step;
-          steps.append(stepItem);
-        });
-        item.append(steps);
-        list.append(item);
-      });
+      $('workflow-list').replaceChildren(...db.workflows.map((workflow) => el('li', {},
+        el('strong', {}, String(workflow.name ?? '')), ` (${plural(list(workflow.steps).length, 'step')}) `,
+        actionButton('Apply', 'apply-workflow', workflow.id),
+        ' ', actionButton('Edit', 'edit-workflow', workflow.id),
+        ' ', actionButton('X', 'delete-workflow', workflow.id, 'Delete workflow'),
+        el('ol', {}, list(workflow.steps).map((step) => el('li', {}, String(step)))))));
     }
 
     function resetWorkflowForm() {
       editingWorkflow = null;
-      document.getElementById('workflow-name').value = '';
-      document.getElementById('workflow-steps').value = '';
-      document.getElementById('save-workflow-btn').textContent = 'Save Workflow';
-      document.getElementById('cancel-workflow-btn').hidden = true;
+      $('workflow-name').value = '';
+      $('workflow-steps').value = '';
+      $('save-workflow-btn').textContent = 'Save Workflow';
+      $('cancel-workflow-btn').hidden = true;
     }
 
     function saveWorkflow() {
-      const name = document.getElementById('workflow-name').value.trim();
-      const steps = document.getElementById('workflow-steps').value.split('\n').map((step) => step.trim()).filter(Boolean);
+      const name = $('workflow-name').value.trim();
+      const steps = $('workflow-steps').value.split('\n').map((step) => step.trim()).filter(Boolean);
       if (!name || !steps.length) return showWorkflowStatus('Give the workflow a name and at least one step.');
 
-      if (editingWorkflow === null) appData.workflows.push({ name, steps });
-      else appData.workflows[editingWorkflow] = { name, steps };
-      saveData();
+      save('workflows', { id: editingWorkflow || newId(), name, steps });
       resetWorkflowForm();
-      renderWorkflows();
       showWorkflowStatus(`Saved "${name}".`);
     }
 
-    function editWorkflow(index) {
-      const workflow = appData.workflows[index];
+    function editWorkflow(id) {
+      const workflow = findItem('workflows', id);
       if (!workflow) return;
 
-      editingWorkflow = index;
-      document.getElementById('workflow-name').value = workflow.name;
-      document.getElementById('workflow-steps').value = workflow.steps.join('\n');
-      document.getElementById('save-workflow-btn').textContent = 'Update Workflow';
-      document.getElementById('cancel-workflow-btn').hidden = false;
+      editingWorkflow = id;
+      $('workflow-name').value = workflow.name;
+      $('workflow-steps').value = list(workflow.steps).join('\n');
+      $('save-workflow-btn').textContent = 'Update Workflow';
+      $('cancel-workflow-btn').hidden = false;
       showWorkflowStatus(`Editing "${workflow.name}".`);
-      document.getElementById('workflow-name').focus();
+      $('workflow-name').focus();
     }
 
-    function deleteWorkflow(index) {
-      appData.workflows.splice(index, 1);
-      if (editingWorkflow === index) {
+    function deleteWorkflow(id) {
+      if (editingWorkflow === id) {
         resetWorkflowForm();
         showWorkflowStatus('');
-      } else if (editingWorkflow !== null && editingWorkflow > index) {
-        editingWorkflow--; // the workflow being edited moved up one place
       }
-      saveData();
-      renderWorkflows();
+      remove('workflows', id);
     }
 
-    function applyWorkflow(index) {
-      const workflow = appData.workflows[index];
+    function applyWorkflow(id) {
+      const workflow = findItem('workflows', id);
       if (!workflow) return;
 
-      workflow.steps.forEach((step) => appData.tasks.push({ title: `${workflow.name}: ${step}`, done: false }));
-      saveData();
-      renderTasks();
-      showWorkflowStatus(`Added ${plural(workflow.steps.length, 'step')} from "${workflow.name}" to Tasks.`);
+      const steps = list(workflow.steps);
+      save('tasks', newTask({ title: workflow.name, owner: settings.name, checklist: steps.map((text) => ({ text, done: false })) }));
+      showWorkflowStatus(`Added "${workflow.name}" to Tasks with a ${steps.length}-step checklist.`);
+    }
+
+    // ----- Notes with highlighters -----
+    let editingNoteId = null;
+    let noteRange = null; // the last selection inside the editor, kept so a highlighter button can still use it
+    let noteDirty = false;
+
+    // Notes come from teammates and the backend, so only text, line breaks and our own highlight marks survive.
+    function cleanNote(html) {
+      const source = document.createElement('template'); // a template parses HTML without running or loading anything
+      source.innerHTML = String(html ?? '');
+      const copy = (from, to) => from.childNodes.forEach((node) => {
+        if (node.nodeType === Node.TEXT_NODE) return to.append(node.textContent);
+        if (node.nodeType !== Node.ELEMENT_NODE || /^(SCRIPT|STYLE)$/.test(node.nodeName)) return;
+        if (node.nodeName === 'BR') return to.append(el('br'));
+        const color = node.nodeName === 'MARK' && HIGHLIGHTS.find((name) => node.classList.contains(`hl-${name}`));
+        if (color) {
+          const mark = el('mark', { className: `hl-${color}` });
+          to.append(mark);
+          return copy(node, mark);
+        }
+        if (/^(DIV|P)$/.test(node.nodeName) && to.childNodes.length) to.append(el('br')); // a block means a new line
+        copy(node, to);
+      });
+      const out = document.createElement('div');
+      copy(source.content, out);
+      return out.innerHTML;
+    }
+
+    function noteText(note) {
+      return el('div', { innerHTML: cleanNote(note.html) }).textContent;
+    }
+
+    function highlight(color) {
+      const editor = $('note-editor');
+      const range = noteRange;
+      if (!range || range.collapsed || !editor.contains(range.commonAncestorContainer)) return;
+
+      if (!color) {
+        // Clear removes every highlight the selection touches
+        editor.querySelectorAll('mark').forEach((mark) => { if (range.intersectsNode(mark)) mark.replaceWith(...mark.childNodes); });
+      } else {
+        // ponytail: highlighting inside a highlight nests the marks; the inner color shows, which is what people expect
+        const mark = el('mark', { className: `hl-${color}` }, range.extractContents());
+        mark.querySelectorAll('mark').forEach((inner) => inner.replaceWith(...inner.childNodes));
+        range.insertNode(mark);
+        const selection = document.getSelection();
+        const marked = document.createRange();
+        marked.selectNodeContents(mark);
+        selection.removeAllRanges();
+        selection.addRange(marked);
+      }
+      editor.normalize();
+      noteDirty = true;
+    }
+
+    function renderNotes() {
+      const notes = [...db.notes].sort((a, b) => (b.at || 0) - (a.at || 0));
+      $('notes-list').replaceChildren(...notes.map((note) => el('li', {},
+        el('div', { className: 'meta' }, note.author || 'Someone', note.at ? ` · ${formatStamp(note.at)} ` : ' ', list(note.tags).map(tagChip)),
+        el('div', { className: 'note-body', innerHTML: cleanNote(note.html) }),
+        el('div', { className: 'task-actions' }, actionButton('Edit', 'edit-note', note.id), actionButton('X', 'delete-note', note.id, 'Delete note')))));
+    }
+
+    function resetNoteForm() {
+      editingNoteId = null;
+      noteDirty = false;
+      $('note-editor').replaceChildren();
+      $('note-tags').value = '';
+      $('save-note-btn').textContent = 'Add Note';
+      $('cancel-note-btn').hidden = true;
+    }
+
+    function saveNote() {
+      const html = cleanNote($('note-editor').innerHTML);
+      if (!el('div', { innerHTML: html }).textContent.trim()) return $('note-editor').focus();
+
+      const old = editingNoteId ? findItem('notes', editingNoteId) : null;
+      save('notes', { ...old, id: old?.id || newId(), html, tags: parseTags($('note-tags').value), author: old?.author || settings.name, at: Date.now() });
+      resetNoteForm();
+    }
+
+    function editNote(id) {
+      const note = findItem('notes', id);
+      if (!note) return;
+      editingNoteId = id;
+      $('note-editor').innerHTML = cleanNote(note.html);
+      $('note-tags').value = list(note.tags).join(', ');
+      $('save-note-btn').textContent = 'Update Note';
+      $('cancel-note-btn').hidden = false;
+      noteDirty = false;
+      $('note-editor').focus();
+    }
+
+    // ----- Sticky notes -----
+    let dragging = null;
+    let topSticky = 1;
+
+    function renderStickies() {
+      const board = $('sticky-board');
+      const maxX = Math.max(0, board.clientWidth - 190);
+      const maxY = Math.max(0, board.clientHeight - 170);
+      board.replaceChildren(...db.stickies.map((sticky) => {
+        const color = STICKY_COLORS.includes(sticky.color) ? sticky.color : 'yellow';
+        const note = el('div', { className: `sticky sticky-${color}` },
+          el('div', { className: 'sticky-bar', data: { drag: sticky.id } },
+            STICKY_COLORS.map((name) => el('button', {
+              type: 'button', className: `swatch sticky-${name}`, 'aria-label': `Make it ${name}`, data: { action: 'sticky-color', id: sticky.id, color: name },
+            })),
+            el('button', { type: 'button', className: 'sticky-close', 'aria-label': 'Delete sticky note', data: { action: 'delete-sticky', id: sticky.id } }, '×')),
+          el('textarea', { value: String(sticky.text ?? ''), spellcheck: true, 'aria-label': 'Sticky note', data: { sticky: sticky.id } }));
+        note.style.left = `${Math.min(Number(sticky.x) || 0, maxX)}px`; // pulled back inside on narrow screens
+        note.style.top = `${Math.min(Number(sticky.y) || 0, maxY)}px`;
+        return note;
+      }));
+    }
+
+    function addSticky() {
+      showView('stickies');
+      const step = (db.stickies.length % 6) * 24; // fan new notes out so they don't land exactly on top of each other
+      const id = newId();
+      save('stickies', { id, text: '', color: 'yellow', x: 16 + step, y: 16 + step, author: settings.name });
+      $('sticky-board').querySelector(`[data-sticky="${id}"]`)?.focus();
+    }
+
+    function setupStickyDragging() {
+      const board = $('sticky-board');
+      board.addEventListener('pointerdown', (event) => {
+        const bar = event.target.closest('.sticky-bar');
+        if (!bar || event.target.closest('button')) return;
+        const note = bar.parentElement;
+        note.style.zIndex = ++topSticky; // the note you grab comes to the front, like clicking a window
+        dragging = { id: bar.dataset.drag, note, dx: event.clientX - note.offsetLeft, dy: event.clientY - note.offsetTop };
+        bar.setPointerCapture(event.pointerId);
+      });
+      board.addEventListener('pointermove', (event) => {
+        if (!dragging) return;
+        const { note, dx, dy } = dragging;
+        note.style.left = `${Math.min(Math.max(0, event.clientX - dx), board.clientWidth - note.offsetWidth)}px`;
+        note.style.top = `${Math.min(Math.max(0, event.clientY - dy), board.clientHeight - note.offsetHeight)}px`;
+      });
+      const drop = () => {
+        if (!dragging) return;
+        const sticky = findItem('stickies', dragging.id);
+        if (sticky) save('stickies', { ...sticky, x: dragging.note.offsetLeft, y: dragging.note.offsetTop }, { quiet: true });
+        dragging = null;
+      };
+      board.addEventListener('pointerup', drop);
+      board.addEventListener('pointercancel', drop);
+      board.addEventListener('change', (event) => {
+        const sticky = findItem('stickies', event.target.dataset.sticky);
+        if (sticky) save('stickies', { ...sticky, text: event.target.value }, { quiet: true });
+      });
+    }
+
+    // ----- Focus sessions -----
+    const focus = { mode: 'focus', remaining: FOCUS_MINUTES * 60000, endsAt: null, timer: null };
+
+    function focusLeft() {
+      return focus.endsAt ? Math.max(0, focus.endsAt - Date.now()) : focus.remaining;
+    }
+
+    function renderFocus() {
+      const select = $('focus-task');
+      const keep = select.value;
+      select.replaceChildren(el('option', { value: '' }, '(no particular task)'),
+        ...db.tasks.filter((task) => !task.done).map((task) => el('option', { value: task.id }, task.title)));
+      select.value = keep;
+      if (select.value !== keep) select.value = '';
+      showFocus();
+    }
+
+    function showFocus() {
+      const seconds = Math.ceil(focusLeft() / 1000);
+      const clock = `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
+      $('focus-time').textContent = clock;
+      $('focus-mode').firstElementChild.textContent = focus.mode === 'focus' ? 'Focus time' : 'Break time';
+      $('focus-start').textContent = focus.endsAt ? 'Pause' : 'Start';
+      $('focus-tray').hidden = !focus.endsAt;
+      $('focus-tray').textContent = `⏱️ ${clock}`;
+      document.title = focus.endsAt ? `${clock} · Outlet` : 'Outlet';
+    }
+
+    function startPauseFocus() {
+      if (focus.endsAt) {
+        focus.remaining = focusLeft();
+        focus.endsAt = null;
+        clearInterval(focus.timer);
+      } else {
+        askNotificationPermission();
+        focus.endsAt = Date.now() + focus.remaining; // counting toward a clock time stays right even if the tab sleeps
+        focus.timer = setInterval(tickFocus, 1000);
+      }
+      showFocus();
+    }
+
+    function setFocusMode(mode) {
+      clearInterval(focus.timer);
+      Object.assign(focus, { mode, remaining: (mode === 'focus' ? FOCUS_MINUTES : BREAK_MINUTES) * 60000, endsAt: null });
+    }
+
+    function tickFocus() {
+      if (focusLeft() > 0) return showFocus();
+      if (focus.mode === 'focus') {
+        const task = findItem('tasks', $('focus-task').value);
+        addLogEntry(`⏱️ Finished a ${FOCUS_MINUTES}-minute focus session${task ? ` on "${task.title}"` : ''}.`);
+        notify('Focus session done', `Nice work. Take a ${BREAK_MINUTES}-minute break.`);
+        setFocusMode('break');
+        startPauseFocus(); // the break starts on its own
+      } else {
+        notify('Break over', 'Ready for the next focus session?');
+        setFocusMode('focus');
+        showFocus();
+      }
+    }
+
+    // ----- AI -----
+    async function runAI(kind, input, button) {
+      button.disabled = true;
+      document.body.classList.add('waiting');
+      try {
+        return String(await storage.ai(AI_INSTRUCTIONS[kind], input)).trim();
+      } catch (error) {
+        msgBox(`The AI couldn't finish:\n${error.message}`, { title: 'AI', icon: '⚠️' });
+        return null;
+      } finally {
+        button.disabled = false;
+        document.body.classList.remove('waiting');
+      }
+    }
+
+    async function createPrompt(event) {
+      event.preventDefault();
+      const goal = $('prompt-goal').value.trim();
+      if (!goal) return;
+      const prompt = await runAI('prompt', goal, $('prompt-btn'));
+      if (!prompt) return;
+      $('prompt-output').value = prompt;
+      $('prompt-result').hidden = false;
+      $('copy-status').textContent = '';
+    }
+
+    // ----- Search: one box for everything; "#tag" finds tagged tasks and notes -----
+    let searchQuery = '';
+
+    function runSearch(query) {
+      searchQuery = query.trim();
+      $('search-input').value = searchQuery;
+      if (searchQuery) showView('search');
+    }
+
+    function renderSearch() {
+      const query = searchQuery.toLowerCase();
+      const tag = query.startsWith('#') ? query.slice(1) : null;
+      const has = (...texts) => texts.join(' ').toLowerCase().includes(query);
+      const hits = [];
+      db.tasks.forEach((task) => {
+        if (tag ? task.tags.includes(tag) : has(task.title, task.owner, task.tags.join(' '), task.checklist.map((step) => step.text).join(' '))) {
+          hits.push(['Task', 'task', task.id, task.title]);
+        }
+      });
+      db.notes.forEach((note) => {
+        const text = noteText(note);
+        if (tag ? list(note.tags).includes(tag) : has(text, list(note.tags).join(' '))) hits.push(['Note', 'note', note.id, text.slice(0, 120)]);
+      });
+      if (!tag) {
+        db.logs.forEach((log) => { if (has(log.text, log.author || '')) hits.push(['Log', 'log', log.id, `[${log.date}] ${log.text}`]); });
+        db.comments.forEach((comment) => { if (has(comment.text, comment.author || '')) hits.push(['Comment', 'task', comment.taskId, `${comment.author || 'Someone'}: ${comment.text}`]); });
+        db.events.forEach((entry) => { if (has(entry.title)) hits.push(['Event', 'event', entry.id, `${shortDate(entry.date)}: ${entry.title}`]); });
+        db.stickies.forEach((sticky) => { if (has(sticky.text || '')) hits.push(['Sticky', 'sticky', sticky.id, sticky.text]); });
+        db.workflows.forEach((workflow) => { if (has(workflow.name, list(workflow.steps).join(' '))) hits.push(['Workflow', 'workflow', workflow.id, workflow.name]); });
+      }
+      $('search-summary').textContent = query ? `${plural(hits.length, 'result')} for "${searchQuery}".` : 'Type something in the Find box.';
+      $('search-results').replaceChildren(...hits.map(([label, kind, id, text]) => el('li', {},
+        el('strong', {}, `[${label}] `), String(text ?? ''), ' ',
+        el('button', { type: 'button', data: { action: 'open-result', kind, id } }, 'Open'))));
+    }
+
+    function openResult(kind, id) {
+      if (kind === 'task') {
+        showView('tasks');
+        openTask(id);
+      } else if (kind === 'note') {
+        showView('notes');
+        editNote(id);
+      } else if (kind === 'event') {
+        const entry = findItem('events', id);
+        if (entry) {
+          selectedDate = entry.date;
+          const date = dateFromIso(entry.date);
+          calMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+        }
+        showView('calendar');
+      } else if (kind === 'workflow') {
+        showView('workflows');
+        editWorkflow(id);
+      } else {
+        showView(kind === 'sticky' ? 'stickies' : kind);
+      }
+    }
+
+    // ----- Settings -----
+    function fillSettings() {
+      $('set-name').value = settings.name;
+      $('set-theme').value = settings.theme;
+      $('set-accent').value = settings.accent || '#000080';
+      $('set-backend').value = settings.backendUrl;
+      $('set-backend').placeholder = location.protocol.startsWith('http') ? location.origin : 'http://localhost:8000';
+      $('set-key').value = settings.teamKey;
+      $('settings-status').textContent = '';
+    }
+
+    async function copyEverything(from, to) {
+      const copy = structuredClone(db); // file ids change on the way, so don't touch what this browser shows
+      for (const task of copy.tasks) {
+        for (const file of task.attachments) {
+          const blob = await from.getFile(file.id);
+          if (blob) file.id = await to.uploadFile(blob);
+        }
+      }
+      for (const name of COLLECTIONS) {
+        for (const item of copy[name]) await to.put(name, item);
+      }
+    }
+
+    async function connect(url, key) {
+      const status = $('settings-status');
+      if (unsaved.size) {
+        const answer = await msgBox(`${plural(unsaved.size, 'change')} never reached ${storage.label}. Switch anyway and lose them?`, { icon: '⚠️', buttons: ['Switch', 'Cancel'] });
+        if (answer !== 'Switch') return false;
+      }
+      status.textContent = 'Connecting…';
+      const next = url ? httpBackend(url, key) : browserStorage;
+      let fresh;
+      try {
+        fresh = normalize(await next.loadAll());
+      } catch (error) {
+        status.textContent = `Couldn't connect: ${error.message}`;
+        return false;
+      }
+
+      const backendEmpty = COLLECTIONS.every((name) => !fresh[name].length);
+      const haveData = COLLECTIONS.some((name) => db[name].length);
+      if (url && backendEmpty && haveData) {
+        const answer = await msgBox('This team backend is empty. Copy everything from this browser into it?', { icon: '❓', buttons: ['Yes', 'No'] });
+        if (answer === 'Yes') {
+          status.textContent = 'Copying…';
+          try {
+            await copyEverything(storage, next);
+            fresh = normalize(await next.loadAll());
+          } catch (error) {
+            status.textContent = `Copy failed: ${error.message}`;
+            return false;
+          }
+        }
+      }
+
+      Object.assign(settings, { backendUrl: url, teamKey: key });
+      saveSettings();
+      storage = next;
+      db = fresh;
+      unsaved.clear();
+      syncState = url ? 'ok' : 'local';
+      return true;
+    }
+
+    async function applySettings(event) {
+      event.preventDefault();
+      settings.name = $('set-name').value.trim();
+      saveSettings();
+      if (!$('new-task-owner').value) $('new-task-owner').value = settings.name;
+
+      const url = $('set-backend').value.trim().replace(/\/+$/, '');
+      const key = $('set-key').value;
+      if ((url !== settings.backendUrl || key !== settings.teamKey) && !(await connect(url, key))) return render();
+      $('settings-status').textContent = url ? `Applied. Connected to ${url}.` : 'Applied. Saving in this browser only.';
+      render();
+    }
+
+    function exportData() {
+      const file = { app: 'Outlet', version: 1, exportedAt: new Date().toISOString(), data: db };
+      download(`outlet-export-${today()}.json`, new Blob([JSON.stringify(file, null, 2)], { type: 'application/json' }));
+    }
+
+    async function importData() {
+      const input = $('import-input');
+      const file = input.files[0];
+      input.value = '';
+      if (!file) return;
+      let incoming;
+      try {
+        incoming = normalize(JSON.parse(await file.text()).data);
+      } catch {
+        return msgBox(`"${file.name}" isn't an Outlet export file.`, { icon: '⚠️' });
+      }
+      const count = COLLECTIONS.reduce((sum, name) => sum + incoming[name].length, 0);
+      if (!count) return msgBox(`"${file.name}" has nothing in it to import.`);
+      const answer = await msgBox(`Import ${plural(count, 'item')} from "${file.name}"? Items already here with the same id are replaced.`, { icon: '❓', buttons: ['Import', 'Cancel'] });
+      if (answer !== 'Import') return;
+      COLLECTIONS.forEach((name) => incoming[name].forEach((item) => save(name, item, { quiet: true })));
+      render();
+      msgBox(`Imported ${plural(count, 'item')}.`);
+    }
+
+    // ----- Start menu (phones) and the clock -----
+    const phone = matchMedia('(max-width: 720px)');
+
+    function closeStartMenu() {
+      document.body.classList.remove('menu-open');
+      $('start-btn').setAttribute('aria-expanded', 'false');
     }
 
     function updateClock() {
-      document.getElementById('clock').textContent = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      $('clock').textContent = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
     }
+
+    const renderers = {
+      welcome: renderWelcome,
+      log: renderLogs,
+      tasks: renderTasks,
+      calendar: renderCalendar,
+      workflows: renderWorkflows,
+      notes: renderNotes,
+      stickies: renderStickies,
+      focus: renderFocus,
+      search: renderSearch,
+    };
+
+    // Buttons say what they do with data-action; one listener runs them all.
+    const actions = {
+      'new-task': () => {
+        showView('tasks');
+        $('new-task-title').focus();
+      },
+      'new-note': () => {
+        showView('notes');
+        resetNoteForm();
+        $('note-editor').focus();
+      },
+      'new-sticky': addSticky,
+      'toggle-dark': () => {
+        settings.theme = settings.theme === 'dark' ? 'standard' : 'dark';
+        saveSettings();
+        applyTheme();
+        if (currentView === 'settings') $('set-theme').value = settings.theme;
+      },
+      'delete-log': (id) => remove('logs', id),
+      'toggle-task': toggleTask,
+      'edit-task': editTask,
+      'save-edit': saveTaskEdit,
+      'cancel-edit': closeTaskEdit,
+      'delete-task': deleteTask,
+      'open-task': openTask,
+      'close-dialog': (id, button) => button.closest('dialog').close(),
+      'toggle-step': (id, box) => changeChecklist((checklist) => checklist.map((step, index) => (index === Number(box.dataset.index) ? { ...step, done: !step.done } : step))),
+      'remove-step': (id, button) => changeChecklist((checklist) => checklist.filter((step, index) => index !== Number(button.dataset.index))),
+      'open-file': openFile,
+      'remove-file': removeFile,
+      'search-tag': (id, button) => runSearch(`#${button.dataset.tag}`),
+      'pick-day': (id, button) => {
+        selectedDate = button.dataset.date;
+        renderCalendar();
+      },
+      'cal-prev': () => moveMonth(-1),
+      'cal-next': () => moveMonth(1),
+      'cal-today': () => {
+        selectedDate = today();
+        calMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+        renderCalendar();
+      },
+      'export-ics': exportCalendar,
+      'delete-event': (id) => remove('events', id),
+      'apply-workflow': applyWorkflow,
+      'edit-workflow': editWorkflow,
+      'delete-workflow': deleteWorkflow,
+      'highlight': (id, button) => highlight(button.dataset.color),
+      'edit-note': editNote,
+      'delete-note': (id) => {
+        if (editingNoteId === id) resetNoteForm();
+        remove('notes', id);
+      },
+      'sticky-color': (id, button) => {
+        const sticky = findItem('stickies', id);
+        if (sticky) save('stickies', { ...sticky, color: button.dataset.color });
+      },
+      'delete-sticky': (id) => remove('stickies', id),
+      'open-result': (id, button) => openResult(button.dataset.kind, id),
+    };
+
+    document.addEventListener('click', (event) => {
+      if (document.body.classList.contains('menu-open') && !event.target.closest('.sidebar, #start-btn')) closeStartMenu();
+
+      const target = event.target.closest('[data-action]');
+      const run = target && actions[target.dataset.action];
+      if (!run) return;
+      const { action, id } = target.dataset;
+      run(id, target);
+      // the redraw replaced the button that was clicked; put keyboard focus back on its new copy
+      if (!target.isConnected && id) document.querySelector(`[data-action="${action}"][data-id="${CSS.escape(id)}"]`)?.focus();
+    });
 
     document.querySelectorAll('[data-view]').forEach((button) => {
       button.addEventListener('click', () => showView(button.dataset.view));
     });
 
-    document.getElementById('add-log-btn').addEventListener('click', addLog);
-    document.getElementById('add-task-btn').addEventListener('click', addTask);
-    document.getElementById('add-note-btn').addEventListener('click', addNote);
-    document.getElementById('save-workflow-btn').addEventListener('click', saveWorkflow);
-    document.getElementById('cancel-workflow-btn').addEventListener('click', () => {
+    $('start-btn').addEventListener('click', () => {
+      if (!phone.matches) return showView('welcome');
+      const open = document.body.classList.toggle('menu-open');
+      $('start-btn').setAttribute('aria-expanded', String(open));
+    });
+
+    $('search-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      runSearch($('search-input').value);
+    });
+
+    $('log-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const text = $('new-log-text').value.trim();
+      if (!text) return;
+      addLogEntry(text);
+      $('new-log-text').value = '';
+    });
+    $('summarize-btn').addEventListener('click', summarizeToday);
+    $('post-summary-btn').addEventListener('click', () => {
+      addLogEntry(`📋 Recap: ${$('summary-text').textContent}`);
+      $('summary-box').hidden = true;
+    });
+
+    $('task-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const title = $('new-task-title').value.trim();
+      if (!title) return;
+      save('tasks', newTask({ title, owner: $('new-task-owner').value.trim(), due: $('new-task-due').value }));
+      $('new-task-title').value = '';
+      $('new-task-due').value = '';
+      $('new-task-title').focus();
+    });
+    $('task-filter').addEventListener('change', renderTasks);
+
+    $('task-props').addEventListener('submit', saveTaskProps);
+    $('task-dialog').addEventListener('close', () => { currentTaskId = null; });
+    $('step-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const text = $('new-step').value.trim();
+      if (!text) return;
+      changeChecklist((checklist) => [...checklist, { text, done: false }]);
+      $('new-step').value = '';
+    });
+    $('breakdown-btn').addEventListener('click', breakDownTask);
+    $('attach-input').addEventListener('change', attachFile);
+    $('comment-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const text = $('new-comment').value.trim();
+      if (!text || !currentTaskId) return;
+      save('comments', { id: newId(), taskId: currentTaskId, author: settings.name, text, at: Date.now() });
+      $('new-comment').value = '';
+    });
+
+    $('cal-filter').addEventListener('change', renderCalendar);
+    $('event-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const title = $('event-title').value.trim();
+      if (!title) return;
+      save('events', { id: newId(), title, date: selectedDate, time: $('event-time').value, author: settings.name, at: Date.now() });
+      $('event-title').value = '';
+      $('event-time').value = '';
+    });
+
+    $('save-workflow-btn').addEventListener('click', saveWorkflow);
+    $('cancel-workflow-btn').addEventListener('click', () => {
       resetWorkflowForm();
       showWorkflowStatus('');
     });
 
-    // Notes are never saved, so ask before a close or reload throws them away.
+    $('note-tools').addEventListener('mousedown', (event) => event.preventDefault()); // keep the text selected while clicking a color
+    $('note-editor').addEventListener('input', () => { noteDirty = true; });
+    document.addEventListener('selectionchange', () => {
+      const selection = document.getSelection();
+      if (selection.rangeCount && $('note-editor').contains(selection.anchorNode)) noteRange = selection.getRangeAt(0).cloneRange();
+    });
+    $('save-note-btn').addEventListener('click', saveNote);
+    $('cancel-note-btn').addEventListener('click', resetNoteForm);
+
+    $('focus-start').addEventListener('click', startPauseFocus);
+    $('focus-reset').addEventListener('click', () => {
+      setFocusMode('focus');
+      showFocus();
+    });
+
+    $('prompt-form').addEventListener('submit', createPrompt);
+    $('copy-prompt-btn').addEventListener('click', async () => {
+      await copyText($('prompt-output'));
+      $('copy-status').textContent = 'Copied.';
+    });
+
+    $('settings-form').addEventListener('submit', applySettings);
+    $('set-theme').addEventListener('change', () => {
+      settings.theme = $('set-theme').value;
+      saveSettings();
+      applyTheme();
+    });
+    $('set-accent').addEventListener('input', () => {
+      settings.accent = $('set-accent').value;
+      saveSettings();
+      applyTheme();
+    });
+    $('reset-accent-btn').addEventListener('click', () => {
+      settings.accent = '';
+      saveSettings();
+      applyTheme();
+      fillSettings();
+    });
+    $('export-btn').addEventListener('click', exportData);
+    $('import-input').addEventListener('change', importData);
+
+    setupStickyDragging();
+
+    // Ask before a close or reload throws away a change that hasn't been saved yet.
     window.addEventListener('beforeunload', (event) => {
-      if (sessionNotes.length || document.getElementById('notes-area').value.trim()) {
+      if (unsaved.size || noteDirty) {
         event.preventDefault();
         event.returnValue = '';
       }
     });
 
-    document.addEventListener('click', (event) => {
-      const target = event.target;
-      if (!(target instanceof HTMLElement)) return;
-
-      const action = target.dataset.action;
-      const index = Number(target.dataset.index);
-      if (action === 'toggle') toggleTask(index);
-      if (action === 'edit') editTask(index);
-      if (action === 'save-edit') saveTaskEdit(index);
-      if (action === 'cancel-edit') closeTaskEdit(index);
-      if (action === 'delete') deleteTask(index);
-      if (action === 'delete-log') deleteLog(index);
-      if (action === 'apply-workflow') applyWorkflow(index);
-      if (action === 'edit-workflow') editWorkflow(index);
-      if (action === 'delete-workflow') deleteWorkflow(index);
-    });
-
-    loadData();
-    renderLogs();
-    renderTasks();
-    showView('welcome');
+    applyTheme();
     updateClock();
-    setInterval(updateClock, 10000);
+    (async () => {
+      try {
+        db = normalize(await storage.loadAll());
+        syncState = storage === browserStorage ? 'local' : 'ok';
+      } catch (error) {
+        syncState = 'offline';
+        msgBox(storage === browserStorage
+          ? `This browser won't let Outlet save anything:\n${error.message}\n\nChanges will be lost when Outlet closes. Private windows and some file viewers block saving.`
+          : `Couldn't reach the team backend at ${settings.backendUrl}:\n${error.message}\n\nOutlet keeps trying. To work in this browser only, clear the address in Settings.`, { icon: '⚠️' });
+      }
+      $('new-task-owner').value = settings.name;
+      showView('welcome');
+      checkReminders();
+      setInterval(() => {
+        updateClock();
+        checkReminders();
+      }, 10000);
+      syncLoop();
+    })();
   </script>
 </body>
 </html>
