@@ -1,2 +1,5 @@
 # The example backend's saved team data and uploaded files. Never commit these.
 outlet-data/
+
+# Your own team password and Gemini key (copy .env.example to make it).
+.env
