@@ -7,6 +7,7 @@ import tempfile
 import threading
 import urllib.error
 import urllib.request
+from pathlib import Path
 
 os.environ.update(OUTLET_DATA_DIR=tempfile.mkdtemp(), OUTLET_TEAM_KEY='test-key', GEMINI_API_KEY='fake-key')
 import server  # noqa: E402  (must import after the settings above)
@@ -70,5 +71,12 @@ server.urllib.request.urlopen = fake_urlopen
 assert call('POST', '/api/ai', {'system': 'Be brief', 'prompt': 'Help'}) == (200, {'text': 'A prompt'})
 assert sent['key'] == 'fake-key' and 'fake-key' not in sent['url']
 assert sent['body']['system_instruction'] == {'parts': [{'text': 'Be brief'}]}
+
+# a .env file fills in settings, but variables already set (like the real environment) win
+env_file = Path(tempfile.mkdtemp()) / '.env'
+env_file.write_text('# my settings\nexport OUTLET_TEST_SETTING="from file"\nOUTLET_TEAM_KEY=from-file\n')
+server.load_env_file(env_file)
+assert os.environ['OUTLET_TEST_SETTING'] == 'from file'
+assert os.environ['OUTLET_TEAM_KEY'] == 'test-key'
 
 print('OK')

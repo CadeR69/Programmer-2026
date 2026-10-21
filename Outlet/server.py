@@ -1,12 +1,14 @@
 """Outlet example backend: one file, standard library only, nothing to install.
 
-Run it (pick your own team password):
-    OUTLET_TEAM_KEY=pick-a-team-password python3 server.py
+Run it:
+    cp .env.example .env     then put your own team password (and Gemini key, if you want AI) in .env
+    python3 server.py
 
 Then open http://localhost:8000 on this computer, or http://<this computer's network address>:8000
 on a teammate's computer or phone, and type the same password in Outlet's Settings.
 
-Every setting comes from an environment variable, so no secret is ever written in code or in git:
+Settings come from .env (git ignores it) or from environment variables, which win over .env.
+Either way no secret is ever written in code or in git, and your password stays out of shell history:
     OUTLET_TEAM_KEY   required. The shared team password every request must send.
     GEMINI_API_KEY    optional. Your own Gemini key; without it the AI buttons say AI isn't set up.
     GEMINI_MODEL      optional. Defaults to gemini-3.8-flash.
@@ -30,6 +32,20 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+
+
+def load_env_file(path):
+    """Reads NAME=value lines from a .env file into the environment. Variables already set win."""
+    if not path.exists():
+        return
+    for line in path.read_text().splitlines():
+        name, sep, value = line.partition('=')
+        name = name.strip().removeprefix('export ').strip()
+        if sep and name and not name.startswith('#'):
+            os.environ.setdefault(name, value.strip().strip('\'"'))
+
+
+load_env_file(HERE / '.env')
 TEAM_KEY = os.environ.get('OUTLET_TEAM_KEY', '')
 GEMINI_KEY = os.environ.get('GEMINI_API_KEY', '')
 GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-3.8-flash')
@@ -182,7 +198,7 @@ class Handler(BaseHTTPRequestHandler):
 
             case 'POST', ['ai']:
                 if not GEMINI_KEY:
-                    return self.send(503, {'error': 'AI is not set up yet: start the backend with your own GEMINI_API_KEY set.'})
+                    return self.send(503, {'error': 'AI is not set up yet: put your own GEMINI_API_KEY in the backend\'s .env file and restart it.'})
                 request = json.loads(self.read_body(MAX_ITEM))
                 try:
                     text = ask_gemini(str(request.get('system', '')), str(request.get('prompt', '')))
@@ -205,7 +221,7 @@ def make_server(port):
 
 if __name__ == '__main__':
     if not TEAM_KEY:
-        raise SystemExit('Set a team password first, for example:  OUTLET_TEAM_KEY=pick-a-team-password python3 server.py')
+        raise SystemExit('Set a team password first: copy .env.example to .env and fill in OUTLET_TEAM_KEY.')
     server = make_server(PORT)
     print(f'Outlet backend running on http://localhost:{PORT} (saving to {DATA_DIR})')
     print(f'AI: on ({GEMINI_MODEL})' if GEMINI_KEY else 'AI: off (set GEMINI_API_KEY to turn it on)')
