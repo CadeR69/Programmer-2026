@@ -1,0 +1,6 @@
+{
+  "printWidth": 80,
+  "singleQuote": false,
+  "htmlWhitespaceSensitivity": "css",
+  "overrides": [{ "files": "*.md", "options": { "proseWrap": "preserve" } }]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "triggtech-tailwind-starter",
+  "private": true,
+  "description": "TriggTech.web client-site starter: Tailwind CSS v4 + bluegrass brand tokens, builds to dist/ for Cloudflare Pages.",
+  "scripts": {
+    "dev": "npm run copy && tailwindcss -i ./src/css/input.css -o ./dist/css/styles.css --watch",
+    "build": "npm run copy && tailwindcss -i ./src/css/input.css -o ./dist/css/styles.css --minify",
+    "copy": "node scripts/copy.mjs",
+    "deploy": "npm run build && npx wrangler pages deploy dist --project-name=CHANGE-ME --branch=main"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4",
+    "tailwindcss": "^4"
+  },
+  "engines": { "node": ">=20" }
+}

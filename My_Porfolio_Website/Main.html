@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cade Riley — Web Developer Portfolio</title>
+    <meta
+      name="description"
+      content="Portfolio of Cade Riley: web applications and tools built with HTML, CSS, and JavaScript."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="glass-nav mirror-glass">
+      <div class="logo">My Portfolio</div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home" class="hero-section mirror-glass">
+        <h1>Hi, I'm <span class="highlight">Cade Riley</span></h1>
+        <p>Crafting clean digital experiences.</p>
+        <a href="#projects" class="btn btn-primary">View My Work</a>
+      </section>
+
+      <section id="about" class="about-section mirror-glass">
+        <h2>About Me</h2>
+        <p>Hi, I'm Cade Riley. I build websites with HTML, CSS and JavaScript, and I also write Python. Right now I'm making a website for a local restaurant in my hometown. I like building sites that look good on a phone, load quickly and make it easy for customers to get in touch.</p>
+
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects" class="projects-section mirror-glass">
+        <div class="container">
+          <h2 class="section-title">My Projects</h2>
+          <p class="section-subtitle">
+            A collection of web applications and tools I've built recently.
+          </p>
+
+          <div class="projects-grid">
+            <!-- Project Card: Tip Calculator -->
+            <article class="project-card mirror-glass">
+              <div class="project-image-wrapper">
+                <img
+                  src="images/tip-calculator.png"
+                  alt="Tip calculator with bill amount and tip percentage inputs"
+                  class="project-image project-image-contain"
+                  width="1254"
+                  height="1254"
+                  loading="lazy"
+                />
+              </div>
+              <div class="project-content">
+                <h3 class="project-title">Tip Calculator</h3>
+                <p class="project-description">
+                  Enter a bill amount and a tip percentage, and the calculator
+                  works out the total to pay, rounded to two decimal places.
+                </p>
+                <ul class="project-tags">
+                  <li>HTML</li>
+                  <li>CSS</li>
+                  <li>JavaScript</li>
+                </ul>
+                <div class="project-links">
+                  <a
+                    href="https://github.com/CadeR69/Programmer-2026/tree/main/Calculator%20Project"
+                    class="btn btn-outline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub</a
+                  >
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-project-url="Calculator Project"
+                    data-files="index.html,style.css,index.js"
+                  >
+                    View Project
+                  </button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+<div class="projects-grid">
+            <!-- Project Card: Temperature Converter -->
+            <article class="project-card mirror-glass">
+              <div class="project-image-wrapper">
+                <img
+                  src="images/temperature-converter.png"
+                  alt="Temperature converter showing 25 degrees Celsius equal to 77 degrees Fahrenheit"
+                  class="project-image project-image-contain"
+                  width="1672"
+                  height="941"
+                  loading="lazy"
+                />
+              </div>
+              <div class="project-content">
+                <h3 class="project-title">Temperature Converter</h3>
+                <p class="project-description">
+                  Convert temperatures between Celsius, Fahrenheit, and Kelvin
+                  by entering a value in any field.
+                </p>
+                <ul class="project-tags">
+                  <li>HTML</li>
+                  <li>CSS</li>
+                  <li>JavaScript</li>
+                </ul>
+                <div class="project-links">
+                  <a
+                    href="Temperature Converter"
+                    class="btn btn-outline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub</a
+                  >
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-project-url="Temperature Converter"
+                    data-files="index.html,style.css,index.js"
+                  >
+                    View Project
+                  </button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="contact-section mirror-glass">
+        <div class="container">
+          <h2 class="section-title">Contact</h2>
+          <p class="section-subtitle">
+            Want to work together? Email me at
+            <!-- swap in the address you want public -->
+            <a href="lemontrippysprogrammming@gmail.com"
+              >lemontrippysprogramming@gmail.com </a
+            >.
+          </p>
+        </div>
+      </section>
+
+      <!-- Project Viewer popup (hidden until JavaScript opens it) -->
+      <dialog id="projectViewer" class="viewer" aria-labelledby="viewerTitle">
+        <div class="viewer-bar">
+          <h2 id="viewerTitle" class="viewer-title">Project</h2>
+          <div id="viewerTabs" class="viewer-tabs"></div>
+          <button type="button" id="viewerClose" class="btn btn-outline">
+            Close
+          </button>
+        </div>
+        <iframe
+          id="viewerFrame"
+          class="viewer-frame"
+          title="Live project preview"
+        ></iframe>
+        <pre id="viewerCode" class="viewer-code" hidden><code></code></pre>
+      </dialog>
+    </main>
+
+    <script src="JavaScript.js" defer></script>
+  </body>
+</html>

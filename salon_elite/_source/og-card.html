@@ -1,0 +1,124 @@
+<!doctype html>
+<!-- Source for images/social-preview.png. To regenerate: serve the site and
+     screenshot this page at exactly 1200x630 CSS px. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Salon Elite — social preview source</title>
+    <style>
+      @font-face {
+        font-family: "Cormorant Garamond";
+        src: url("../fonts/cormorant-garamond.woff2") format("woff2");
+        font-weight: 300 700;
+      }
+      @font-face {
+        font-family: "Inter";
+        src: url("../fonts/inter.woff2") format("woff2");
+        font-weight: 100 900;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        gap: 56px;
+        padding: 74px 78px;
+        background:
+          radial-gradient(
+            120% 95% at 88% 0%,
+            rgba(185, 138, 69, 0.34) 0%,
+            transparent 62%
+          ),
+          linear-gradient(155deg, #3a2f2b 0%, #27201e 52%, #1c1614 100%);
+        color: #fff9f3;
+        font-family: "Inter", system-ui, sans-serif;
+        position: relative;
+      }
+      .frame {
+        position: absolute;
+        inset: 34px;
+        border: 1px solid rgba(255, 249, 243, 0.72);
+        pointer-events: none;
+      }
+      .frame::after {
+        content: "";
+        position: absolute;
+        inset: 10px;
+        border: 1px solid rgba(185, 138, 69, 0.55);
+      }
+      .copy {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .eyebrow {
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: 3.4px;
+        text-transform: uppercase;
+        color: #cfa869;
+        margin-bottom: 26px;
+      }
+      h1 {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-weight: 500;
+        font-size: 92px;
+        line-height: 0.98;
+        letter-spacing: -1.6px;
+      }
+      h1 em {
+        font-style: normal;
+        color: #cfa869;
+        display: block;
+      }
+      .rule {
+        width: 96px;
+        height: 2px;
+        background: #b98a45;
+        margin: 30px 0 26px;
+      }
+      p {
+        font-size: 23px;
+        line-height: 1.5;
+        color: #cdc0b8;
+        max-width: 30ch;
+      }
+      .art {
+        flex: 0 0 300px;
+        height: 420px;
+        border: 1px solid rgba(255, 249, 243, 0.2);
+        border-radius: 6px;
+        overflow: hidden;
+        background: #f7e9e7;
+      }
+      .art img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frame"></div>
+    <div class="copy">
+      <div class="eyebrow">Mayfield, Kentucky</div>
+      <h1>Salon <em>Elite</em></h1>
+      <div class="rule"></div>
+      <p>
+        Haircuts, styling, colour and treatments.<br />339 Charles Dr &#183;
+        (270) 804-7272
+      </p>
+    </div>
+    <div class="art">
+      <img src="../images/salon-interior.svg" alt="" />
+    </div>
+  </body>
+</html>

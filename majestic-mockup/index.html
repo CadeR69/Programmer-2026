@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Majestic Pizza &amp; Steak House</title>
+    <meta name="description" content="Majestic Pizza &amp; Steak House — hand-tossed pizza and hand-cut steaks at 700 S 6th St, Mayfield, Kentucky. Menu, hours and directions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,500&family=Karla:wght@400;500;700&display=swap">
+
+<style>
+  /* A committed single world: a supper room after dark. Red, cream and green
+     are all present — as oxblood, plaster and olive, not as flag primaries.
+     Greek-leaning without leaning on a flag. */
+  :root {
+    --nero:    #1b0f10;
+    --nero-2:  #241416;
+    --nero-3:  #30191b;
+    --rule:    #45272a;
+    --crema:   #f4ece1;
+    --fumo:    #b7a397;
+    --rosso:   #c14238;   /* fills, borders, button grounds */
+    --rosso-ink:#de6559;  /* the same red lightened for TEXT — 5.45:1 on the ground */
+    --rosso-lo:rgba(193, 66, 56, 0.13);
+    --oliva:   #8a9b5b;
+    --oro:     #cba53a;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--nero);
+    color: var(--crema);
+    font-family: 'Karla', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Bodoni Moda', Didot, 'Times New Roman', serif;
+    margin: 0;
+    line-height: 1.08;
+    text-wrap: balance;
+    color: var(--crema);
+    font-weight: 600;
+  }
+
+  a { color: var(--rosso-ink); text-decoration: none; }
+  :focus-visible { outline: 2px solid var(--oro); outline-offset: 3px; }
+
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 22px; }
+
+  .label {
+    font-family: 'Karla', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--oro);
+  }
+
+  /* ---------- proposal ribbon ---------- */
+  .proposal {
+    background: var(--oro); color: #1b0f10;
+    font-family: 'Karla', sans-serif;
+    font-size: 12.5px; font-weight: 700; text-align: center;
+    padding: 7px 16px;
+  }
+  .proposal span { font-weight: 400; }
+
+  /* ---------- sticky call bar ---------- */
+  .callbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(27, 15, 16, 0.95);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .callbar-in {
+    max-width: 720px; margin: 0 auto; padding: 11px 22px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .mark {
+    font-family: 'Bodoni Moda', Didot, serif; font-weight: 700; font-size: 19px;
+    color: var(--crema); flex: 1; line-height: 1.1; letter-spacing: 0.01em;
+  }
+  .mark em { font-style: italic; font-weight: 500; color: var(--rosso-ink); }
+  .call-btn {
+    background: var(--rosso); color: #fff; font-weight: 700; font-size: 14px;
+    font-family: 'Karla', sans-serif;
+    padding: 9px 17px; border-radius: 999px; white-space: nowrap;
+  }
+  .call-btn:hover { background: #d24e43; color: #fff; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative; overflow: hidden; text-align: center;
+    padding: 56px 0 46px;
+    background:
+      radial-gradient(115% 85% at 50% 0%, rgba(193, 66, 56, 0.20) 0%, transparent 60%),
+      linear-gradient(180deg, var(--nero-2) 0%, var(--nero) 100%);
+    border-bottom: 1px solid var(--rule);
+  }
+  /* An arch — the one structural motif, borrowed from the architecture rather
+     than from a flag. Repeats as the section marker further down. */
+  .arch {
+    display: block; width: 54px; height: 30px; margin: 0 auto 20px;
+    border: 1.5px solid var(--oro); border-bottom: none;
+    border-radius: 27px 27px 0 0; opacity: .85;
+  }
+  .hero h1 { font-size: 46px; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .hero h1 .amp { font-style: italic; color: var(--rosso-ink); font-weight: 500; }
+  .hero .tag {
+    font-size: 15.5px; color: var(--fumo); max-width: 430px; margin: 0 auto 24px;
+  }
+
+  .status {
+    display: inline-flex; align-items: center; gap: 9px;
+    border: 1px solid var(--rule); background: var(--nero-3);
+    border-radius: 999px; padding: 8px 17px; margin-bottom: 26px;
+    font-size: 14px; font-weight: 500;
+  }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--fumo); flex: none; }
+  .status.is-open .dot { background: var(--oliva); box-shadow: 0 0 0 4px rgba(138, 155, 91, 0.2); }
+  .status.is-closed .dot { background: var(--rosso-ink); }
+  .status .word { font-weight: 700; }
+  .status.is-open .word { color: var(--oliva); }
+  .status.is-closed .word { color: var(--rosso-ink); }
+  .status .until { color: var(--fumo); }
+
+  .actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 430px; margin: 0 auto; }
+  .action {
+    background: var(--nero-3); border: 1px solid var(--rule); border-radius: 6px;
+    padding: 15px 8px; text-align: center; color: var(--crema);
+    font-size: 13.5px; font-weight: 700; display: block;
+    transition: border-color 160ms ease, transform 160ms ease;
+  }
+  .action:hover { border-color: var(--oro); transform: translateY(-2px); color: var(--crema); }
+  .action .ico { display: block; font-size: 18px; margin-bottom: 6px; line-height: 1; color: var(--oro); }
+
+  /* ---------- sections ---------- */
+  section { padding: 50px 0; border-bottom: 1px solid var(--rule); }
+  section h2 { font-size: 31px; margin: 9px 0 12px; }
+  .lede { color: var(--fumo); font-size: 15.5px; margin: 0; }
+
+  /* ---------- menu ---------- */
+  .menu-nav {
+    display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 14px;
+    scrollbar-width: none; margin-top: 20px;
+  }
+  .menu-nav::-webkit-scrollbar { display: none; }
+  .menu-nav a {
+    white-space: nowrap; font-size: 13px; font-weight: 700;
+    color: var(--fumo); border: 1px solid var(--rule); background: var(--nero-2);
+    border-radius: 999px; padding: 7px 15px;
+  }
+  .menu-nav a:hover { color: var(--crema); border-color: var(--oro); }
+
+  .course { margin-top: 30px; }
+  .course-h {
+    border-bottom: 1px solid var(--rule); padding-bottom: 9px; margin-bottom: 4px;
+    display: flex; align-items: baseline; gap: 11px; flex-wrap: wrap;
+  }
+  .course-h .it {
+    font-family: 'Bodoni Moda', Didot, serif; font-style: italic;
+    font-size: 24px; font-weight: 500; color: var(--crema);
+  }
+  .course-h .en {
+    font-family: 'Karla', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--oro);
+  }
+
+  .dish {
+    display: grid; grid-template-columns: 1fr auto; gap: 8px 14px;
+    padding: 14px 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+  }
+  .dish:last-child { border-bottom: none; }
+  .dish .name { font-weight: 700; font-size: 15.5px; }
+  .dish .desc { grid-column: 1 / -1; color: var(--fumo); font-size: 14px; margin-top: -4px; }
+  .dish .price {
+    font-family: 'Bodoni Moda', Didot, serif;
+    font-weight: 600; font-size: 17px; color: var(--oro);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+
+  /* ---------- catering ---------- */
+  .catering { background: var(--nero-2); }
+  .cater-grid { display: grid; gap: 12px; margin-top: 22px; }
+  .cater-card {
+    border-left: 3px solid var(--rosso); background: var(--nero-3);
+    padding: 16px 18px; border-radius: 0 6px 6px 0;
+  }
+  .cater-card b { display: block; font-size: 15.5px; margin-bottom: 3px; }
+  .cater-card span { color: var(--fumo); font-size: 14.5px; }
+
+  /* ---------- find us ---------- */
+  .hours { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 15px; }
+  .hours td { padding: 11px 0; border-bottom: 1px solid var(--rule); }
+  .hours td:last-child {
+    text-align: right; font-variant-numeric: tabular-nums; color: var(--fumo);
+  }
+  .hours tr.today td { color: var(--crema); font-weight: 700; }
+  .hours tr.today td:last-child { color: var(--oro); }
+  .hours tr:last-child td { border-bottom: none; }
+
+  .where { margin-top: 24px; display: grid; gap: 6px; }
+  .where .addr { font-family: 'Bodoni Moda', Didot, serif; font-size: 19px; }
+  .where .addr-tel { font-family: 'Bodoni Moda', Didot, serif; font-size: 19px; }
+  .where .addr-tel a { color: var(--rosso-ink); }
+  .where .note { color: var(--fumo); font-size: 14px; margin-top: 4px; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .btn-rosso, .btn-outline {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'Karla', sans-serif;
+    font-weight: 700; font-size: 14.5px; padding: 12px 24px; border-radius: 999px;
+  }
+  .btn-rosso { background: var(--rosso); color: #fff; }
+  .btn-rosso:hover { background: #d24e43; color: #fff; }
+  .btn-outline { border: 1px solid var(--rule); color: var(--crema); }
+  .btn-outline:hover { border-color: var(--oro); color: var(--crema); }
+
+  footer { padding: 38px 0 46px; text-align: center; color: var(--fumo); font-size: 13.5px; }
+  footer .mark { font-size: 22px; margin-bottom: 10px; }
+  footer p { margin: 4px 0; }
+  footer .arch { margin-bottom: 16px; width: 40px; height: 22px; border-radius: 20px 20px 0 0; }
+
+  @media (max-width: 480px) {
+    .hero { padding: 42px 0 38px; }
+    .hero h1 { font-size: 36px; }
+    section h2 { font-size: 26px; }
+    .course-h .it { font-size: 21px; }
+    .actions { max-width: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Structured data: what Google reads to build the search result and map card.
+     Address and telephone verified against multiple public listings.
+     HOURS below are 11:00 am - 8:30 pm every day, taken from the restaurant's
+     own Yelp/Google listing (checked 7 Sept 2026). Confirm with the owner before
+     launch — this block and the hours table on the page must always agree. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Majestic Pizza & Steak House",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "700 S 6th St",
+    "addressLocality": "Mayfield",
+    "addressRegion": "KY",
+    "postalCode": "42066",
+    "addressCountry": "US"
+  },
+  "telephone": "+1-270-247-2541",
+  "servesCuisine": ["Greek", "Pizza", "Steak", "American"],
+  "priceRange": "$$",
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      "opens": "11:00", "closes": "20:30" }
+  ]
+}
+</script>
+
+<div class="proposal">
+  Design proposal by TriggTech.web — <span>not a live Majestic website. Dish names are yours; prices are left blank on purpose.</span>
+</div>
+
+<div class="callbar">
+  <div class="callbar-in">
+    <div class="mark">Majestic <em>Pizza &amp; Steak House</em></div>
+    <a class="call-btn" href="tel:+12702472541">Call</a>
+  </div>
+</div>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="arch" aria-hidden="true"></span>
+      <h1>Gyros, Steaks <span class="amp">&amp;</span> Hand-Tossed Pizza</h1>
+      <p class="tag">
+        Greek plates, USDA Choice Certified steaks, and the only real buffet in Mayfield.
+        Forty-two years on South 6th.
+      </p>
+
+      <div class="status" id="status" role="status">
+        <span class="dot"></span>
+        <span class="word" id="statusWord">Checking hours</span>
+        <span class="until" id="statusUntil"></span>
+      </div>
+
+      <div class="actions">
+        <a class="action" href="tel:+12702472541"><span class="ico" aria-hidden="true">☎</span>Call to order</a>
+        <a class="action" href="#menu"><span class="ico" aria-hidden="true">☰</span>See the menu</a>
+        <a class="action" href="#find"><span class="ico" aria-hidden="true">➤</span>Directions</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu">
+    <div class="wrap">
+      <p class="label">The Menu</p>
+      <h2>Everything, on one readable page</h2>
+      <p class="lede">No PDF to pinch and zoom. No app to download. Just the menu, on the phone in their hand.</p>
+
+      <nav class="menu-nav" aria-label="Menu sections">
+        <a href="#c-greek">Greek</a>
+        <a href="#c-pizza">Pizza</a>
+        <a href="#c-grill">From the Grill</a>
+        <a href="#c-sandwiches">Sandwiches</a>
+        <a href="#c-plates">Plates</a>
+        <a href="#c-buffet">Buffet</a>
+      </nav>
+
+      <div class="course" id="c-greek">
+        <div class="course-h"><span class="it">Greek</span><span class="en">What people drive in for</span></div>
+        <div class="dish"><span class="name">Gyro</span><span class="price">—</span></div>
+        <div class="dish"><span class="name">Chicken Pita</span><span class="price">—</span></div>
+        <div class="dish"><span class="name">Greek Salad</span><span class="price">—</span></div>
+        <div class="dish"><span class="name">Greek Fries</span><span class="price">—</span><span class="desc">With feta — the ones people ask for by name</span></div>
+      </div>
+
+      <div class="course" id="c-pizza">
+        <div class="course-h"><span class="it">Hand-Tossed Pizza</span><span class="en">A regional favorite</span></div>
+        <div class="dish"><span class="name">PJ's Pizza</span><span class="price">—</span><span class="desc">All meat, with a blend of Greek and Italian herbs</span></div>
+        <div class="dish"><span class="name">Greek Pizza</span><span class="price">—</span></div>
+        <div class="dish"><span class="name">Build Your Own</span><span class="price">—</span></div>
+      </div>
+
+      <div class="course" id="c-grill">
+        <div class="course-h"><span class="it">From the Grill</span><span class="en">USDA Choice Certified</span></div>
+        <div class="dish"><span class="name">Steaks</span><span class="price">—</span><span class="desc">USDA Choice Certified, cooked to order</span></div>
+        <div class="dish"><span class="name">Burgers</span><span class="price">—</span></div>
+      </div>
+
+      <div class="course" id="c-sandwiches">
+        <div class="course-h"><span class="it">Sandwiches</span><span class="en">Lunch, handled</span></div>
+        <div class="dish"><span class="name">Reuben</span><span class="price">—</span></div>
+        <div class="dish"><span class="name">Philly Steak</span><span class="price">—</span></div>
+        <div class="dish"><span class="name">Prime Rib Sandwich</span><span class="price">—</span></div>
+      </div>
+
+      <div class="course" id="c-plates">
+        <div class="course-h"><span class="it">Plates</span><span class="en">Sit down and stay a while</span></div>
+        <div class="dish"><span class="name">Catfish Plate</span><span class="price">—</span><span class="desc">Two pieces, hush puppies, coleslaw, salad and a side</span></div>
+        <div class="dish"><span class="name">Cajun Chicken Alfredo</span><span class="price">—</span></div>
+        <div class="dish"><span class="name">Spaghetti</span><span class="price">—</span></div>
+        <div class="dish"><span class="name">Grilled Chicken Salad</span><span class="price">—</span></div>
+      </div>
+
+      <div class="course" id="c-buffet">
+        <div class="course-h"><span class="it">Buffet &amp; Salad Bar</span><span class="en">The only one in town</span></div>
+        <div class="dish"><span class="name">Buffet</span><span class="price">—</span><span class="desc">Meats, vegetables, pizza and dessert</span></div>
+        <div class="dish"><span class="name">Friday — Seafood Buffet</span><span class="price">—</span></div>
+        <div class="dish"><span class="name">Salad Bar</span><span class="price">—</span><span class="desc">Included with the Sunday buffet</span></div>
+      </div>
+
+      <div class="cater-card" style="margin-top:26px">
+        <b>About the prices</b>
+        <span>They are blank on purpose. I did not want to guess at your menu and put numbers
+        on your website that aren't yours. Send me a copy and every price drops straight in —
+        here, and in the code Google reads.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="catering">
+    <div class="wrap">
+      <p class="label">Groups &amp; Big Orders</p>
+      <h2>Ball teams, church groups, job sites</h2>
+      <p class="lede">The orders worth the most are the ones people have to plan ahead. Make them easy to place.</p>
+
+      <div class="cater-grid">
+        <div class="cater-card">
+          <b>Large groups</b>
+          <span>Room for a team or a whole family reunion, with private rooms available.</span>
+        </div>
+        <div class="cater-card">
+          <b>Outdoor patio</b>
+          <span>Open-air seating when the weather is right.</span>
+        </div>
+        <div class="cater-card">
+          <b>Call-ahead pickup</b>
+          <span>Order on the drive over, walk in and it's boxed and waiting.</span>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn-rosso" href="tel:+12702472541">Call about a big order</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="find">
+    <div class="wrap">
+      <p class="label">Find Us</p>
+      <h2>Hours &amp; directions</h2>
+
+      <table class="hours" id="hoursTable">
+        <tbody>
+          <tr data-day="0"><td>Sunday</td><td>11:00 am – 8:30 pm</td></tr>
+          <tr data-day="1"><td>Monday</td><td>11:00 am – 8:30 pm</td></tr>
+          <tr data-day="2"><td>Tuesday</td><td>11:00 am – 8:30 pm</td></tr>
+          <tr data-day="3"><td>Wednesday</td><td>11:00 am – 8:30 pm</td></tr>
+          <tr data-day="4"><td>Thursday</td><td>11:00 am – 8:30 pm</td></tr>
+          <tr data-day="5"><td>Friday</td><td>11:00 am – 8:30 pm</td></tr>
+          <tr data-day="6"><td>Saturday</td><td>11:00 am – 8:30 pm</td></tr>
+        </tbody>
+      </table>
+
+      <div class="where">
+        <span class="addr">700 S 6th St<br>Mayfield, KY 42066</span>
+        <span class="addr-tel"><a href="tel:+12702472541">(270) 247-2541</a></span>
+        <span class="note">Free parking. Hours above match your current listing — confirm them once
+        and they lock in here and in the code Google reads, so the two never disagree.</span>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn-rosso" href="tel:+12702472541">Call now</a>
+        <a class="btn-outline" href="#menu">Back to the menu</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="arch" aria-hidden="true"></span>
+    <div class="mark">Majestic <em style="font-style:italic;color:var(--rosso-ink)">Pizza &amp; Steak House</em></div>
+    <p>700 S 6th St · Mayfield, Kentucky · Serving Mayfield for 42 years</p>
+    <p style="margin-top:16px;font-size:12.5px;">A design proposal prepared by TriggTech.web — Small Towns, Big Tech</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Open/closed status, computed from the hours table so there is one source
+  // of truth: edit the table, the badge follows. Decimal hours (20.5 = 8:30 pm).
+  var HOURS = {
+    0: [11, 20.5], 1: [11, 20.5], 2: [11, 20.5], 3: [11, 20.5],
+    4: [11, 20.5], 5: [11, 20.5], 6: [11, 20.5]
+  };
+
+  function fmt(hour) {
+    var h24 = Math.floor(hour);
+    var mins = Math.round((hour - h24) * 60);
+    var suffix = h24 >= 12 ? 'pm' : 'am';
+    var h = h24 % 12;
+    if (h === 0) h = 12;
+    return h + (mins ? ':' + (mins < 10 ? '0' : '') + mins : '') + ' ' + suffix;
+  }
+
+  function paint() {
+    var now = new Date();
+    var day = now.getDay();
+    var hour = now.getHours() + now.getMinutes() / 60;
+    var today = HOURS[day];
+
+    var el = document.getElementById('status');
+    var word = document.getElementById('statusWord');
+    var until = document.getElementById('statusUntil');
+    if (!el) return;
+
+    var isOpen = !!today && hour >= today[0] && hour < today[1];
+    el.classList.toggle('is-open', isOpen);
+    el.classList.toggle('is-closed', !isOpen);
+
+    if (isOpen) {
+      word.textContent = 'Open now';
+      until.textContent = '· until ' + fmt(today[1]);
+    } else {
+      word.textContent = 'Closed';
+      var names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      for (var i = (today && hour < today[0]) ? 0 : 1; i <= 7; i++) {
+        var d = (day + i) % 7;
+        var slot = HOURS[d];
+        if (slot) {
+          var when = i === 0 ? 'today' : (i === 1 ? 'tomorrow' : names[d]);
+          until.textContent = '· opens ' + when + ' at ' + fmt(slot[0]);
+          break;
+        }
+      }
+    }
+
+    var rows = document.querySelectorAll('#hoursTable tr');
+    Array.prototype.forEach.call(rows, function (row) {
+      row.classList.toggle('today', Number(row.getAttribute('data-day')) === day);
+    });
+  }
+
+  paint();
+  setInterval(paint, 60000);
+})();
+</script>
+
+</body>
+</html>

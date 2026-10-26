@@ -1,0 +1,4 @@
+extend-exclude = [
+    "venv",
+    "*/venv",
+]

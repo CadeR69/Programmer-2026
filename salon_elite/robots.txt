@@ -1,0 +1,6 @@
+# Salon Elite
+User-agent: *
+Allow: /
+
+# ⚠ LAUNCH: this must be the real domain, or search engines fetch nothing.
+Sitemap: https://www.salonelitemayfield.com/sitemap.xml

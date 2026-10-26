@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="640" height="640" role="img" aria-label="A marble console with a brass mirror, folded towels and a stem of eucalyptus.">
+  <defs>
+    <linearGradient id="d-wall" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff9f3"/><stop offset="1" stop-color="#f4e4de"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="640" fill="url(#d-wall)"/>
+
+  <!-- round brass mirror -->
+  <circle cx="320" cy="214" r="126" fill="#f7e9e7" stroke="#b98a45" stroke-width="6"/>
+  <path d="M258 172c34 30 34 86 0 116" fill="none" stroke="#fff9f3" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="320" cy="214" r="126" fill="none" stroke="#27201e" stroke-width="2" opacity=".25"/>
+
+  <!-- console top -->
+  <rect x="64" y="404" width="512" height="18" rx="5" fill="#27201e"/>
+  <rect x="64" y="422" width="512" height="10" fill="#27201e" opacity=".35"/>
+  <path d="M104 432v154M536 432v154" stroke="#27201e" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- folded towels -->
+  <g stroke="#27201e" stroke-width="3">
+    <rect x="112" y="356" width="118" height="24" rx="8" fill="#fff9f3"/>
+    <rect x="120" y="332" width="102" height="24" rx="8" fill="#f7e9e7"/>
+  </g>
+  <path d="M132 344h78M124 368h94" stroke="#b98a45" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- bottles -->
+  <g fill="#fff9f3" stroke="#27201e" stroke-width="3">
+    <rect x="272" y="330" width="40" height="74" rx="9"/>
+    <rect x="324" y="352" width="32" height="52" rx="8"/>
+  </g>
+  <rect x="282" y="318" width="20" height="14" rx="4" fill="#b98a45"/>
+  <rect x="332" y="340" width="16" height="12" rx="4" fill="#b98a45"/>
+
+  <!-- eucalyptus stem in a vase -->
+  <path d="M404 404l10-64h52l10 64Z" fill="#27201e"/>
+  <g stroke="#b98a45" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M440 340V214"/>
+    <g fill="#f7e9e7">
+      <ellipse cx="418" cy="248" rx="21" ry="13" transform="rotate(-24 418 248)"/>
+      <ellipse cx="464" cy="272" rx="21" ry="13" transform="rotate(22 464 272)"/>
+      <ellipse cx="416" cy="300" rx="19" ry="12" transform="rotate(-18 416 300)"/>
+      <ellipse cx="462" cy="324" rx="18" ry="11" transform="rotate(18 462 324)"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 820" width="720" height="820" role="img" aria-label="A salon interior: an arched window above a styling chair, mirror and a shelf of products.">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7e9e7"/><stop offset="1" stop-color="#efdcd7"/>
+    </linearGradient>
+    <linearGradient id="light" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff9f3"/><stop offset="1" stop-color="#f3e0d4"/>
+    </linearGradient>
+    <clipPath id="arch"><path d="M186 316V162a134 134 0 0 1 268 0v154Z"/></clipPath>
+  </defs>
+
+  <rect width="720" height="820" fill="url(#wall)"/>
+
+  <!-- arched window -->
+  <path d="M186 316V162a134 134 0 0 1 268 0v154Z" fill="url(#light)"/>
+  <g clip-path="url(#arch)" stroke="#b98a45" stroke-width="2.5" opacity=".55">
+    <path d="M320 20v300M186 170h268M320 90 L 240 170 M320 90 L 400 170"/>
+  </g>
+  <path d="M186 316V162a134 134 0 0 1 268 0v154Z" fill="none" stroke="#27201e" stroke-width="4"/>
+  <rect x="170" y="316" width="300" height="12" rx="3" fill="#27201e"/>
+
+  <!-- mirror -->
+  <rect x="512" y="150" width="128" height="230" rx="64" fill="#fff9f3" stroke="#b98a45" stroke-width="4"/>
+  <path d="M540 210c22 34 22 90 0 130" fill="none" stroke="#e7d9d2" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- shelf + bottles -->
+  <rect x="70" y="392" width="230" height="9" rx="3" fill="#27201e"/>
+  <g fill="#fff9f3" stroke="#27201e" stroke-width="3">
+    <rect x="92" y="330" width="34" height="62" rx="7"/>
+    <rect x="140" y="348" width="28" height="44" rx="6"/>
+    <rect x="182" y="318" width="38" height="74" rx="8"/>
+    <rect x="234" y="352" width="30" height="40" rx="6"/>
+  </g>
+  <g fill="#b98a45">
+    <rect x="100" y="322" width="18" height="12" rx="3"/>
+    <rect x="147" y="340" width="14" height="10" rx="3"/>
+    <rect x="192" y="308" width="18" height="12" rx="3"/>
+    <rect x="241" y="344" width="16" height="10" rx="3"/>
+  </g>
+
+  <!-- styling chair -->
+  <g stroke="#27201e" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M250 640v-96a58 58 0 0 1 58-58h104a58 58 0 0 1 58 58v96" fill="#27201e"/>
+    <path d="M236 640h248a16 16 0 0 1 16 16v26a16 16 0 0 1-16 16H236a16 16 0 0 1-16-16v-26a16 16 0 0 1 16-16Z" fill="#3c312d"/>
+    <path d="M360 698v62M300 760h120"/>
+    <path d="M300 792a60 22 0 0 1 120 0" fill="#27201e"/>
+  </g>
+  <path d="M250 556h220" stroke="#b98a45" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- plant -->
+  <g stroke="#b98a45" stroke-width="3.5" fill="none" stroke-linecap="round">
+    <path d="M622 560v-96"/>
+    <path d="M622 512c0-30 18-48 42-52-2 32-18 50-42 52ZM622 540c0-26-16-42-38-46 2 28 16 44 38 46Z" fill="#f7e9e7"/>
+  </g>
+  <path d="M594 560h56l-8 66h-40Z" fill="#27201e"/>
+
+  <rect x="0" y="806" width="720" height="14" fill="#27201e" opacity=".18"/>
+</svg>

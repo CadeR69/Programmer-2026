@@ -1,0 +1,39 @@
+# Netlify / Cloudflare Pages header rules.
+# On Apache use .htaccess, on nginx use add_header — the values are the same.
+/*
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; form-action 'none'; connect-src 'none'; base-uri 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+# The site has no form and makes no outbound requests, so form-action and
+# connect-src are locked to 'none'. If you ever add a form, both must name its
+# host or the browser will block the POST.
+#
+# ⚠ Turning on analytics? Replace the CSP line above with this one, which adds
+# the Google Tag hosts. Without it the browser silently blocks the tag:
+#   Content-Security-Policy: default-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.google-analytics.com; font-src 'self'; form-action 'none'; connect-src https://www.google-analytics.com https://*.analytics.google.com; base-uri 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+
+# Fonts are genuinely static — replacing one means a new filename.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Artwork is cached for a week but NOT immutable. The filenames are not
+# content-hashed, so if someone swaps a real photo in at an existing path,
+# "immutable" would keep returning visitors on the old one for a year.
+/images/*
+  Cache-Control: public, max-age=604800
+
+# The CSS and JS are not content-hashed either, and together they gzip to
+# about 9 KB, so they revalidate on every visit rather than risk serving a
+# stale stylesheet after an update.
+/stylesheet-1.css
+  Cache-Control: public, max-age=0, must-revalidate
+/scripts.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# HTML must revalidate or visitors get stale hours.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

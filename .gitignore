@@ -1,3 +1,44 @@
-Minecraft-Hub/
+# ── TriggTech business assets — kept out of this public repo ──────────────
+# These belong in a private repo, not here. See note at the bottom.
+triggtech-web/
+triggtech-ai-proxy/
+TriggTech-Website-Agreement.docx
+
+# ── Localify — lives in CadeR69/PrivateRepo (~/Website_Production/Music-Player).
+# Music-Player here is only a link to it. No trailing slash, so the link is ignored too.
+/Music-Player
+
+# ── Minecraft Hub — its own repo, CadeR69/Minecraft-Hub
+/Minecraft-Hub-repo/
+
+# ── Secrets — never commit anything matching these ────────────────────────
+.env
+.env.*
+!.env.example
+.dev.vars
+*.key
+*.pem
+credentials.json
+Password_Manager/passwords.txt
+
+# ── Build output and tool caches ──────────────────────────────────────────
+.wrangler/
+dist/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ruff_cache/
+.pytest_cache/
+node_modules/
+.playwright-mcp/
+
+# ── OS / editor noise ─────────────────────────────────────────────────────
+.DS_Store
+*.swp
 .vscode/
+.claude/
+
+# ── Personal notes vault ──────────────────────────────────────────────────
+Minecraft-Hub/
 coding notes/

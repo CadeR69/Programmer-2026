@@ -1,6 +1,7 @@
 import ast
 import os
 import time
+
 from google import genai
 
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
@@ -70,7 +71,6 @@ for py_file in python_files:
     results = get_functions(py_file)
 
     with open(output_path, "w") as f:
-        for summary in results:
-            f.write(summary)
+        f.writelines(results)
 
 print("Done.")
