@@ -2,7 +2,6 @@
 
 /* Base Page Styling */
 body {
-  background-color: #fffaf3; /* Soft cream background */
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: #1f120f; /* Dark espresso brown text for stronger contrast */
   margin: 0;
@@ -13,7 +12,8 @@ body {
 .menu-container {
   max-width: 600px;
   margin: 40px auto;
-  background-color: #9b6213; /* Cream card */
+  color: #1f120f;
+  background-color: #fffaf3; /* Cream card */
   padding: 30px 40px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -88,7 +88,7 @@ body {
 footer {
   text-align: center;
   font-size: 0.8rem;
-  color: #a1887f;
+  color: #795548;
   margin-top: 40px;
   border-top: 1px solid #dfd3c3;
   padding-top: 15px;
@@ -208,7 +208,7 @@ footer {
   color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   padding: 0.6rem 1.2rem;
   border-radius: 8px;            /* Gives each item its own pill-shaped container grid */
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -230,4 +230,17 @@ footer {
 /* Offset page content so it doesn't get cut off by the header */
 main {
   padding-top: 100px;
+}
+
+/* Same idea for nav-link jumps: stop the fixed header covering the section you land on */
+html {
+  scroll-padding-top: 80px;
+}
+
+/* Visitors whose device asks for less motion get a still page */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
