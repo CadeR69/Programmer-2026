@@ -157,7 +157,6 @@ footer {
   padding: 0;
 }
 
-
 /* 1. Full-Width Ceil-to-Ceiling Glass Layer */
 .glass-header {
   position: fixed;
@@ -165,12 +164,12 @@ footer {
   left: 0;
   width: 100%;
   z-index: 1000;
-  
+
   /* Glass effects */
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  
+
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
 }
@@ -180,11 +179,11 @@ footer {
   display: flex;
   justify-content: space-between; /* Pushes Logo to left, Navbar to right */
   align-items: center;
-  
-  max-width: 1200px;             /* Keeps layout beautifully balanced on large displays */
+
+  max-width: 1200px; /* Keeps layout beautifully balanced on large displays */
   width: 100%;
-  margin: 0 auto;                /* Centers the box perfectly in the middle of the screen */
-  padding: 1.2rem 2rem;          /* Generous vertical and horizontal internal padding */
+  margin: 0 auto; /* Centers the box perfectly in the middle of the screen */
+  padding: 1.2rem 2rem; /* Generous vertical and horizontal internal padding */
 }
 
 /* 3. Logo Typography */
@@ -200,7 +199,7 @@ footer {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 1rem;                     /* Clean, uniform gap between menu boxes */
+  gap: 1rem; /* Clean, uniform gap between menu boxes */
   list-style: none;
 }
 
@@ -210,7 +209,7 @@ footer {
   font-size: 0.95rem;
   font-weight: 600;
   padding: 0.6rem 1.2rem;
-  border-radius: 8px;            /* Gives each item its own pill-shaped container grid */
+  border-radius: 8px; /* Gives each item its own pill-shaped container grid */
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
