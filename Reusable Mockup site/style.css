@@ -32,9 +32,11 @@ body {
 
 /* The hero image */
 .hero-image {
-    /* Use "liner-gradient" to add a darken background effect to the image (cross.jpg). This will make the text easier to read */
+    margin: 0;
+
+    /* Use "linear-gradient" to add a darken background effect to the image (business.jpg). This will make the text easier to read */
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("business.jpg");
+    url("image folder/business.jpg");
 
     /* Set a specific height */
     height: 60vh;
@@ -162,10 +164,6 @@ section p:last-child {
 }
 
 /* hero-image is a div, not a section, so it needs its own spacing rule */
-.hero-image {
-    margin: 0;
-}
-
 header {
     background-color: var(--primary);
     color: var(--white);

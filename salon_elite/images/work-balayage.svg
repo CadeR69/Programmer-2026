@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600" role="img" aria-label="Lived-in balayage: mid-length hair graduating from a deep base to warm sand at the ends.">
+  <defs>
+    <linearGradient id="bal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#27201e"/><stop offset=".45" stop-color="#5d4327"/>
+      <stop offset=".78" stop-color="#b98a45"/><stop offset="1" stop-color="#d9b57e"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="600" fill="#f7e9e7"/>
+  <circle cx="240" cy="176" r="118" fill="#fff9f3" opacity=".65"/>
+  <!-- hair mass -->
+  <path d="M240 78c-84 0-132 56-132 136 0 112 18 196 34 282h196c16-86 34-170 34-282 0-80-48-136-132-136Z" fill="url(#bal)"/>
+  <!-- face -->
+  <path d="M240 128c-44 0-68 30-68 74 0 48 30 84 68 84s68-36 68-84c0-44-24-74-68-74Z" fill="#f3ded2"/>
+  <!-- parting + strand separation -->
+  <g stroke="#fff9f3" stroke-width="2.5" opacity=".35" fill="none" stroke-linecap="round">
+    <path d="M240 82v44M150 250c6 96 14 168 24 240M330 250c-6 96-14 168-24 240M186 300c4 84 10 148 16 196M294 300c-4 84-10 148-16 196"/>
+  </g>
+  <rect x="0" y="560" width="480" height="40" fill="#27201e" opacity=".08"/>
+</svg>

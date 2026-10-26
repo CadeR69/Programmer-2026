@@ -1,0 +1,8 @@
+node_modules/
+dist/
+_source/framer-generated.css.bak
+_source/initial.html
+_source/initial.original.html
+images/
+fonts/
+package-lock.json

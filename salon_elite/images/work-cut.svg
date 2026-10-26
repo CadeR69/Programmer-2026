@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 600" width="480" height="600" role="img" aria-label="Precision cut: a blunt collarbone-length bob with a centre parting.">
+  <rect width="480" height="600" fill="#f7e9e7"/>
+  <rect x="60" y="60" width="360" height="480" fill="#fff9f3"/>
+  <!-- shoulders -->
+  <path d="M120 540c0-64 54-96 120-96s120 32 120 96Z" fill="#27201e"/>
+  <!-- hair: blunt bob -->
+  <path d="M240 108c-78 0-118 48-118 116 0 78 6 140 12 210h212c6-70 12-132 12-210 0-68-40-116-118-116Z" fill="#27201e"/>
+  <!-- blunt line -->
+  <path d="M122 434h236" stroke="#b98a45" stroke-width="4" stroke-linecap="round"/>
+  <!-- face -->
+  <path d="M240 150c-42 0-64 28-64 70 0 46 28 80 64 80s64-34 64-80c0-42-22-70-64-70Z" fill="#f3ded2"/>
+  <!-- centre parting -->
+  <path d="M240 112v42" stroke="#f7e9e7" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+  <g stroke="#fff9f3" stroke-width="2" opacity=".22" fill="none" stroke-linecap="round">
+    <path d="M160 200c-4 76-2 152 0 226M320 200c4 76 2 152 0 226M138 240c-2 66 0 130 2 190M342 240c2 66 0 130-2 190"/>
+  </g>
+</svg>
