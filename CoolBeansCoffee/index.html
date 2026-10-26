@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Shop</title>
+    <link rel="stylesheet" href="stylesheetone.css">
+    <style>
+        /* Reset and center the card layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+            body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column; /* stack header, card, menu top-to-bottom */
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            /* Espresso-to-mocha gradient: dark enough for light text on top */
+            background: linear-gradient(135deg, #1f120f, #4b2e1f, #6f4e37);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        /* Cream heading so it reads on the dark brown background */
+        header {
+            color: #fffaf3;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Core Glassmorphism Styling */
+        .glass-card {
+            width: 350px;
+            padding: 40px;
+            border-radius: 20px;
+            color: #ffffff;
+            text-align: center;
+            
+            /* 1. Semi-transparent background */
+            background: rgba(255, 255, 255, 0.15); 
+            
+            /* 2. Frosted glass blur effect (and Safari support) */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            
+            /* 3. Subtle translucent border to simulate glass edges */
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            
+            /* 4. Soft shadow to give depth and lift */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .glass-card h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .glass-card p {
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+  <header class="glass-header">
+  <div class="nav-container">
+    <div class="logo">CoolBeansCoffee</div>
+    <nav class="navbar">
+      <ul class="nav-links">
+        <!-- The href must start with a # followed by the section ID -->
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="menu-container">
+    <!-- coffee section -->
+     <section class="coffee-section">
+        <h2>Our Coffee</h2>
+       <!-- 1. Espresso Image -->
+        <img src="images/Espresso.jpg" alt="Espresso coffee" class="coffee-image">
+
+        <div class="menu-item">
+            <div class="item-info">
+                <span class="item-name">Espresso</span>
+                <span class="item-price">$2.50</span>
+            </div>
+            <p class="item-description">A strong and bold coffee made by forcing hot water through finely-ground coffee beans.</p>
+        </div>
+<!-- Cappuccino Image -->
+ <img src="images/Cappuccino.avif" alt="Cappuccino coffee" class="coffee-image">
+        <div class="menu-item">
+            <div class="item-info">
+                <span class="item-name">Cappuccino</span>
+                <span class="item-price">$3.50</span>
+            </div>
+            <p class="item-description">A classic Italian coffee drink made with equal parts espresso, steamed milk, and milk foam.</p>
+        </div>
+
+       <!-- Latte Image -->
+<img src="images/latte.webp" alt="Latte coffee" class="coffee-image">
+
+<div class="menu-item">
+            <div class="item-info">
+                <span class="item-name">Latte</span>
+                <span class="item-price">$3.00</span>
+            </div>
+            <p class="item-description">A creamy coffee drink made with espresso and steamed milk, topped with a small amount of milk foam.</p>
+        </div>
+
+        <!-- Americano Image -->
+        <img src="images/AmericanoHotandIced-3.webp" alt="Americano coffee" class="coffee-image">
+        <div class="menu-item">
+            <div class="item-info">
+                <span class="item-name">Americano</span>
+                <span class="item-price">$2.75</span>
+            </div>
+            <p class="item-description">A simple coffee drink made by diluting espresso with hot water, resulting in a lighter flavor.</p>
+        </div>
+
+<img src="images/mocha.jpg" alt="Mocha coffee" class="coffee-image">
+        
+        <div class="menu-item">
+            <div class="item-info">
+                <span class="item-name">Mocha</span>
+                <span class="item-price">$4.00</span>
+            </div>
+            <p class="item-description">A delicious blend of espresso, steamed milk, and chocolate syrup, topped with whipped cream.</p>
+        </div>
+
+<img src="images/machiato.jpg" alt="Macchiato coffee" class="coffee-image">
+
+        <div class="menu-item">
+            <div class="item-info">
+                <span class="item-name">Macchiato</span>
+                <span class="item-price">$3.25</span>
+            </div>
+            <p class="item-description">A coffee drink made with espresso and a small amount of steamed milk, creating a layered effect.</p>
+        </div>
+
+<img src="images/flatewhitecoffee.jpg" alt="Flat White coffee" class="coffee-image">
+
+<div class="menu-item">
+            <div class="item-info">
+                <span class="item-name">Flat White</span>
+                <span class="item-price">$3.75</span>
+            </div>
+            <p class="item-description">A velvety coffee drink made with espresso and steamed milk, similar to a latte but with a higher coffee-to-milk ratio.</p>
+        </div>
+
+<img src="images/icedcoffee.jpg" alt="Iced Coffee" class="coffee-image">
+
+        <div class="menu-item">
+            <div class="item-info">
+                <span class="item-name">Iced Coffee</span>
+                <span class="item-price">$2.50</span>
+            </div>
+            <p class="item-description">A refreshing coffee drink served over ice, perfect for hot days.</p>
+        </div>
+
+<img src="images/coldbrew.jpg" alt="Cold Brew coffee" class="coffee-image">
+
+        <div class="menu-item">
+            <div class="item-info">
+                <span class="item-name">Cold Brew</span>
+                <span class="item-price">$3.00</span>
+            </div>
+            <p class="item-description">A smooth and less acidic coffee drink made by steeping coffee grounds in cold water for an extended period of time.</p>
+        </div>
+
+<img src="images/affogato.webp" alt="Affogato coffee" class="coffee-image">
+
+        <div class="menu-item">
+            <div class="item-info">
+                <span class="item-name">Affogato</span>
+                <span class="item-price">$4.50</span>
+            </div>
+            <p class="item-description">A delightful dessert coffee drink made by pouring a shot of hot espresso over a scoop of vanilla ice cream.</p>
+        </div>
+
+    </section>
+<section>
+ <div class="glass-card-About-Us">
+            <h2>Discover the Art of Coffee</h2>
+            <p>At Cool Beanz Coffee Shop, we take pride in crafting the perfect cup of coffee for every taste. From rich and bold espressos to creamy lattes and refreshing cold brews, our menu is designed to delight coffee lovers of all kinds. Join us for a cozy experience and savor the flavors of our expertly brewed beverages.</p>
+
+    <div class="glass-card-Hours-Of-Operation">
+        <h2>Hours of Operation</h2>
+        <p>Monday - Friday: 7:00 AM - 8:00 PM</p>
+        <p>Saturday: 8:00 AM - 6:00 PM</p>
+        <p>Sunday: 8:00 AM - 4:00 PM</p>
+    </div>
+</section>
+
+<section>
+    <div class="glass-card-Contact-Us">
+        <h2>Contact Us</h2>
+        <p>Email: info@coolbeans.com</p>
+        <p>Phone: (123) 456-7890</p>
+    </div>
+</section>
+<section>
+    <div class="glass-card-Location">
+        <h2>Location</h2>
+        <p>123 Coffee Lane, Bean Town, USA</p>
+    </div>
+</section>
+<!--Javascript-->
+
+<script>
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+<footer>
+    <p>&copy; 2026 Cool Beanz Coffee Shop. All rights reserved.</p>
+    <p><a href="privacy-policy.html" style="color: #fffaf3;">Privacy Policy</a></p>
+</footer>
+</main>
+</body>
+</html>
