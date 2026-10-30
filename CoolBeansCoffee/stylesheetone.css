@@ -1,3 +1,13 @@
+:root {
+  /* Keep anchor jumps and focused elements clear of the glass header. */
+  scroll-padding-top: 100px;
+  scroll-padding-bottom: 100px;
+  /* Nav links glide to their section. Plain CSS, so the browser still moves
+     keyboard and screen reader position there (reduced motion turns it off below) */
+  scroll-behavior: smooth;
+}
+
+
 /* Menu Stylesheet */
 
 /* Base Page Styling */
@@ -6,6 +16,8 @@ body {
   color: #1f120f; /* Dark espresso brown text for stronger contrast */
   margin: 0;
   padding: 20px;
+  /* With very large text, long words and the email address wrap instead of pushing the page sideways */
+  overflow-wrap: anywhere;
 }
 
 /* Card Container for the menu */
@@ -16,7 +28,10 @@ body {
   background-color: #fffaf3; /* Cream card */
   padding: 30px 40px;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  /* Two shadows so the card sits on the table: a tight one where it touches, a soft one under it */
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 18px 40px rgba(0, 0, 0, 0.45);
   border: 2px solid #dfd3c3;
 }
 
@@ -57,6 +72,7 @@ body {
 
 .item-info {
   display: flex;
+  flex-wrap: wrap; /* with very large text, the price drops to the next line instead of off screen */
   justify-content: space-between; /* Pushes name to left, price to right */
   align-items: baseline;
   font-weight: bold;
@@ -88,10 +104,17 @@ body {
 footer {
   text-align: center;
   font-size: 0.8rem;
-  color: #795548;
+  color: #efe3d3; /* light, because the footer now sits on the dark wood */
   margin-top: 40px;
   border-top: 1px solid #dfd3c3;
   padding-top: 15px;
+}
+
+/* Cream so the links read on the wood; the padding makes each one at least 24px tall, easy to tap */
+footer a {
+  display: inline-block;
+  padding: 6px 0;
+  color: #fffaf3;
 }
 
 /* images */
@@ -103,52 +126,32 @@ footer {
   border-radius: 12px;
 }
 
-.glass-card-About-Us {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  max-width: 600px;
-  margin: 20px auto;
+/* About, Hours, Contact and Location: each its own card on the table.
+   Two columns when there's room, one column on phones. Cards in the
+   same row stretch to the same height so the grid lines up neatly. */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: 24px;
 }
 
-.glass-card-Hours-Of-Operation {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  max-width: 600px;
-  margin: 20px auto;
+.info-card {
+  color: #1f120f;
+  background-color: #fffaf3; /* same cream paper as the menu */
+  padding: 24px 28px;
+  border-radius: 12px;
+  border: 2px solid #dfd3c3;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 18px 40px rgba(0, 0, 0, 0.45);
 }
 
-.glass-card-Contact-Us {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  max-width: 600px;
-  margin: 20px auto;
+.info-card h2 {
+  margin-bottom: 10px;
 }
 
-.glass-card-Location {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  max-width: 600px;
-  margin: 20px auto;
+.info-card p {
+  line-height: 1.6;
 }
 
 * {
@@ -158,15 +161,19 @@ footer {
 }
 
 /* 1. Full-Width Ceil-to-Ceiling Glass Layer */
+/* Sticky, not fixed: it still stays at the top while you scroll, but it keeps its own
+   space in the page, so it can never cover the menu, however tall bigger text makes it.
+   The -20px margins cancel the body's 20px padding so it still runs edge to edge. */
 .glass-header {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  width: 100%;
+  width: calc(100% + 40px);
+  margin: -20px -20px 0;
   z-index: 1000;
 
   /* Glass effects */
-  background: rgba(255, 255, 255, 0.05);
+  /* Dark espresso tint: the light links stay readable even when the cream menu scrolls under them */
+  background: rgba(43, 24, 16, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 
@@ -177,6 +184,7 @@ footer {
 /* 2. The Justification Box (Centers & Justifies Content) */
 .nav-container {
   display: flex;
+  flex-wrap: wrap; /* with big text, the links drop below the logo instead of running off screen */
   justify-content: space-between; /* Pushes Logo to left, Navbar to right */
   align-items: center;
 
@@ -198,6 +206,7 @@ footer {
 /* 4. Navigation Link Grid/Flex */
 .nav-links {
   display: flex;
+  flex-wrap: wrap; /* links wrap onto a second row rather than getting cut off */
   align-items: center;
   gap: 1rem; /* Clean, uniform gap between menu boxes */
   list-style: none;
@@ -226,14 +235,53 @@ footer {
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 
-/* Offset page content so it doesn't get cut off by the header */
+/* One focus ring in every browser. Some browsers default to a blue ring that's hard
+   to see on dark brown; cream shows up on the header, the wood and the cookie banner */
+:focus-visible {
+  outline: 3px solid #fffaf3;
+  outline-offset: 2px;
+}
+
+/* Holds the menu card, the info cards and the footer */
 main {
-  padding-top: 100px;
+  width: min(900px, 100%);
 }
 
 /* Same idea for nav-link jumps: stop the fixed header covering the section you land on */
-html {
+:root {
   scroll-padding-top: 80px;
+}
+
+/* Phones: not enough room for the logo and four links side by side,
+   so the logo sits on top and the links line up centered underneath */
+@media (max-width: 600px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .nav-links {
+    gap: 0.25rem;
+    justify-content: center;
+  }
+
+  .nav-links a {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  :root {
+    scroll-padding-top: 110px;
+  }
+}
+
+/* Short screens (landscape phones, browsers zoomed to 200-400%): let the header
+   scroll away, otherwise it would cover a big slice of a small window */
+@media (max-height: 500px) {
+  .glass-header {
+    position: static;
+  }
 }
 
 /* Visitors whose device asks for less motion get a still page */
@@ -241,5 +289,76 @@ html {
   * {
     animation: none !important;
     transition: none !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* Cookie Consent Popup Styles */
+/* Cookie Banner Positioning */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1b1b1b;
+  color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  box-sizing: border-box;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Flexbox layout for text and buttons */
+.cookie-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.cookie-content p {
+  margin: 0;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+}
+
+/* Buttons styling */
+.cookie-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.accept-btn {
+  background-color: #1b5e20;
+  color: #ffffff;
+}
+
+.decline-btn {
+  background-color: #7a0c0c;
+  color: #ffffff;
+}
+
+/* While the cookie banner is up, add room at the bottom of the page and keep focused
+   links scrolled above it, so the banner never hides the footer links */
+:root:has(.cookie-banner:not(.hidden)) {
+  padding-bottom: 10rem;
+  scroll-padding-bottom: 10rem;
+}
+
+/* Utility class to hide elements */
+.hidden {
+  display: none !important;
 }
