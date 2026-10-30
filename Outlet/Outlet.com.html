@@ -1088,7 +1088,7 @@
         </div>
         <div class="calendar" id="calendar-grid"></div>
         <div class="panel">
-          <h3 id="day-title"></h3>
+          <h3 id="day-title">Day details</h3>
           <ul id="day-items"></ul>
           <form class="inline-form" id="event-form">
             <label for="event-title">New event:</label>
@@ -2389,6 +2389,18 @@
 
     // ----- AI -----
     async function runAI(kind, input, button) {
+      if (storage === browserStorage) {
+        const answer = await msgBox('This window isn\'t connected to a team backend, so the AI can\'t run here.\n\n' +
+          'Open Settings and type the backend\'s address and team password. For server.py on this computer, the address is http://localhost:8000.\n\n' +
+          'Each address Outlet is opened from keeps its own settings, so a new address needs connecting once.',
+          { title: 'AI', icon: '⚠️', buttons: ['Open Settings', 'Cancel'] });
+        if (answer === 'Open Settings') {
+          $('task-dialog').close(); // Break It Down asks from inside Task Properties, which would hide Settings
+          showView('settings');
+          $('set-backend').focus();
+        }
+        return null;
+      }
       button.disabled = true;
       document.body.classList.add('waiting');
       try {

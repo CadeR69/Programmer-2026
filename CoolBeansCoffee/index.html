@@ -21,21 +21,23 @@
             gap: 20px;
             justify-content: center;
             align-items: center;
-            /* Espresso-to-mocha gradient: dark enough for light text on top */
-            background: linear-gradient(135deg, #1f120f, #4b2e1f, #6f4e37);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            /* Wooden table, layered top to bottom:
+               1. darker edges, like lamp light on a table
+               2. thin dark seams between planks (every 160px)
+               3. each plank a slightly different shade
+               4. wood grain: SVG noise stretched sideways into streaks
+               Walnut brown underneath keeps the cream header text readable */
+            background-color: #6b4226;
+            background-image:
+                radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.45)),
+                repeating-linear-gradient(180deg, transparent 0 157px, rgba(0, 0, 0, 0.5) 157px 159px, rgba(255, 255, 255, 0.06) 159px 160px),
+                repeating-linear-gradient(180deg, transparent 0 160px, rgba(0, 0, 0, 0.12) 160px 320px, rgba(255, 200, 150, 0.05) 320px 480px),
+                url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='2400' height='400'><filter id='g' color-interpolation-filters='sRGB'><feTurbulence type='turbulence' baseFrequency='0.003 0.6' numOctaves='3' seed='8' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.06  0 0 0 0 0.02  1.2 0 0 0 -0.15'/></filter><rect width='2400' height='400' filter='url(%23g)'/></svg>");
         }
 
         /* Cream heading so it reads on the dark brown background */
         header {
             color: #fffaf3;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         /* Core Glassmorphism Styling */
@@ -77,7 +79,7 @@
 <body>
   <header class="glass-header">
   <div class="nav-container">
-    <div class="logo">CoolBeansCoffee</div>
+    <h1 class="logo">CoolBeans<wbr>Coffee</h1>
     <nav class="navbar">
       <ul class="nav-links">
         <!-- The href must start with a # followed by the section ID -->
@@ -89,12 +91,12 @@
     </nav>
   </div>
 </header>
-<main id="home" class="menu-container">
+<main id="home">
     <!-- coffee section -->
-    <section id="products" class="coffee-section">
+    <section id="products" class="menu-container coffee-section">
         <h2>Our Coffee</h2>
         <!-- 1. Espresso Image -->
-        <img src="images/Espresso.jpg" alt="Espresso coffee" class="coffee-image">
+        <img src="images/espresso.jpg" alt="Espresso coffee" class="coffee-image">
 
         <div class="menu-item">
             <div class="item-info">
@@ -105,7 +107,7 @@
         </div>
 
         <!-- Cappuccino Image -->
-        <img src="images/Cappuccino.avif" alt="Cappuccino coffee" class="coffee-image">
+        <img src="images/cappuccino.jpg" alt="Cappuccino coffee" class="coffee-image">
         <div class="menu-item">
             <div class="item-info">
                 <span class="item-name">Cappuccino</span>
@@ -115,7 +117,7 @@
         </div>
 
         <!-- Latte Image -->
-        <img src="images/latte.webp" alt="Latte coffee" class="coffee-image">
+        <img src="images/latte.jpg" alt="Latte coffee" class="coffee-image">
 
         <div class="menu-item">
             <div class="item-info">
@@ -126,7 +128,7 @@
         </div>
 
         <!-- Americano Image -->
-        <img src="images/AmericanoHotandIced-3.webp" alt="Americano coffee" class="coffee-image">
+        <img src="images/americano.jpg" alt="Americano coffee" class="coffee-image">
         <div class="menu-item">
             <div class="item-info">
                 <span class="item-name">Americano</span>
@@ -145,7 +147,7 @@
             <p class="item-description">A delicious blend of espresso, steamed milk, and chocolate syrup, topped with whipped cream.</p>
         </div>
 
-        <img src="images/machiato.jpg" alt="Macchiato coffee" class="coffee-image">
+        <img src="images/macchiato.jpg" alt="Macchiato coffee" class="coffee-image">
 
         <div class="menu-item">
             <div class="item-info">
@@ -155,7 +157,7 @@
             <p class="item-description">A coffee drink made with espresso and a small amount of steamed milk, creating a layered effect.</p>
         </div>
 
-        <img src="images/flatewhitecoffee.jpg" alt="Flat White coffee" class="coffee-image">
+        <img src="images/flat-white.jpg" alt="Flat White coffee" class="coffee-image">
 
         <div class="menu-item">
             <div class="item-info">
@@ -165,7 +167,7 @@
             <p class="item-description">A velvety coffee drink made with espresso and steamed milk, similar to a latte but with a higher coffee-to-milk ratio.</p>
         </div>
 
-        <img src="images/icedcoffee.jpg" alt="Iced Coffee" class="coffee-image">
+        <img src="images/iced-coffee.jpg" alt="Iced Coffee" class="coffee-image">
 
         <div class="menu-item">
             <div class="item-info">
@@ -175,7 +177,7 @@
             <p class="item-description">A refreshing coffee drink served over ice, perfect for hot days.</p>
         </div>
 
-        <img src="images/coldbrew.jpg" alt="Cold Brew coffee" class="coffee-image">
+        <img src="images/cold-brew.jpg" alt="Cold Brew coffee" class="coffee-image">
 
         <div class="menu-item">
             <div class="item-info">
@@ -185,7 +187,7 @@
             <p class="item-description">A smooth and less acidic coffee drink made by steeping coffee grounds in cold water for an extended period of time.</p>
         </div>
 
-        <img src="images/affogato.webp" alt="Affogato coffee" class="coffee-image">
+        <img src="images/affogato.jpg" alt="Affogato coffee" class="coffee-image">
 
         <div class="menu-item">
             <div class="item-info">
@@ -196,49 +198,48 @@
         </div>
     </section>
 
-    <section id="about">
-        <div class="glass-card-About-Us">
+    <!-- info cards: each one its own section, laid out by .info-grid -->
+    <div class="info-grid">
+        <section id="about" class="info-card">
             <h2>Discover the Art of Coffee</h2>
             <p>At Cool Beanz Coffee Shop, we take pride in crafting the perfect cup of coffee for every taste. From rich and bold espressos to creamy lattes and refreshing cold brews, our menu is designed to delight coffee lovers of all kinds. Join us for a cozy experience and savor the flavors of our expertly brewed beverages.</p>
-        </div>
+        </section>
 
-        <div class="glass-card-Hours-Of-Operation">
+        <section id="hours" class="info-card">
             <h2>Hours of Operation</h2>
             <p>Monday - Friday: 7:00 AM - 8:00 PM</p>
             <p>Saturday: 8:00 AM - 6:00 PM</p>
             <p>Sunday: 8:00 AM - 4:00 PM</p>
-        </div>
-    </section>
+        </section>
 
-    <section id="contact">
-        <div class="glass-card-Contact-Us">
+        <section id="contact" class="info-card">
             <h2>Contact Us</h2>
             <p>Email: info@coolbeans.com</p>
             <p>Phone: (123) 456-7890</p>
-        </div>
-        <div class="glass-card-Location">
+        </section>
+
+        <section id="location" class="info-card">
             <h2>Location</h2>
             <p>123 Coffee Lane, Bean Town, USA</p>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('.nav-links a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-    </script>
+ <!-- Cookie Consent Popup Container -->
+    <div id="cookie-banner" class="cookie-banner hidden">
+        <div class="cookie-content">
+            <p>We use cookies to improve your browsing experience. By clicking "Accept", you agree to our use of cookies.</p>
+            <div class="cookie-buttons">
+                <button id="accept-cookies" class="btn accept-btn">Accept</button>
+                <button id="decline-cookies" class="btn decline-btn">Decline</button>
+            </div>
+        </div>
+    </div>
+
 
     <footer>
         <p>&copy; 2026 Cool Beanz Coffee Shop. All rights reserved.</p>
-        <p><a href="privacy-policy.html" style="color: #5d4037;">Privacy Policy</a></p>
+        <p><a href="privacy-policy.html">Privacy Policy</a></p>
+        <p><a href="terms-and-conditions.html">Terms and Conditions</a></p>
     </footer>
 </main>
 </body>
