@@ -1,134 +1,251 @@
+/* CoolBeans Coffee: styles shared by every page */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 :root {
-  /* Keep anchor jumps and focused elements clear of the glass header. */
-  scroll-padding-top: 100px;
-  scroll-padding-bottom: 100px;
+  /* Nav-link jumps stop this far below the top of the window, so the sticky
+     header never covers the section you land on. The header is 65px tall on
+     wide screens; the phone and short-screen values are set at the bottom.
+     rem, not px, so the gap grows with the visitor's font size like the header does */
+  --header-offset: 5rem;
+  scroll-padding-top: var(--header-offset);
   /* Nav links glide to their section. Plain CSS, so the browser still moves
      keyboard and screen reader position there (reduced motion turns it off below) */
   scroll-behavior: smooth;
 }
 
-
-/* Menu Stylesheet */
-
-/* Base Page Styling */
+/* The page is a wooden table, layered top to bottom:
+   1. darker edges, like lamp light on a table
+   2. thin dark seams between planks (every 160px)
+   3. each plank a slightly different shade
+   4. wood grain: SVG noise stretched sideways into streaks
+   Walnut brown underneath keeps the cream text readable */
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #1f120f; /* Dark espresso brown text for stronger contrast */
-  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; /* stack header, main and footer top to bottom */
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
   padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #fffaf3;
   /* With very large text, long words and the email address wrap instead of pushing the page sideways */
   overflow-wrap: anywhere;
+  background-color: #6b4226;
+  background-image:
+    radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.45)),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 157px,
+      rgba(0, 0, 0, 0.5) 157px 159px,
+      rgba(255, 255, 255, 0.06) 159px 160px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 160px,
+      rgba(0, 0, 0, 0.12) 160px 320px,
+      rgba(255, 200, 150, 0.05) 320px 480px
+    ),
+    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='2400' height='400'><filter id='g' color-interpolation-filters='sRGB'><feTurbulence type='turbulence' baseFrequency='0.003 0.6' numOctaves='3' seed='8' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.06  0 0 0 0 0.02  1.2 0 0 0 -0.15'/></filter><rect width='2400' height='400' filter='url(%23g)'/></svg>");
 }
 
-/* Card Container for the menu */
-.menu-container {
-  max-width: 600px;
-  margin: 40px auto;
+/* One focus ring in every browser. Cream shows up on the dark header and the wood... */
+:focus-visible {
+  outline: 3px solid #fffaf3;
+  outline-offset: 2px;
+}
+
+/* ...and espresso brown on the cream cards, where a cream ring would vanish */
+.paper :focus-visible {
+  outline-color: #2b1810;
+}
+
+/* ---------- Header ---------- */
+
+/* A dark glass strip across the top. Sticky, not fixed: it stays at the top while
+   you scroll but keeps its own space in the page, so it never covers the menu,
+   however tall bigger text makes it. The -20px margins cancel the body's 20px
+   padding so it still runs edge to edge. */
+.glass-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: calc(100% + 40px);
+  margin: -20px -20px 0;
+  /* Dark espresso tint: the light links stay readable even when the cream menu scrolls under them */
+  background: rgba(43, 24, 16, 0.85);
+  -webkit-backdrop-filter: blur(16px); /* older Safari */
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Logo on the left, links on the right */
+.nav-container {
+  display: flex;
+  flex-wrap: wrap; /* with big text, the links drop below the logo instead of running off screen */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.2rem 2rem;
+}
+
+.logo {
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap; /* links wrap onto a second row rather than getting cut off */
+  align-items: center;
+  gap: 1rem;
+  list-style: none;
+}
+
+.nav-links a {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-links a:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ---------- Main content ---------- */
+
+/* Holds the intro, the menu card and the info cards */
+main {
+  width: min(900px, 100%);
+}
+
+/* Intro on the wood: a short welcome and the page's one call to action */
+.intro {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.intro h2 {
+  margin-bottom: 8px;
+  font-size: 2rem;
+}
+
+.intro p {
+  margin-bottom: 20px;
+  color: #efe3d3;
+}
+
+.cta {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 999px;
+  color: #2b1810;
+  background-color: #fffaf3;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Text color repeated so this rule names both colors of the hover state */
+.cta:hover {
+  color: #2b1810;
+  background-color: #efe3d3;
+}
+
+/* Cream paper: the menu, the info cards and the legal pages all sit on the table like this */
+.paper {
   color: #1f120f;
-  background-color: #fffaf3; /* Cream card */
-  padding: 30px 40px;
+  background-color: #fffaf3;
+  border: 2px solid #dfd3c3;
   border-radius: 12px;
   /* Two shadows so the card sits on the table: a tight one where it touches, a soft one under it */
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.3),
     0 18px 40px rgba(0, 0, 0, 0.45);
-  border: 2px solid #dfd3c3;
 }
 
-/* Header Styling */
-.menu-header {
-  text-align: center;
-  border-bottom: 2px dashed #dfd3c3;
-  padding-bottom: 20px;
-  margin-bottom: 30px;
-}
-
-.menu-header h1 {
-  font-size: 2.5rem;
-  letter-spacing: 2px;
-  margin: 0 0 5px 0;
-  color: #2b1810;
-}
-
-.menu-header .subtitle {
-  font-style: italic;
-  color: #795548;
-  margin: 0;
-}
-
-/* Section Groupings (Coffee / Treats) */
-.menu-section h2 {
-  font-size: 1.5rem;
+/* Dark brown, underlined links: 9:1 contrast on the cream */
+.paper a {
   color: #5d4037;
-  border-bottom: 1px solid #dfd3c3;
-  padding-bottom: 5px;
-  margin-top: 30px;
 }
 
-/* Menu Item Flex Alignment */
+/* ---------- Menu ---------- */
+
+.menu-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px 40px;
+}
+
+.menu-container h2 {
+  margin-bottom: 12px;
+}
+
+/* No bullets. The HTML adds role="list" so Safari still announces it as a list */
+.menu-list {
+  list-style: none;
+}
+
 .menu-item {
   margin-bottom: 20px;
+}
+
+.coffee-image {
+  width: 100%;
+  max-width: 95px;
+  height: auto;
+  border-radius: 12px;
 }
 
 .item-info {
   display: flex;
   flex-wrap: wrap; /* with very large text, the price drops to the next line instead of off screen */
-  justify-content: space-between; /* Pushes name to left, price to right */
+  justify-content: space-between; /* name on the left, price on the right */
   align-items: baseline;
-  font-weight: bold;
   font-size: 1.1rem;
+  font-weight: bold;
 }
 
-/* Optional: Adds dotted leader lines between item name and price */
+/* Dotted leader line between the name and the price */
 .item-info::after {
   content: "";
   flex: 1;
-  border-bottom: 1px dotted #c7b198;
   margin: 0 10px;
+  border-bottom: 1px dotted #c7b198;
 }
 
 .item-price {
+  order: 2; /* after the dotted line, so the price sits on the far right */
   color: #2b1810;
-  order: 2; /* Keeps price on the far right after the dotted line */
 }
 
-/* Item Descriptions */
 .item-description {
-  font-size: 0.9rem;
+  margin-top: 5px;
   color: #6d4c41;
-  margin: 5px 0 0 0;
+  font-size: 0.9rem;
   line-height: 1.4;
 }
 
-/* Footer Notes */
-footer {
-  text-align: center;
-  font-size: 0.8rem;
-  color: #efe3d3; /* light, because the footer now sits on the dark wood */
-  margin-top: 40px;
-  border-top: 1px solid #dfd3c3;
-  padding-top: 15px;
-}
+/* ---------- Info cards ---------- */
 
-/* Cream so the links read on the wood; the padding makes each one at least 24px tall, easy to tap */
-footer a {
-  display: inline-block;
-  padding: 6px 0;
-  color: #fffaf3;
-}
-
-/* images */
-
-/* styling for images */
-.coffee-image {
-  width: 100%;
-  max-width: 95px;
-  border-radius: 12px;
-}
-
-/* About, Hours, Contact and Location: each its own card on the table.
-   Two columns when there's room, one column on phones. Cards in the
-   same row stretch to the same height so the grid lines up neatly. */
+/* About, Hours, Contact and Location: two columns when there's room, one on
+   phones, no media query needed. Cards in a row stretch to the same height. */
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
@@ -136,14 +253,7 @@ footer a {
 }
 
 .info-card {
-  color: #1f120f;
-  background-color: #fffaf3; /* same cream paper as the menu */
   padding: 24px 28px;
-  border-radius: 12px;
-  border: 2px solid #dfd3c3;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.3),
-    0 18px 40px rgba(0, 0, 0, 0.45);
 }
 
 .info-card h2 {
@@ -154,107 +264,58 @@ footer a {
   line-height: 1.6;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* ---------- Footer ---------- */
 
-/* 1. Full-Width Ceil-to-Ceiling Glass Layer */
-/* Sticky, not fixed: it still stays at the top while you scroll, but it keeps its own
-   space in the page, so it can never cover the menu, however tall bigger text makes it.
-   The -20px margins cancel the body's 20px padding so it still runs edge to edge. */
-.glass-header {
-  position: sticky;
-  top: 0;
-  width: calc(100% + 40px);
-  margin: -20px -20px 0;
-  z-index: 1000;
-
-  /* Glass effects */
-  /* Dark espresso tint: the light links stay readable even when the cream menu scrolls under them */
-  background: rgba(43, 24, 16, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-}
-
-/* 2. The Justification Box (Centers & Justifies Content) */
-.nav-container {
-  display: flex;
-  flex-wrap: wrap; /* with big text, the links drop below the logo instead of running off screen */
-  justify-content: space-between; /* Pushes Logo to left, Navbar to right */
-  align-items: center;
-
-  max-width: 1200px; /* Keeps layout beautifully balanced on large displays */
-  width: 100%;
-  margin: 0 auto; /* Centers the box perfectly in the middle of the screen */
-  padding: 1.2rem 2rem; /* Generous vertical and horizontal internal padding */
-}
-
-/* 3. Logo Typography */
-.logo {
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 1.4rem;
-  letter-spacing: -0.5px;
-  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
-}
-
-/* 4. Navigation Link Grid/Flex */
-.nav-links {
-  display: flex;
-  flex-wrap: wrap; /* links wrap onto a second row rather than getting cut off */
-  align-items: center;
-  gap: 1rem; /* Clean, uniform gap between menu boxes */
-  list-style: none;
-}
-
-.nav-links a {
-  color: rgba(255, 255, 255, 0.75);
-  text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 600;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px; /* Gives each item its own pill-shaped container grid */
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 5. Hover and Active Box Indicator Treatments */
-.nav-links a:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1); /* Subtle highlighted box */
-}
-
-.nav-links a.active {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
-}
-
-/* One focus ring in every browser. Some browsers default to a blue ring that's hard
-   to see on dark brown; cream shows up on the header, the wood and the cookie banner */
-:focus-visible {
-  outline: 3px solid #fffaf3;
-  outline-offset: 2px;
-}
-
-/* Holds the menu card, the info cards and the footer */
-main {
+/* Light text, because the footer sits on the dark wood */
+footer {
   width: min(900px, 100%);
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #dfd3c3;
+  color: #efe3d3;
+  font-size: 0.8rem;
+  text-align: center;
 }
 
-/* Same idea for nav-link jumps: stop the fixed header covering the section you land on */
-:root {
-  scroll-padding-top: 80px;
+/* Cream so the links read on the wood; the padding makes each one at least 24px tall, easy to tap */
+footer a {
+  display: inline-block;
+  padding: 6px 0;
+  color: #fffaf3;
 }
 
-/* Phones: not enough room for the logo and four links side by side,
-   so the logo sits on top and the links line up centered underneath */
-@media (max-width: 600px) {
+/* ---------- Privacy policy and terms ---------- */
+
+.legal {
+  max-width: 760px;
+  padding: 32px clamp(20px, 5vw, 40px);
+  line-height: 1.6;
+}
+
+.legal h1 {
+  margin: 12px 0 4px;
+}
+
+.legal h2 {
+  margin: 24px 0 8px;
+  font-size: 1.25rem;
+}
+
+.legal p {
+  margin-bottom: 12px;
+}
+
+/* ---------- Smaller screens and motion ---------- */
+
+/* Narrow screens: below about 660px the logo and four links no longer fit side by
+   side, so the logo sits on top and the links line up centered underneath.
+   42.5em = 680px at the default text size; em lets the switch happen earlier when
+   a visitor sets bigger text, before the links start wrapping */
+@media (max-width: 42.5em) {
+  :root {
+    --header-offset: 6rem; /* the header is 77px tall here */
+  }
+
   .nav-container {
     flex-direction: column;
     gap: 0.4rem;
@@ -270,15 +331,15 @@ main {
     padding: 0.4rem 0.6rem;
     font-size: 0.9rem;
   }
-
-  :root {
-    scroll-padding-top: 110px;
-  }
 }
 
-/* Short screens (landscape phones, browsers zoomed to 200-400%): let the header
-   scroll away, otherwise it would cover a big slice of a small window */
+/* Short screens (landscape phones, browsers zoomed to 200-400%): the header
+   scrolls away, otherwise it would cover a big slice of a small window */
 @media (max-height: 500px) {
+  :root {
+    --header-offset: 0.625rem;
+  }
+
   .glass-header {
     position: static;
   }
@@ -291,74 +352,4 @@ main {
     transition: none !important;
     scroll-behavior: auto !important;
   }
-}
-
-/* Cookie Consent Popup Styles */
-/* Cookie Banner Positioning */
-.cookie-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #1b1b1b;
-  color: #ffffff;
-  padding: 20px;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-  box-sizing: border-box;
-  transition: transform 0.3s ease-in-out;
-}
-
-/* Flexbox layout for text and buttons */
-.cookie-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.cookie-content p {
-  margin: 0;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  color: #ffffff;
-}
-
-/* Buttons styling */
-.cookie-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.accept-btn {
-  background-color: #1b5e20;
-  color: #ffffff;
-}
-
-.decline-btn {
-  background-color: #7a0c0c;
-  color: #ffffff;
-}
-
-/* While the cookie banner is up, add room at the bottom of the page and keep focused
-   links scrolled above it, so the banner never hides the footer links */
-:root:has(.cookie-banner:not(.hidden)) {
-  padding-bottom: 10rem;
-  scroll-padding-bottom: 10rem;
-}
-
-/* Utility class to hide elements */
-.hidden {
-  display: none !important;
 }

@@ -1,246 +1,292 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coffee Shop</title>
-    <link rel="stylesheet" href="stylesheetone.css">
-    <style>
-        /* Reset and center the card layout */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CoolBeans Coffee | Menu, Hours and Location</title>
+    <meta
+      name="description"
+      content="The menu, opening hours and contact details of CoolBeans Coffee, a made-up coffee shop built as a practice website."
+    />
+    <link
+      rel="canonical"
+      href="https://cader69.github.io/Programmer-2026/CoolBeansCoffee/"
+    />
+    <link rel="icon" type="image/png" href="Favicon.png" />
+    <link rel="stylesheet" href="stylesheetone.css" />
 
-            body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column; /* stack header, card, menu top-to-bottom */
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-            /* Wooden table, layered top to bottom:
-               1. darker edges, like lamp light on a table
-               2. thin dark seams between planks (every 160px)
-               3. each plank a slightly different shade
-               4. wood grain: SVG noise stretched sideways into streaks
-               Walnut brown underneath keeps the cream header text readable */
-            background-color: #6b4226;
-            background-image:
-                radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.45)),
-                repeating-linear-gradient(180deg, transparent 0 157px, rgba(0, 0, 0, 0.5) 157px 159px, rgba(255, 255, 255, 0.06) 159px 160px),
-                repeating-linear-gradient(180deg, transparent 0 160px, rgba(0, 0, 0, 0.12) 160px 320px, rgba(255, 200, 150, 0.05) 320px 480px),
-                url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='2400' height='400'><filter id='g' color-interpolation-filters='sRGB'><feTurbulence type='turbulence' baseFrequency='0.003 0.6' numOctaves='3' seed='8' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.06  0 0 0 0 0.02  1.2 0 0 0 -0.15'/></filter><rect width='2400' height='400' filter='url(%23g)'/></svg>");
-        }
+    <!-- Social preview: the card that shows up when someone shares the link -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CoolBeans Coffee" />
+    <meta
+      property="og:description"
+      content="The menu, opening hours and contact details of CoolBeans Coffee, a made-up coffee shop built as a practice website."
+    />
+    <meta
+      property="og:url"
+      content="https://cader69.github.io/Programmer-2026/CoolBeansCoffee/"
+    />
+    <meta
+      property="og:image"
+      content="https://cader69.github.io/Programmer-2026/CoolBeansCoffee/screenshot.jpg"
+    />
+    <meta
+      property="og:image:alt"
+      content="The CoolBeans Coffee menu on a cream card over a dark wooden table"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
 
-        /* Cream heading so it reads on the dark brown background */
-        header {
-            color: #fffaf3;
-        }
+  <body>
+    <header class="glass-header">
+      <div class="nav-container">
+        <h1 class="logo">CoolBeans Coffee</h1>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-        /* Core Glassmorphism Styling */
-        .glass-card {
-            width: 350px;
-            padding: 40px;
-            border-radius: 20px;
-            color: #ffffff;
-            text-align: center;
-            
-            /* 1. Semi-transparent background */
-            background: rgba(255, 255, 255, 0.15); 
-            
-            /* 2. Frosted glass blur effect (and Safari support) */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            
-            /* 3. Subtle translucent border to simulate glass edges */
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            
-            /* 4. Soft shadow to give depth and lift */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-        }
+    <main id="home">
+      <section class="intro">
+        <h2>Coffee crafted for every taste</h2>
+        <p>
+          Ten classic drinks, from a $2.50 espresso to a $4.50 affogato. Open
+          seven days a week.
+        </p>
+        <a class="cta" href="#hours">Plan your visit</a>
+      </section>
 
-        .glass-card h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .glass-card p {
-            font-size: 1rem;
-            line-height: 1.5;
-            opacity: 0.9;
-        }
-    </style>
-</head>
-
-<body>
-  <header class="glass-header">
-  <div class="nav-container">
-    <h1 class="logo">CoolBeans<wbr>Coffee</h1>
-    <nav class="navbar">
-      <ul class="nav-links">
-        <!-- The href must start with a # followed by the section ID -->
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#products">Products</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-<main id="home">
-    <!-- coffee section -->
-    <section id="products" class="menu-container coffee-section">
+      <section id="products" class="paper menu-container">
         <h2>Our Coffee</h2>
-        <!-- 1. Espresso Image -->
-        <img src="images/espresso.jpg" alt="Espresso coffee" class="coffee-image">
-
-        <div class="menu-item">
+        <!-- role="list": Safari stops announcing a list once CSS removes its bullets -->
+        <ul class="menu-list" role="list">
+          <li class="menu-item">
+            <img
+              src="images/espresso.jpg"
+              alt="Espresso coffee"
+              class="coffee-image"
+              width="95"
+              height="95"
+            />
             <div class="item-info">
-                <span class="item-name">Espresso</span>
-                <span class="item-price">$2.50</span>
+              <span class="item-name">Espresso</span>
+              <span class="item-price">$2.50</span>
             </div>
-            <p class="item-description">A strong and bold coffee made by forcing hot water through finely-ground coffee beans.</p>
-        </div>
+            <p class="item-description">
+              A strong and bold coffee made by forcing hot water through
+              finely-ground coffee beans.
+            </p>
+          </li>
 
-        <!-- Cappuccino Image -->
-        <img src="images/cappuccino.jpg" alt="Cappuccino coffee" class="coffee-image">
-        <div class="menu-item">
+          <li class="menu-item">
+            <img
+              src="images/cappuccino.jpg"
+              alt="Cappuccino coffee"
+              class="coffee-image"
+              width="95"
+              height="95"
+            />
             <div class="item-info">
-                <span class="item-name">Cappuccino</span>
-                <span class="item-price">$3.50</span>
+              <span class="item-name">Cappuccino</span>
+              <span class="item-price">$3.50</span>
             </div>
-            <p class="item-description">A classic Italian coffee drink made with equal parts espresso, steamed milk, and milk foam.</p>
-        </div>
+            <p class="item-description">
+              A classic Italian coffee drink made with equal parts espresso,
+              steamed milk, and milk foam.
+            </p>
+          </li>
 
-        <!-- Latte Image -->
-        <img src="images/latte.jpg" alt="Latte coffee" class="coffee-image">
-
-        <div class="menu-item">
+          <li class="menu-item">
+            <img
+              src="images/latte.jpg"
+              alt="Latte coffee"
+              class="coffee-image"
+              width="95"
+              height="95"
+            />
             <div class="item-info">
-                <span class="item-name">Latte</span>
-                <span class="item-price">$3.00</span>
+              <span class="item-name">Latte</span>
+              <span class="item-price">$3.00</span>
             </div>
-            <p class="item-description">A creamy coffee drink made with espresso and steamed milk, topped with a small amount of milk foam.</p>
-        </div>
+            <p class="item-description">
+              A creamy coffee drink made with espresso and steamed milk, topped
+              with a small amount of milk foam.
+            </p>
+          </li>
 
-        <!-- Americano Image -->
-        <img src="images/americano.jpg" alt="Americano coffee" class="coffee-image">
-        <div class="menu-item">
+          <li class="menu-item">
+            <img
+              src="images/americano.jpg"
+              alt="Americano coffee"
+              class="coffee-image"
+              width="95"
+              height="95"
+            />
             <div class="item-info">
-                <span class="item-name">Americano</span>
-                <span class="item-price">$2.75</span>
+              <span class="item-name">Americano</span>
+              <span class="item-price">$2.75</span>
             </div>
-            <p class="item-description">A simple coffee drink made by diluting espresso with hot water, resulting in a lighter flavor.</p>
-        </div>
+            <p class="item-description">
+              A simple coffee drink made by diluting espresso with hot water,
+              resulting in a lighter flavor.
+            </p>
+          </li>
 
-        <img src="images/mocha.jpg" alt="Mocha coffee" class="coffee-image">
-
-        <div class="menu-item">
+          <li class="menu-item">
+            <img
+              src="images/mocha.jpg"
+              alt="Mocha coffee"
+              class="coffee-image"
+              width="95"
+              height="95"
+            />
             <div class="item-info">
-                <span class="item-name">Mocha</span>
-                <span class="item-price">$4.00</span>
+              <span class="item-name">Mocha</span>
+              <span class="item-price">$4.00</span>
             </div>
-            <p class="item-description">A delicious blend of espresso, steamed milk, and chocolate syrup, topped with whipped cream.</p>
-        </div>
+            <p class="item-description">
+              A delicious blend of espresso, steamed milk, and chocolate syrup,
+              topped with whipped cream.
+            </p>
+          </li>
 
-        <img src="images/macchiato.jpg" alt="Macchiato coffee" class="coffee-image">
-
-        <div class="menu-item">
+          <li class="menu-item">
+            <img
+              src="images/macchiato.jpg"
+              alt="Macchiato coffee"
+              class="coffee-image"
+              width="95"
+              height="95"
+            />
             <div class="item-info">
-                <span class="item-name">Macchiato</span>
-                <span class="item-price">$3.25</span>
+              <span class="item-name">Macchiato</span>
+              <span class="item-price">$3.25</span>
             </div>
-            <p class="item-description">A coffee drink made with espresso and a small amount of steamed milk, creating a layered effect.</p>
-        </div>
+            <p class="item-description">
+              A coffee drink made with espresso and a small amount of steamed
+              milk, creating a layered effect.
+            </p>
+          </li>
 
-        <img src="images/flat-white.jpg" alt="Flat White coffee" class="coffee-image">
-
-        <div class="menu-item">
+          <li class="menu-item">
+            <img
+              src="images/flat-white.jpg"
+              alt="Flat White coffee"
+              class="coffee-image"
+              width="95"
+              height="95"
+            />
             <div class="item-info">
-                <span class="item-name">Flat White</span>
-                <span class="item-price">$3.75</span>
+              <span class="item-name">Flat White</span>
+              <span class="item-price">$3.75</span>
             </div>
-            <p class="item-description">A velvety coffee drink made with espresso and steamed milk, similar to a latte but with a higher coffee-to-milk ratio.</p>
-        </div>
+            <p class="item-description">
+              A velvety coffee drink made with espresso and steamed milk,
+              similar to a latte but with a higher coffee-to-milk ratio.
+            </p>
+          </li>
 
-        <img src="images/iced-coffee.jpg" alt="Iced Coffee" class="coffee-image">
-
-        <div class="menu-item">
+          <li class="menu-item">
+            <img
+              src="images/iced-coffee.jpg"
+              alt="Iced Coffee"
+              class="coffee-image"
+              width="95"
+              height="95"
+            />
             <div class="item-info">
-                <span class="item-name">Iced Coffee</span>
-                <span class="item-price">$2.50</span>
+              <span class="item-name">Iced Coffee</span>
+              <span class="item-price">$2.50</span>
             </div>
-            <p class="item-description">A refreshing coffee drink served over ice, perfect for hot days.</p>
-        </div>
+            <p class="item-description">
+              A refreshing coffee drink served over ice, perfect for hot days.
+            </p>
+          </li>
 
-        <img src="images/cold-brew.jpg" alt="Cold Brew coffee" class="coffee-image">
-
-        <div class="menu-item">
+          <li class="menu-item">
+            <img
+              src="images/cold-brew.jpg"
+              alt="Cold Brew coffee"
+              class="coffee-image"
+              width="95"
+              height="95"
+            />
             <div class="item-info">
-                <span class="item-name">Cold Brew</span>
-                <span class="item-price">$3.00</span>
+              <span class="item-name">Cold Brew</span>
+              <span class="item-price">$3.00</span>
             </div>
-            <p class="item-description">A smooth and less acidic coffee drink made by steeping coffee grounds in cold water for an extended period of time.</p>
-        </div>
+            <p class="item-description">
+              A smooth and less acidic coffee drink made by steeping coffee
+              grounds in cold water for an extended period of time.
+            </p>
+          </li>
 
-        <img src="images/affogato.jpg" alt="Affogato coffee" class="coffee-image">
-
-        <div class="menu-item">
+          <li class="menu-item">
+            <img
+              src="images/affogato.jpg"
+              alt="Affogato coffee"
+              class="coffee-image"
+              width="95"
+              height="95"
+            />
             <div class="item-info">
-                <span class="item-name">Affogato</span>
-                <span class="item-price">$4.50</span>
+              <span class="item-name">Affogato</span>
+              <span class="item-price">$4.50</span>
             </div>
-            <p class="item-description">A delightful dessert coffee drink made by pouring a shot of hot espresso over a scoop of vanilla ice cream.</p>
-        </div>
-    </section>
+            <p class="item-description">
+              A delightful dessert coffee drink made by pouring a shot of hot
+              espresso over a scoop of vanilla ice cream.
+            </p>
+          </li>
+        </ul>
+      </section>
 
-    <!-- info cards: each one its own section, laid out by .info-grid -->
-    <div class="info-grid">
-        <section id="about" class="info-card">
-            <h2>Discover the Art of Coffee</h2>
-            <p>At Cool Beanz Coffee Shop, we take pride in crafting the perfect cup of coffee for every taste. From rich and bold espressos to creamy lattes and refreshing cold brews, our menu is designed to delight coffee lovers of all kinds. Join us for a cozy experience and savor the flavors of our expertly brewed beverages.</p>
+      <!-- Info cards: each one its own section, laid out by .info-grid -->
+      <div class="info-grid">
+        <section id="about" class="paper info-card">
+          <h2>Discover the Art of Coffee</h2>
+          <p>
+            At CoolBeans Coffee, we take pride in crafting the perfect cup of
+            coffee for every taste. From rich and bold espressos to creamy
+            lattes and refreshing cold brews, our menu is designed to delight
+            coffee lovers of all kinds. Join us for a cozy experience and savor
+            the flavors of our expertly brewed beverages.
+          </p>
         </section>
 
-        <section id="hours" class="info-card">
-            <h2>Hours of Operation</h2>
-            <p>Monday - Friday: 7:00 AM - 8:00 PM</p>
-            <p>Saturday: 8:00 AM - 6:00 PM</p>
-            <p>Sunday: 8:00 AM - 4:00 PM</p>
+        <section id="hours" class="paper info-card">
+          <h2>Hours of Operation</h2>
+          <p>Monday - Friday: 7:00 AM - 8:00 PM</p>
+          <p>Saturday: 8:00 AM - 6:00 PM</p>
+          <p>Sunday: 8:00 AM - 4:00 PM</p>
         </section>
 
-        <section id="contact" class="info-card">
-            <h2>Contact Us</h2>
-            <p>Email: info@coolbeans.com</p>
-            <p>Phone: (123) 456-7890</p>
+        <section id="contact" class="paper info-card">
+          <h2>Contact Us</h2>
+          <p>Email: <a href="mailto:info@example.com">info@example.com</a></p>
+          <p>Phone: <a href="tel:+11234567890">(123) 456-7890</a></p>
         </section>
 
-        <section id="location" class="info-card">
-            <h2>Location</h2>
-            <p>123 Coffee Lane, Bean Town, USA</p>
+        <section id="location" class="paper info-card">
+          <h2>Location</h2>
+          <p>123 Coffee Lane, Bean Town, USA</p>
         </section>
-    </div>
-
- <!-- Cookie Consent Popup Container -->
-    <div id="cookie-banner" class="cookie-banner hidden">
-        <div class="cookie-content">
-            <p>We use cookies to improve your browsing experience. By clicking "Accept", you agree to our use of cookies.</p>
-            <div class="cookie-buttons">
-                <button id="accept-cookies" class="btn accept-btn">Accept</button>
-                <button id="decline-cookies" class="btn decline-btn">Decline</button>
-            </div>
-        </div>
-    </div>
-
+      </div>
+    </main>
 
     <footer>
-        <p>&copy; 2026 Cool Beanz Coffee Shop. All rights reserved.</p>
-        <p><a href="privacy-policy.html">Privacy Policy</a></p>
-        <p><a href="terms-and-conditions.html">Terms and Conditions</a></p>
+      <p>
+        &copy; 2026 CoolBeans Coffee, a made-up shop built as a practice
+        project.
+      </p>
+      <p><a href="privacy-policy.html">Privacy Policy</a></p>
+      <p><a href="terms-and-conditions.html">Terms and Conditions</a></p>
     </footer>
-</main>
-</body>
+  </body>
 </html>
