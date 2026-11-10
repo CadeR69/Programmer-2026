@@ -42,3 +42,6 @@ node_modules/
 # ── Personal notes vault ──────────────────────────────────────────────────
 Minecraft-Hub/
 coding notes/
+
+# ── Hotel website — runtime booking database (guest names/emails), recreated on server start
+hotelwebsite/bookings.db

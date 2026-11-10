@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grand Horizon Hotel</title>
+    <link rel="stylesheet" href="landingpage.css">
+    <!-- Google Fonts for Luxury Aesthetic -->
+    <link href="https://googleapis.com" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="logo">Grand Horizon</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#rooms">Rooms</a></li>
+                <li><a href="#amenities">Amenities</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <a href="#booking" class="btn btn-primary">Book Now</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-content">
+            <h1>Experience Pure Luxury</h1>
+            <p>Your sanctuary overlooking the pristine ocean waters.</p>
+            <a href="#rooms" class="btn btn-secondary">Explore Rooms</a>
+        </div>
+    </section>
+
+    <!-- Quick Booking Bar -->
+    <section id="booking" class="booking-bar">
+        <form class="booking-form">
+            <div class="form-group">
+                <label for="checkin-date">Check-In</label>
+                <input id="checkin-date" type="date">
+            </div>
+            <div class="form-group">
+                <label for="checkout-date">Check-Out</label>
+                <input id="checkout-date" type="date">
+            </div>
+            <div class="form-group">
+                <label for="guest-count">Guests</label>
+                <select id="guest-count">
+                    <option>1 Guest</option>
+                    <option selected>2 Guests</option>
+                    <option>3+ Guests</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Check Availability</button>
+        </form>
+    </section>
+
+    <!-- Room Showcase Grid -->
+    <section id="rooms" class="rooms-section">
+        <h2>Our Luxury Accommodations</h2>
+        <div class="rooms-grid">
+            <div class="room-card">
+                <div class="room-img" style="background-image: url('https://unsplash.com');"></div>
+                <div class="room-info">
+                    <h3>Deluxe Ocean Suite</h3>
+                    <p>Stunning coastal views with a private terrace and king bed.</p>
+                    <span class="price">$299 / night</span>
+                </div>
+            </div>
+            <div class="room-card">
+                <div class="room-img" style="background-image: url('https://unsplash.com');"></div>
+                <div class="room-info">
+                    <h3>Penthouse Sanctuary</h3>
+                    <p>Top-floor luxury featuring a private plunge pool and 24/7 butler service.</p>
+                    <span class="price">$599 / night</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

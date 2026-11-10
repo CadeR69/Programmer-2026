@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Horizon Hotel</title>
+    <link rel="stylesheet" href="landingpage.css">
+    <!-- Google Fonts for Luxury Aesthetic -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="hotel.svg">
+</head>
+<body>
+
+<!-- Header Navigation -->
+    <header class="navbar">
+        <div class="logo">Grand Horizon</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#rooms">Rooms</a></li>
+                <li><a href="#amenities">Amenities</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <a href="#booking" class="btn btn-primary">Book Now</a>
+    </header>
+
+   <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-content">
+            <h1>Experience Pure Luxury</h1>
+            <p>Your sanctuary overlooking the pristine ocean waters.</p>
+            <a href="#rooms" class="btn btn-secondary">Explore Rooms</a>
+        </div>
+    </section>
+
+    <!-- Quick Booking Bar -->
+    <section id="booking" class="booking-bar">
+         <form class="booking-form" action="/bookings" method="post">
+            <div class="form-group">
+                <label for="checkin-date">Check-In</label>
+                <input id="checkin-date" name="checkin" type="date" required>
+            </div>
+            <div class="form-group">
+                <label for="checkout-date">Check-Out</label>
+                <input id="checkout-date" name="checkout" type="date" required>
+            </div>
+            <div class="form-group">
+                <label for="guest-count">Guests</label>
+                <select id="guest-count" name="guests">
+                    <option value="1">1 Guest</option>
+                    <option value="2" selected>2 Guests</option>
+                    <option value="3+">3+ Guests</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="guest-name">Name</label>
+                <input id="guest-name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="form-group">
+                <label for="guest-email">Email</label>
+                <input id="guest-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Request Booking</button>
+        </form>
+    </section>
+
+    <!-- Room Showcase Grid -->
+    <section id="rooms" class="rooms-section">
+        <h2>Our Luxury Accommodations</h2>
+        <div class="rooms-grid">
+            <div class="room-card">
+                <div class="room-img" style="background-image: url('images/deluxeroom.avif');"></div>
+                <div class="room-info">
+                    <h3>Deluxe Ocean Suite</h3>
+                    <p>Stunning coastal views with a private terrace and king bed.</p>
+                    <span class="price">$299 / night</span>
+       
+                </div>
+            </div>
+            <div class="room-card">
+                <div class="room-img" style="background-image: url('images/penthouse.jpg');"></div>
+                <div class="room-info">
+                    <h3>Penthouse Sanctuary</h3>
+                    <p>Top-floor luxury featuring a private plunge pool and 24/7 butler service.</p>
+                    <span class="price">$599 / night</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="suites" class="rooms-section">
+        <h2>Our Luxury Accommodations</h2>
+        <div class="rooms-grid">
+            <div class="room-card">
+                <div class="room-img" style="background-image: url('images/presidentialsuite.jpg');"></div>
+                <div class="room-info">
+                    <h3>Presidential Suite</h3>
+                    <p>Ultimate luxury with panoramic city views and personalized concierge service.</p>
+                    <span class="price">$799 / night</span>
+                </div>
+            </div>
+            <div class="room-card">
+                <div class="room-img" style="background-image: url('images/penthouse.jpg');"></div>
+                <div class="room-info">
+                    <h3>Penthouse Sanctuary</h3>
+                    <p>Top-floor luxury featuring a private plunge pool and 24/7 butler service.</p>
+                    <span class="price">$599 / night</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Grid -->
+    <section id="amenities" class="amenities-section">
+        <h2>World-Class Amenities</h2>
+        <div class="amenities-grid">
+            <div class="amenity-card">
+                <img src="images/spa.jpg" alt="Spa">
+                <h3>Luxury Spa</h3>
+                <p>Rejuvenate with our exclusive spa treatments and wellness programs.</p>
+            </div>
+            <div class="amenity-card">
+                <img src="images/infinitypool.jpeg" alt="Infinity Pool">
+                <h3>Infinity Pool</h3>
+                <p>Relax in our rooftop infinity pool with breathtaking ocean views.</p>
+            </div>
+            <div class="amenity-card">
+                <img src="images/gourmet.jpg" alt="Gourmet Dining">
+                <h3>Gourmet Dining</h3>
+                <p>Savor exquisite cuisine crafted by world-renowned chefs.</p>
+            </div>
+        </div>
+    </section>
+
+<section id="contact" class="contact-section">
+        <h2>Contact Us</h2>
+        <p>For inquiries and reservations, please reach out to us:</p>
+</section>
+
+        <section class="contact-form">
+            <form>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        <ul class="contact-info">
+            <li>Email: <a href="mailto:info@grandhorizon.com">info@grandhorizon.com</a></li>
+            <li>Phone: +1 (555) 123-4567</li>
+            <li>Address: 123 Ocean Drive, Paradise City, PC 12345</li>
+        </ul>
+    </section>
+
+<!--Footer-->
+<section footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">Grand Horizon</div>
+        <p>&copy; 2026 Grand Horizon Hotel. All rights reserved.</p>
+        <ul class="social-links">
+            <li><a href="#"><img src="images/Facebook_Logo_Primary.png" alt="Facebook"></a></li>
+            <li><a href="#"><img src="images/logo-black.png" alt="X"></a></li>
+            <li><a href="#"><img src="images/Instagram_Glyph_Gradient.png" alt="Instagram"></a></li>
+        </ul>
+
+
+    </div>
+
+</body>
+</html>
